@@ -1,4 +1,4 @@
-# qwedini-service Project
+# serengti-service 
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
