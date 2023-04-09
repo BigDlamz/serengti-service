@@ -13,6 +13,10 @@ public class ReceiptRepository implements PanacheRepositoryBase<Receipt, Long> {
     public void persist(Receipt receipt) {
         PanacheRepositoryBase.super.persist(receipt);
     }
+    @Override
+    public Receipt findById(Long id) {
+        return PanacheRepositoryBase.super.findById(id);
+    }
 
     @Override
     public PanacheQuery<Receipt> findAll() {

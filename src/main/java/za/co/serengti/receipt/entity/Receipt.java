@@ -1,45 +1,43 @@
 package za.co.serengti.receipt.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import za.co.serengti.receipt.MonetaryAmountConverter;
 
+import javax.money.MonetaryAmount;
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-public class Receipt extends PanacheEntityBase {
+@Table(name = "receipts")
+public class Receipt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String storeName;
+    @Column(name = "receipt_id")
+    private String receiptId;
 
-    @Column(nullable = false)
-    private Double totalAmount;
+    @ManyToOne
+    @JoinColumn(name = "store_id")
+    private Store store;
 
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "pos_system_id")
+    private POSSystem posSystem;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
-    public String getStoreName() {
-        return storeName;
-    }
+    @Column(name = "timestamp")
+    private LocalDateTime timestamp;
 
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
-    }
+    @Column(name = "total_amount_paid")
+    @Convert(converter = MonetaryAmountConverter.class)
+    private MonetaryAmount totalAmountPaid;
 
-    public Double getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(Double totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
+    @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL)
+    private List<ReceiptItem> receiptItems;
 
 }

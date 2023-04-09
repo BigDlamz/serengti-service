@@ -19,7 +19,7 @@ public class ReceiptService implements ReceiptServiceImpl {
 
     @Override
     public void createReceipt(ReceiptVO receiptVO) {
-        //TODO receiptRepository.findById(customerID);
+   // receiptRepository.persist(receiptVO);
     }
 
     @Override
