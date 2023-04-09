@@ -1,9 +1,8 @@
 # serengti-service 
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+The back-end module that powers the serengti mobile app. It exposes an API for uploading reciepts by variaous POS merchants. 
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
-
+The service also handles the storing and querying of receipts, the management of store information as well as managing the database of POS merchants who subscribe to our API.
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
