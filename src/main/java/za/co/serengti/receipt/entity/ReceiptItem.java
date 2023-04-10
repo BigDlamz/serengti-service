@@ -1,10 +1,13 @@
 package za.co.serengti.receipt.entity;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "receipt_items")
-public class ReceiptItem {
+public class ReceiptItem extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,5 +24,4 @@ public class ReceiptItem {
     @Column(name = "quantity")
     private Integer quantity;
 
-    // Getters, setters, and other methods
 }

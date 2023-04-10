@@ -1,15 +1,16 @@
 package za.co.serengti.receipt.entity;
 
-import za.co.serengti.receipt.MonetaryAmountConverter;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
-import javax.money.MonetaryAmount;
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "receipts")
-public class Receipt {
+public class Receipt extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,8 +35,7 @@ public class Receipt {
     private LocalDateTime timestamp;
 
     @Column(name = "total_amount_paid")
-    @Convert(converter = MonetaryAmountConverter.class)
-    private MonetaryAmount totalAmountPaid;
+    private BigDecimal totalAmountPaid;
 
     @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL)
     private List<ReceiptItem> receiptItems;

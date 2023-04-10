@@ -1,3 +1,7 @@
 quarkus:
   devservices:
     enabled: true
+  hibernate-orm:
+    packages:
+      - za.co.serengti.receipt.entity
+      - za.co.serengti.receipt.repository

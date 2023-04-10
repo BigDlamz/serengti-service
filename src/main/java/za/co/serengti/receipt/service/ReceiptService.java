@@ -1,35 +1,15 @@
 package za.co.serengti.receipt.service;
 
-import za.co.serengti.receipt.repository.ReceiptRepository;
-import za.co.serengti.receipt.vo.ReceiptVO;
 
-import javax.inject.Inject;
+import za.co.serengti.receipt.dto.ReceiptDTO;
+
 import java.sql.Timestamp;
 import java.util.Set;
 
+public interface ReceiptService {
 
-public class ReceiptService implements ReceiptServiceImpl {
+     void createReceipt(ReceiptDTO receiptVO);
+     ReceiptDTO retrieveReceipt(Long customerID);
+     Set<ReceiptDTO> retrieveReceipts(Long customerID, Timestamp fromDate, Timestamp toDate);
 
-    @Inject
-    ReceiptRepository receiptRepository;
-
-    public ReceiptService(ReceiptRepository receiptRepository) {
-        this.receiptRepository = receiptRepository;
-    }
-
-    @Override
-    public void createReceipt(ReceiptVO receiptVO) {
-   // receiptRepository.persist(receiptVO);
-    }
-
-    @Override
-    public ReceiptVO retrieveReceipt(Long customerID) {
-        //TODO receiptRepository.findById(customerID);
-        return null;
-    }
-
-    @Override
-    public Set<ReceiptVO> retrieveReceipts(Long customerID, Timestamp fromDate, Timestamp toDate) {
-        return null;
-    }
 }
