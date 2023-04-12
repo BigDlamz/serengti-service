@@ -1,22 +1,26 @@
 package za.co.serengti.receipt.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import lombok.AllArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "pos_systems")
+@AllArgsConstructor
 public class POSSystem extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
     @Column(name = "name")
-    private String name;
+    public String name;
 
     @Column(name = "vendor")
-    private String vendor;
+    public String vendor;
 
+    public POSSystem() {
+
+    }
 }

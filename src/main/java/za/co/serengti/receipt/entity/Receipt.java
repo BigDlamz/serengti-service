@@ -1,7 +1,8 @@
 package za.co.serengti.receipt.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -10,34 +11,36 @@ import java.util.List;
 
 @Entity
 @Table(name = "receipts")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Receipt extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
     @Column(name = "receipt_id")
-    private String receiptId;
+    public String receiptId;
 
     @ManyToOne
     @JoinColumn(name = "store_id")
-    private Store store;
+    public Store store;
 
     @ManyToOne
     @JoinColumn(name = "pos_system_id")
-    private POSSystem posSystem;
+    public POSSystem posSystem;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    private Customer customer;
+    public Customer customer;
 
     @Column(name = "timestamp")
-    private LocalDateTime timestamp;
+    public LocalDateTime timestamp;
 
     @Column(name = "total_amount_paid")
-    private BigDecimal totalAmountPaid;
+    public BigDecimal totalAmountPaid;
 
     @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL)
-    private List<ReceiptItem> receiptItems;
+    public List<ReceiptItem> receiptItems;
 
 }

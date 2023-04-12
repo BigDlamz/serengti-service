@@ -1,3 +1,15 @@
 package za.co.serengti.receipt.dto;
 
-public record ReceiptItemDTO(Long id, Long receiptId, ProductDTO product, Integer quantity) {}
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class ReceiptItemDTO {
+    private ProductDTO product;
+    private Integer quantity;
+}

@@ -1,29 +1,36 @@
 package za.co.serengti.receipt.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "products")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
     @Column(name = "name")
-    private String name;
+    public String name;
 
     @Column(name = "sku")
-    private String sku;
+    public String sku;
 
     @Column(name = "price")
-    private BigDecimal price;
+    public BigDecimal price;
 
     @Column(name = "quantity")
-    private Integer quantity;
+    public Integer quantity;
+
+    public BigDecimal getTotalPrice(int quantity) {
+        return this.price.multiply(BigDecimal.valueOf(quantity));
+    }
 
 }

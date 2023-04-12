@@ -1,43 +1,73 @@
 package za.co.serengti.receipt.service;
 
 import za.co.serengti.receipt.EntityRecordMapper;
-import za.co.serengti.receipt.dto.ReceiptDTO;
+import za.co.serengti.receipt.dto.ReceiptDetails;
+import za.co.serengti.receipt.entity.Customer;
+import za.co.serengti.receipt.entity.POSSystem;
 import za.co.serengti.receipt.entity.Receipt;
+import za.co.serengti.receipt.entity.Store;
+import za.co.serengti.receipt.repository.CustomerRepository;
+import za.co.serengti.receipt.repository.POSRepository;
 import za.co.serengti.receipt.repository.ReceiptRepository;
+import za.co.serengti.receipt.repository.StoreRepository;
+import za.co.serengti.receipt.service.request.GenerateReceiptRequest;
+import za.co.serengti.receipt.service.response.RetrieveReceiptResponse;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.sql.Timestamp;
-import java.util.Set;
+import javax.transaction.Transactional;
 
 @ApplicationScoped
 public class ReceiptServiceImpl implements ReceiptService {
 
     @Inject
-    private ReceiptRepository receiptRepository;
+    ReceiptRepository repository;
 
     @Inject
-    private EntityRecordMapper entityRecordMapper;
+    EntityRecordMapper converter;
 
-    public ReceiptServiceImpl(ReceiptRepository receiptRepository, EntityRecordMapper entityRecordMapper) {
-        this.receiptRepository = receiptRepository;
-        this.entityRecordMapper = entityRecordMapper;
+    @Inject
+    POSRepository posRepository;
+
+    @Inject
+    StoreRepository storeRepository;
+
+    @Inject
+    CustomerRepository customerRepository;
+
+    public ReceiptServiceImpl(ReceiptRepository repository, EntityRecordMapper converter) {
+        this.repository = repository;
+        this.converter = converter;
     }
 
-
+    /**
+     * Create a new receipt and store it in the database
+     */
     @Override
-    public void createReceipt(ReceiptDTO receiptVO) {
-        receiptRepository.persist(entityRecordMapper.map(receiptVO, Receipt.class));
+    @Transactional
+    public void generateReceipt(GenerateReceiptRequest request) {
+        //get POS & Store details
+        POSSystem posSystem = posRepository.findById(request.getMetaData().getPosId());
+        Store store = storeRepository.findById(request.getMetaData().getStoreId());
+
+        //get customer details
+        Customer customer = customerRepository.findById(null);
+
+        //prepare receipt
+        Receipt receipt = converter.map(request.getReceiptDetails(), Receipt.class);
+
+        repository.persist(receipt);
     }
 
+    /**
+     * Retrieve a single receipt by ID
+     */
     @Override
-    public ReceiptDTO retrieveReceipt(Long receiptID) {
-        Receipt receipt = receiptRepository.findById(receiptID);
-        return entityRecordMapper.map(receipt, ReceiptDTO.class);
-    }
-
-    @Override
-    public Set<ReceiptDTO> retrieveReceipts(Long customerID, Timestamp fromDate, Timestamp toDate) {
-        throw new UnsupportedOperationException();
+    public RetrieveReceiptResponse retrieveReceipt(Long receiptID) {
+        Receipt receipt = repository.findById(receiptID);
+        return RetrieveReceiptResponse
+                .builder()
+                .receipt(converter.map(receipt, ReceiptDetails.class))
+                .build();
     }
 }

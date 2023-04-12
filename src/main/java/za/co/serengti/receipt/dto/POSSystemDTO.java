@@ -1,3 +1,15 @@
 package za.co.serengti.receipt.dto;
 
-public record POSSystemDTO(Long id, String name, String vendor) {}
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class POSSystemDTO{
+    private String name;
+    private String vendor;
+}

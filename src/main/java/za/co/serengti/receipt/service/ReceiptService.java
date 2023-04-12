@@ -1,15 +1,12 @@
 package za.co.serengti.receipt.service;
 
 
-import za.co.serengti.receipt.dto.ReceiptDTO;
-
-import java.sql.Timestamp;
-import java.util.Set;
+import za.co.serengti.receipt.service.request.GenerateReceiptRequest;
+import za.co.serengti.receipt.service.response.RetrieveReceiptResponse;
 
 public interface ReceiptService {
 
-     void createReceipt(ReceiptDTO receiptVO);
-     ReceiptDTO retrieveReceipt(Long customerID);
-     Set<ReceiptDTO> retrieveReceipts(Long customerID, Timestamp fromDate, Timestamp toDate);
+     void generateReceipt(GenerateReceiptRequest request);
+     RetrieveReceiptResponse retrieveReceipt(Long customerID);
 
 }

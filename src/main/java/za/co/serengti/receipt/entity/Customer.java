@@ -1,24 +1,29 @@
 package za.co.serengti.receipt.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import lombok.AllArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "customers")
+@AllArgsConstructor
 public class Customer extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
     @Column(name = "first_name")
-    private String firstName;
+    public String firstName;
 
     @Column(name = "last_name")
-    private String lastName;
+    public String lastName;
 
     @Column(name = "email")
-    private String email;
+    public String email;
 
+    public Customer() {
+
+    }
 }
