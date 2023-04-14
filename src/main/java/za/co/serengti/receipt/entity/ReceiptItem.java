@@ -2,12 +2,14 @@ package za.co.serengti.receipt.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "receipt_items")
 @AllArgsConstructor
+@NoArgsConstructor
 public class ReceiptItem extends PanacheEntityBase {
 
     @Id
@@ -25,7 +27,4 @@ public class ReceiptItem extends PanacheEntityBase {
     @Column(name = "quantity")
     public Integer quantity;
 
-    public ReceiptItem() {
-
-    }
 }

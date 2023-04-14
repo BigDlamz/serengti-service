@@ -1,8 +1,7 @@
 package za.co.serengti.receipt.service;
 
 import za.co.serengti.receipt.EntityRecordMapper;
-import za.co.serengti.receipt.dto.ReceiptDetails;
-import za.co.serengti.receipt.entity.Customer;
+import za.co.serengti.receipt.dto.ReceiptDetailsDTO;
 import za.co.serengti.receipt.entity.POSSystem;
 import za.co.serengti.receipt.entity.Receipt;
 import za.co.serengti.receipt.entity.Store;
@@ -10,7 +9,7 @@ import za.co.serengti.receipt.repository.CustomerRepository;
 import za.co.serengti.receipt.repository.POSRepository;
 import za.co.serengti.receipt.repository.ReceiptRepository;
 import za.co.serengti.receipt.repository.StoreRepository;
-import za.co.serengti.receipt.service.request.GenerateReceiptRequest;
+import za.co.serengti.receipt.service.request.ReceiptRequest;
 import za.co.serengti.receipt.service.response.RetrieveReceiptResponse;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -45,13 +44,13 @@ public class ReceiptServiceImpl implements ReceiptService {
      */
     @Override
     @Transactional
-    public void generateReceipt(GenerateReceiptRequest request) {
+    public void save(ReceiptRequest request) {
         //get POS & Store details
-        POSSystem posSystem = posRepository.findById(request.getMetaData().getPosId());
-        Store store = storeRepository.findById(request.getMetaData().getStoreId());
+        POSSystem posSystem = posRepository.findById(request.getMetaData().getPosSystem());
+        Store store = storeRepository.findById(request.getMetaData().getStore());
 
         //get customer details
-        Customer customer = customerRepository.findById(null);
+   //     Customer customer = customerRepository.findById(request.getCutomerIdentifier());
 
         //prepare receipt
         Receipt receipt = converter.map(request.getReceiptDetails(), Receipt.class);
@@ -67,7 +66,7 @@ public class ReceiptServiceImpl implements ReceiptService {
         Receipt receipt = repository.findById(receiptID);
         return RetrieveReceiptResponse
                 .builder()
-                .receipt(converter.map(receipt, ReceiptDetails.class))
+                .receipt(converter.map(receipt, ReceiptDetailsDTO.class))
                 .build();
     }
 }

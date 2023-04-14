@@ -2,7 +2,7 @@ package za.co.serengti.receipt.rest;
 
 
 import za.co.serengti.receipt.service.ReceiptService;
-import za.co.serengti.receipt.service.request.GenerateReceiptRequest;
+import za.co.serengti.receipt.service.request.ReceiptRequest;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -19,8 +19,19 @@ public class ReceiptResource {
     ReceiptService receiptService;
 
     @POST
-    public void generateReceipt(GenerateReceiptRequest request, @HeaderParam("X-POS-ID") Long posId, @HeaderParam("X-STORE-ID") String storeId) {
-        receiptService.generateReceipt(request);
+    public void uploadReceipt(UploadReceiptRequest request, @HeaderParam("X-POS-ID") Long posId, @HeaderParam("X-STORE-ID") String storeId) {
+
+        var metaData = RequestMetaData.builder()
+                .posSystem(posId)
+                .store(Long.parseLong(storeId))
+                .build();
+
+        var incomingReceipt = ReceiptRequest.builder()
+                .metaData(metaData)
+                .receiptDetails(request.getReceiptDetails())
+                .build();
+
+        receiptService.save(incomingReceipt);
     }
 
     @GET

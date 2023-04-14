@@ -13,11 +13,10 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReceiptDetails {
+public class ReceiptDetailsDTO {
 
-    private CustomerDTO customer;
     private LocalDateTime transactionDate;
+    private List<ProductDTO> lineItems;
     private BigDecimal totalAmountPaid;
-    private List<ReceiptItemDTO> receiptItems;
 
 }

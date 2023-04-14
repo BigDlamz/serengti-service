@@ -2,12 +2,14 @@ package za.co.serengti.receipt.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "stores")
 @AllArgsConstructor
+@NoArgsConstructor
 public class Store extends PanacheEntityBase {
 
     @Id
@@ -23,7 +25,4 @@ public class Store extends PanacheEntityBase {
     @Column(name = "vat_registration_number")
     public String vatRegistrationNumber;
 
-    public Store() {
-
-    }
 }

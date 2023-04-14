@@ -19,9 +19,6 @@ public class Receipt extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @Column(name = "receipt_id")
-    public String receiptId;
-
     @ManyToOne
     @JoinColumn(name = "store_id")
     public Store store;
