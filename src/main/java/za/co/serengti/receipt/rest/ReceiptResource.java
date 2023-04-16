@@ -28,6 +28,7 @@ public class ReceiptResource {
 
         var incomingReceipt = ReceiptRequest.builder()
                 .metaData(metaData)
+                .cutomerIdentifier(request.getCutomerIdentifier())
                 .receiptDetails(request.getReceiptDetails())
                 .build();
 

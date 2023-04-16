@@ -1,10 +1,10 @@
 package za.co.serengti.receipt.entity;
 
+import javax.persistence.*;
+
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @Entity
 @Table(name = "customers")
@@ -18,10 +18,7 @@ public abstract class Customer extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @Column(name = "first_name")
-    public String firstName;
-
-    @Column(name = "email")
-    public String email;
-
+    @Column(name = "name")
+    public String name;
 }
+

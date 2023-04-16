@@ -2,6 +2,7 @@ package za.co.serengti.receipt.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -10,13 +11,14 @@ import javax.persistence.*;
 @Table(name = "receipt_items")
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class ReceiptItem extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "receipt_id")
     public Receipt receipt;
 
