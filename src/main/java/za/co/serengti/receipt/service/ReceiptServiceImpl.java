@@ -1,7 +1,7 @@
 package za.co.serengti.receipt.service;
 
 import za.co.serengti.receipt.EntityRecordMapper;
-import za.co.serengti.receipt.dto.ReceiptDetailsDTO;
+import za.co.serengti.receipt.dto.*;
 import za.co.serengti.receipt.entity.*;
 import za.co.serengti.receipt.repository.*;
 import za.co.serengti.receipt.service.request.ReceiptRequest;
@@ -34,9 +34,6 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Inject
     CustomerRepository customerRepository;
 
-    @Inject
-    ProductRepository productRepository;
-
     public ReceiptServiceImpl(ReceiptRepository repository, EntityRecordMapper converter) {
         this.repository = repository;
         this.converter = converter;
@@ -48,44 +45,58 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     @Transactional
     public void save(ReceiptRequest request) {
-        //get POS & Store details
-        POSSystem posSystem = posRepository.findById(request.getMetaData().getPosSystem());
-        Store store = storeRepository.findById(request.getMetaData().getStore());
 
-        //determine customer identifier type
-        var ID = request.getCutomerIdentifier();
-        CustomerIdentifier.Type type = this.customerIdentifier.determineIdentifierType(ID);
+        ReceiptDetails receiptDetails = request.getReceiptDetails();
 
-        Optional<Customer> customer = null;
-        if(type == CustomerIdentifier.Type.EMAIL_ADDRESS) {
-            //lookup customer by email address
-            customer = customerRepository.findByEmailAddress(request.getCutomerIdentifier());
-            if(customer == null || customer.isEmpty()) {
-                    //create new customer if not found
-                    customerRepository.persist(new EmailAddressCustomer(ID));
-            }
-        } else if(type == CustomerIdentifier.Type.MOBILE_NUMBER) {
-            //lookup customer by mobile number
-            customer = customerRepository.findByMobileNumber(request.getCutomerIdentifier());
-            if(customer == null || customer.isEmpty()){
-                //create new mobile customer if not found
-                customerRepository.persist(new MobileNumberCustomer(ID));
-            }
-        }
+        ReceiptDTO receiptDTO = assembleReceipt(request);
 
-        ReceiptDetailsDTO receiptDetails = request.getReceiptDetails();
+        Receipt receipt = converter.map(receiptDTO, Receipt.class);
 
-        Receipt receipt = converter.map(receiptDetails, Receipt.class);
-
-        //get transaction time & amount paid
-        receipt.timestamp = request.getReceiptDetails().getTimestamp();
-        receipt.totalAmountPaid = receiptDetails.getTotalAmountPaid();
-
-        receipt.receiptItems.forEach(item -> {
-           productRepository.persist(item.getProduct());
-        });
+        receipt.setTimestamp(receiptDetails.getTimestamp());
+        receipt.setTotalAmountPaid(receiptDetails.getTotalAmountPaid());
 
         repository.persist(receipt);
+    }
+
+    /**
+     * Search the database for the customer or save them if not found
+     */
+    private Optional<Customer> findOrSaveNewCustomer(ReceiptRequest request) {
+
+        var identifier = request.getCutomerIdentifier();
+        CustomerIdentifier.Type type = this.customerIdentifier.determineIdentifierType(identifier);
+        Optional<Customer> customer = Optional.empty();
+
+        if (type == CustomerIdentifier.Type.EMAIL_ADDRESS) {
+            customer = customerRepository.findByEmailAddress(request.getCutomerIdentifier());
+            if (customer.isEmpty()) {
+                customerRepository.persist(new EmailAddressCustomer(null,"Philani","identifier","email_address"));
+            }
+        } else if (type == CustomerIdentifier.Type.MOBILE_NUMBER) {
+            customer = customerRepository.findByMobileNumber(request.getCutomerIdentifier());
+            if (customer.isEmpty()) {
+                customerRepository.persist(new EmailAddressCustomer(null,"Philani","identifier","email_address"));
+
+            }
+        }
+        return customer;
+    }
+
+
+    /**
+     * Assemble the receipt object graph relationships
+     */
+    private ReceiptDTO assembleReceipt(ReceiptRequest request) {
+        POSSystem posSystem = posRepository.findById(request.getMetaData().getPosSystem());
+        Store store = storeRepository.findById(request.getMetaData().getStore());
+        Optional<Customer> customer = findOrSaveNewCustomer(request);
+        return ReceiptDTO
+                .builder()
+                .store(converter.map(store, StoreDTO.class))
+                .posSystem(converter.map(posSystem, POSSystemDTO.class))
+                .customer(converter.map(customer.get(), CustomerDTO.class))
+                .receiptItems(request.getReceiptDetails().getLineItems())
+                .build();
     }
 
     /**
@@ -96,7 +107,7 @@ public class ReceiptServiceImpl implements ReceiptService {
         Receipt receipt = repository.findById(receiptID);
         return RetrieveReceiptResponse
                 .builder()
-                .receipt(converter.map(receipt, ReceiptDetailsDTO.class))
+                .receipt(converter.map(receipt, ReceiptDetails.class))
                 .build();
     }
 }

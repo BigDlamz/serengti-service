@@ -2,7 +2,7 @@ package za.co.serengti.receipt.service.response;
 
 import lombok.Builder;
 import lombok.Data;
-import za.co.serengti.receipt.dto.ReceiptDetailsDTO;
+import za.co.serengti.receipt.dto.ReceiptDetails;
 
 import java.util.Set;
 
@@ -10,5 +10,5 @@ import java.util.Set;
 @Data
 public class RetrieveMultipleReceiptsResponse {
 
-    private Set<ReceiptDetailsDTO> receipts;
+    private Set<ReceiptDetails> receipts;
 }

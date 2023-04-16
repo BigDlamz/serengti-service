@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReceiptDetailsDTO {
+public class ReceiptDetails {
 
     private LocalDateTime timestamp;
     private List<ProductDTO> lineItems;

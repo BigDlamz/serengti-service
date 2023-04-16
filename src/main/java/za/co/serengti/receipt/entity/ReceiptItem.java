@@ -22,7 +22,7 @@ public class ReceiptItem extends PanacheEntityBase {
     @JoinColumn(name = "receipt_id")
     public Receipt receipt;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "product_id")
     public Product product;
 

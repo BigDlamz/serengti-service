@@ -4,6 +4,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "receipts")
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Receipt extends PanacheEntityBase {
@@ -21,15 +23,15 @@ public class Receipt extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "store_id")
     public Store store;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "pos_system_id")
     public POSSystem posSystem;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "customer_id")
     public Customer customer;
 
@@ -39,7 +41,7 @@ public class Receipt extends PanacheEntityBase {
     @Column(name = "total_amount_paid")
     public BigDecimal totalAmountPaid;
 
-    @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "receipt", cascade = CascadeType.PERSIST)
     public List<ReceiptItem> receiptItems;
 
 }
