@@ -7,16 +7,16 @@ import java.util.regex.Matcher;
 @ApplicationScoped
 public class CustomerIdentifier {
     public enum Type {
-        MOBILE_NUMBER,
-        EMAIL_ADDRESS,
+        MOBILE,
+        EMAIL,
         INVALID_IDENTIFIER
     }
 
     public Type determineIdentifierType(String identifier) {
         if (isMobileNumber(identifier)) {
-            return Type.MOBILE_NUMBER;
+            return Type.MOBILE;
         } else if (isEmailAddress(identifier)) {
-            return Type.EMAIL_ADDRESS;
+            return Type.EMAIL;
         } else {
             return Type.INVALID_IDENTIFIER;
         }

@@ -23,15 +23,15 @@ public class Receipt extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "store_id")
     public Store store;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "pos_system_id")
     public POSSystem posSystem;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "customer_id")
     public Customer customer;
 
@@ -41,7 +41,7 @@ public class Receipt extends PanacheEntityBase {
     @Column(name = "total_amount_paid")
     public BigDecimal totalAmountPaid;
 
-    @OneToMany(mappedBy = "receipt", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "receipt", cascade = CascadeType.MERGE)
     public List<ReceiptItem> receiptItems;
 
 }

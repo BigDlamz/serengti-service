@@ -7,11 +7,13 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class StoreDTO{
-    private Long id;
-    private String name;
-    private String address;
-    private String vatRegistrationNumber;
+@NoArgsConstructor
+public class ReceiptItemDTO {
+
+    public Long id;
+    private Integer quantity;
+    private ReceiptDTO receipt;
+    private ProductDTO product;
+
 }

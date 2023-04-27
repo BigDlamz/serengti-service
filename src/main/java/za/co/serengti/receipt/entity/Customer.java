@@ -1,18 +1,21 @@
 package za.co.serengti.receipt.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "customers")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Data
+@AllArgsConstructor
 @DiscriminatorColumn(name = "identifier_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class Customer extends PanacheEntityBase {
+public  class Customer extends PanacheEntityBase {
     public Customer() {}
 
-    public Customer(Long id, String name, String identifierType) {
-        this.id = id;
+    public Customer(String name, String identifierType) {
         this.name = name;
         this.identifierType = identifierType;
     }

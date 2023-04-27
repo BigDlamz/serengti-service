@@ -16,7 +16,7 @@ import java.util.List;
 public class ReceiptDetails {
 
     private LocalDateTime timestamp;
-    private List<ProductDTO> lineItems;
+    private List<ReceiptItemDTO> lineItems;
     private BigDecimal totalAmountPaid;
 
 }

@@ -1,8 +1,7 @@
 package za.co.serengti.receipt.rest;
 
-
 import za.co.serengti.receipt.service.ReceiptService;
-import za.co.serengti.receipt.service.request.ReceiptRequest;
+import za.co.serengti.receipt.service.request.Transaction;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -26,7 +25,7 @@ public class ReceiptResource {
                 .store(Long.parseLong(storeId))
                 .build();
 
-        var incomingReceipt = ReceiptRequest.builder()
+        var incomingReceipt = Transaction.builder()
                 .metaData(metaData)
                 .cutomerIdentifier(request.getCutomerIdentifier())
                 .receiptDetails(request.getReceiptDetails())

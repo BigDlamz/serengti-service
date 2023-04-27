@@ -10,5 +10,8 @@ quarkus:
     packages:
       - za.co.serengti.receipt.entity
       - za.co.serengti.receipt.repository
-  log:
-    sql: true
+    log:
+      sql: true
+
+
+

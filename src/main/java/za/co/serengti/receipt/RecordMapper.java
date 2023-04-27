@@ -3,15 +3,13 @@ package za.co.serengti.receipt;
 import org.modelmapper.ModelMapper;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 @ApplicationScoped
-public class EntityRecordMapper {
+public class RecordMapper {
 
-    private final ModelMapper modelMapper;
-
-    public EntityRecordMapper() {
-        modelMapper = new ModelMapper();
-    }
+    @Inject
+    ModelMapper modelMapper;
 
     public <S, T> T map(S source, Class<T> targetClass) {
         return modelMapper.map(source, targetClass);

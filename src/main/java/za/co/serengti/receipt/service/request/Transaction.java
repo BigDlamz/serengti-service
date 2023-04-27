@@ -7,7 +7,7 @@ import za.co.serengti.receipt.rest.RequestMetaData;
 
 @Data
 @Builder
-public class ReceiptRequest {
+public class Transaction {
 
     private RequestMetaData metaData;
     private String cutomerIdentifier;

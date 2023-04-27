@@ -10,16 +10,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class ReceiptDTO {
     private StoreDTO store;
     private POSSystemDTO posSystem;
     private CustomerDTO customer;
     private LocalDateTime timestamp;
     private BigDecimal totalAmountPaid;
-    private List<ProductDTO> receiptItems;
+    private List<ReceiptItemDTO> receiptItems;
 
 }
 
