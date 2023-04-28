@@ -8,8 +8,8 @@ quarkus:
   hibernate-orm:
     generate-ddl: false
     packages:
-      - za.co.serengti.receipt.entity
-      - za.co.serengti.receipt.repository
+      - za.co.serengti.receipts.entity
+      - za.co.serengti.customers.entity
     log:
       sql: true
 
