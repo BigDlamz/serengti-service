@@ -1,11 +1,11 @@
-package za.co.serengti.receipt.rest;
+package za.co.serengti.receipt.application;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class RequestMetaData {
+public class MetaData {
     private long posSystem;
     private long store;
 }

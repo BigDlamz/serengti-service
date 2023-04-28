@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "stores")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Store extends PanacheEntityBase {
+public class StoreEntity extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

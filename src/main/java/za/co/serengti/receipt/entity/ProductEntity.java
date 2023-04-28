@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Table(name = "products")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product extends PanacheEntityBase {
+public class ProductEntity extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

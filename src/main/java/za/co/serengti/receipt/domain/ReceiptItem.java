@@ -1,19 +1,20 @@
-package za.co.serengti.receipt.dto;
+package za.co.serengti.receipt.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReceiptItemDTO {
+public class ReceiptItem {
 
-    public Long id;
+    public  String sku;
     private Integer quantity;
-    private ReceiptDTO receipt;
-    private ProductDTO product;
+    private BigDecimal price;
 
 }

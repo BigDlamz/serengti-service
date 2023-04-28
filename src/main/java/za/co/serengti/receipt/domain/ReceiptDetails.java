@@ -1,4 +1,4 @@
-package za.co.serengti.receipt.dto;
+package za.co.serengti.receipt.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +16,5 @@ import java.util.List;
 public class ReceiptDetails {
 
     private LocalDateTime timestamp;
-    private List<ReceiptItemDTO> lineItems;
-    private BigDecimal totalAmountPaid;
-
+    private List<ReceiptItem> lineItems;
 }

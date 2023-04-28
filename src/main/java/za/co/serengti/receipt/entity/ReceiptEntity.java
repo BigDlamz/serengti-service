@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Receipt extends PanacheEntityBase {
+public class ReceiptEntity extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,15 +25,15 @@ public class Receipt extends PanacheEntityBase {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "store_id")
-    public Store store;
+    public StoreEntity store;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "pos_system_id")
-    public POSSystem posSystem;
+    public POSSystemEntity posSystem;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "customer_id")
-    public Customer customer;
+    public CustomerEntity customer;
 
     @Column(name = "timestamp")
     public LocalDateTime timestamp;
@@ -42,6 +42,6 @@ public class Receipt extends PanacheEntityBase {
     public BigDecimal totalAmountPaid;
 
     @OneToMany(mappedBy = "receipt", cascade = CascadeType.MERGE)
-    public List<ReceiptItem> receiptItems;
+    public List<ReceiptItemEntity> receiptItems;
 
 }

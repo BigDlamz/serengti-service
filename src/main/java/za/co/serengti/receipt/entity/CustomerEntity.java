@@ -12,10 +12,10 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @DiscriminatorColumn(name = "identifier_type", discriminatorType = DiscriminatorType.STRING)
-public  class Customer extends PanacheEntityBase {
-    public Customer() {}
+public  class CustomerEntity extends PanacheEntityBase {
+    public CustomerEntity() {}
 
-    public Customer(String name, String identifierType) {
+    public CustomerEntity(String name, String identifierType) {
         this.name = name;
         this.identifierType = identifierType;
     }

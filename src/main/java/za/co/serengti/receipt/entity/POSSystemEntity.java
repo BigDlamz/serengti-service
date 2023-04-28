@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "pos_systems")
 @AllArgsConstructor
 @NoArgsConstructor
-public class POSSystem extends PanacheEntityBase {
+public class POSSystemEntity extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

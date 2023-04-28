@@ -12,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class ReceiptItem extends PanacheEntityBase {
+public class ReceiptItemEntity extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,11 +20,11 @@ public class ReceiptItem extends PanacheEntityBase {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "receipt_id")
-    public Receipt receipt;
+    public ReceiptEntity receipt;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "product_id")
-    public Product product;
+    public ProductEntity product;
 
     @Column(name = "quantity")
     public Integer quantity;

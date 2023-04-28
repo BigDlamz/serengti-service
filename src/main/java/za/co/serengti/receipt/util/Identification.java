@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 @ApplicationScoped
-public class CustomerIdentifier {
+public class Identification {
     public enum Type {
         MOBILE,
         EMAIL,

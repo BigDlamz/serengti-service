@@ -1,7 +1,7 @@
-package za.co.serengti.receipt.rest;
+package za.co.serengti.receipt.application;
 
-import za.co.serengti.receipt.service.ReceiptService;
-import za.co.serengti.receipt.service.request.Transaction;
+import za.co.serengti.receipt.service.ReceiptManagementService;
+import za.co.serengti.receipt.service.Transaction;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -15,28 +15,28 @@ import javax.ws.rs.core.Response;
 public class ReceiptResource {
 
     @Inject
-    ReceiptService receiptService;
+    ReceiptManagementService receiptService;
 
     @POST
-    public void uploadReceipt(UploadReceiptRequest request, @HeaderParam("X-POS-ID") Long posId, @HeaderParam("X-STORE-ID") String storeId) {
+    public void save(SaveReceiptRequest request, @HeaderParam("X-POS-ID") Long posId, @HeaderParam("X-STORE-ID") String storeId) {
 
-        var metaData = RequestMetaData.builder()
+        var metaData = MetaData.builder()
                 .posSystem(posId)
                 .store(Long.parseLong(storeId))
                 .build();
 
-        var incomingReceipt = Transaction.builder()
+        Transaction transaction = Transaction.builder()
                 .metaData(metaData)
-                .cutomerIdentifier(request.getCutomerIdentifier())
+                .cutomerIdentifier(request.getCustomerIdentifier())
                 .receiptDetails(request.getReceiptDetails())
                 .build();
 
-        receiptService.save(incomingReceipt);
+        receiptService.process(transaction);
     }
 
     @GET
     @Path("/{id}")
     public Response retrieveReceipt(@PathParam("id") Long customerID) {
-        return Response.ok(receiptService.retrieveReceipt(customerID)).build();
+        return Response.ok(receiptService.findReceipt(customerID)).build();
     }
 }

@@ -9,12 +9,12 @@ import javax.persistence.Entity;
 @Entity
 @Data
 @DiscriminatorValue("mobile_number")
-public class MobileNumberCustomer extends Customer {
-    public MobileNumberCustomer() {
+public class MobileCustomerEntity extends CustomerEntity {
+    public MobileCustomerEntity() {
         super();
     }
 
-    public MobileNumberCustomer(String name, String identifierType, String mobileNumber) {
+    public MobileCustomerEntity(String name, String identifierType, String mobileNumber) {
         super(name, identifierType);
         this.mobileNumber = mobileNumber;
     }

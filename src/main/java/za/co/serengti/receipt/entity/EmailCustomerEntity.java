@@ -9,13 +9,13 @@ import javax.persistence.Entity;
 @Entity
 @Data
 @DiscriminatorValue("email_address")
-public class EmailAddressCustomer extends Customer {
+public class EmailCustomerEntity extends CustomerEntity {
 
-    public EmailAddressCustomer() {
+    public EmailCustomerEntity() {
         super();
     }
 
-    public EmailAddressCustomer(String name, String identifierType, String emailAddress) {
+    public EmailCustomerEntity(String name, String identifierType, String emailAddress) {
         super(name, identifierType);
         this.emailAddress = emailAddress;
     }
