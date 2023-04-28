@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class MetaData {
-    private long posSystem;
-    private long store;
+    private long posSystemID;
+    private long storeID;
 }

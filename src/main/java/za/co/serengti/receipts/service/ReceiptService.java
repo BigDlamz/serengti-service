@@ -3,6 +3,7 @@ package za.co.serengti.receipts.service;
 import za.co.serengti.customers.domain.Customer;
 import za.co.serengti.customers.entity.CustomerEntity;
 import za.co.serengti.customers.service.CustomerService;
+import za.co.serengti.merchants.MerchantService;
 import za.co.serengti.receipts.RecordMapper;
 import za.co.serengti.receipts.domain.POSSystem;
 import za.co.serengti.receipts.domain.Receipt;
@@ -11,30 +12,26 @@ import za.co.serengti.receipts.domain.Store;
 import za.co.serengti.receipts.entity.POSSystemEntity;
 import za.co.serengti.receipts.entity.ReceiptEntity;
 import za.co.serengti.receipts.entity.StoreEntity;
-import za.co.serengti.receipts.repository.POSRepository;
 import za.co.serengti.receipts.repository.ReceiptRepository;
-import za.co.serengti.receipts.repository.StoreRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
 @ApplicationScoped
-public class ReceiptManagementService {
+public class ReceiptService {
 
     private final ReceiptRepository receiptRepository;
-    private final RecordMapper converter;
-    private final POSRepository posRepository;
-    private final StoreRepository storeRepo;
     private final CustomerService customerService;
+    private final MerchantService merchantService;
+    private final RecordMapper converter;
 
     @Inject
-    public ReceiptManagementService(ReceiptRepository receiptRepository, RecordMapper converter, POSRepository posRepository, StoreRepository storeRepo, CustomerService customerService) {
+    public ReceiptService(ReceiptRepository receiptRepository, RecordMapper converter, CustomerService customerService, MerchantService merchantService) {
         this.receiptRepository = receiptRepository;
         this.converter = converter;
-        this.posRepository = posRepository;
-        this.storeRepo = storeRepo;
         this.customerService = customerService;
+        this.merchantService = merchantService;
     }
 
     /**
@@ -43,8 +40,8 @@ public class ReceiptManagementService {
     @Transactional
     public void process(Transaction tx) {
         var metaData = tx.getMetaData();
-        POSSystemEntity posSystem = posRepository.findById(metaData.getPosSystem());
-        StoreEntity store = storeRepo.findById(metaData.getStore());
+        POSSystemEntity posSystem = merchantService.findPOS(metaData.getPosSystemID());
+        StoreEntity store = merchantService.findStore(metaData.getStoreID());
         CustomerEntity customer = customerService.findOrSaveCustomer(tx.getCutomerIdentifier()).orElse(null);
         ReceiptEntity receipt = prepare(posSystem, store, customer, tx.getReceiptDetails());
         receiptRepository.merge(receipt);

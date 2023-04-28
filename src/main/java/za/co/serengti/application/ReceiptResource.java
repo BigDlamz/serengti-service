@@ -1,6 +1,6 @@
 package za.co.serengti.application;
 
-import za.co.serengti.receipts.service.ReceiptManagementService;
+import za.co.serengti.receipts.service.ReceiptService;
 import za.co.serengti.receipts.service.Transaction;
 
 import javax.inject.Inject;
@@ -15,15 +15,15 @@ import javax.ws.rs.core.Response;
 public class ReceiptResource {
 
     @Inject
-    ReceiptManagementService receiptService;
+    ReceiptService receiptService;
 
     @POST
     public void save(SaveReceiptRequest request, @HeaderParam("X-POS-ID") Long posId, @HeaderParam("X-STORE-ID") String storeId) {
 
         Transaction tx = Transaction.builder()
                 .metaData(MetaData.builder()
-                        .posSystem(posId)
-                        .store(Long.parseLong(storeId))
+                        .posSystemID(posId)
+                        .storeID(Long.parseLong(storeId))
                         .build())
                 .cutomerIdentifier(request.getCustomerIdentifier())
                 .receiptDetails(request.getReceiptDetails())
