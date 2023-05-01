@@ -11,7 +11,6 @@ public class MerchantManager {
 
     private final POSService posService;
     private final StoreService storeService;
- //   private final ProductService productsService;
 
     @Inject
     public MerchantManager(POSService posService, StoreService storeService) {
@@ -19,6 +18,13 @@ public class MerchantManager {
         this.storeService = storeService;
     }
 
+    public StoreDTO findStore(Long storeId) {
+     return storeService.find(storeId);
+    }
+
+    public POSSystemDTO findPOS(Long posId) {
+        return  posService.findPOS(posId);
+    }
 
     //TODO: merchants should be able to register their POS System on our database
     //TODO: merchants should be able to register their stores
