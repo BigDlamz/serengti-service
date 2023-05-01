@@ -1,7 +1,6 @@
 package za.co.serengti.customers.entity;
 
 import lombok.Data;
-import za.co.serengti.customers.entity.CustomerEntity;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -10,13 +9,13 @@ import javax.persistence.Entity;
 @Entity
 @Data
 @DiscriminatorValue("email_address")
-public class EmailCustomerEntity extends CustomerEntity {
+public class EmailCustomer extends Customer {
 
-    public EmailCustomerEntity() {
+    public EmailCustomer() {
         super();
     }
 
-    public EmailCustomerEntity(String name, String identifierType, String emailAddress) {
+    public EmailCustomer(String name, String identifierType, String emailAddress) {
         super(name, identifierType);
         this.emailAddress = emailAddress;
     }

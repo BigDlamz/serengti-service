@@ -1,4 +1,4 @@
-package za.co.serengti.customers.domain;
+package za.co.serengti.merchants.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Customer {
+public class StoreDTO {
     private Long id;
     private String name;
-    private String emailAddress;
-    private String mobileNumber;
+    private String address;
+    private String vatRegistrationNumber;
 }

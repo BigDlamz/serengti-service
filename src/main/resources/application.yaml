@@ -10,6 +10,7 @@ quarkus:
     packages:
       - za.co.serengti.receipts.entity
       - za.co.serengti.customers.entity
+      - za.co.serengti.merchants.entity
     log:
       sql: true
 

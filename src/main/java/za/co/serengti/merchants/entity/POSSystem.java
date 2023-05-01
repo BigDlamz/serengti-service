@@ -1,16 +1,18 @@
-package za.co.serengti.receipts.entity;
+package za.co.serengti.merchants.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "stores")
+@Table(name = "pos_systems")
 @AllArgsConstructor
 @NoArgsConstructor
-public class StoreEntity extends PanacheEntityBase {
+@Builder
+public class POSSystem extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +21,7 @@ public class StoreEntity extends PanacheEntityBase {
     @Column(name = "name")
     public String name;
 
-    @Column(name = "address")
-    public String address;
-
-    @Column(name = "vat_registration_number")
-    public String vatRegistrationNumber;
+    @Column(name = "vendor")
+    public String vendor;
 
 }

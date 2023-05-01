@@ -1,4 +1,4 @@
-package za.co.serengti.receipts.domain;
+package za.co.serengti.customers.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class POSSystem {
+public class CustomerDTO {
     private Long id;
     private String name;
-    private String vendor;
+    private String emailAddress;
+    private String mobileNumber;
 }

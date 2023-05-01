@@ -2,9 +2,9 @@ package za.co.serengti.config;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import za.co.serengti.customers.domain.Customer;
-import za.co.serengti.customers.entity.EmailCustomerEntity;
-import za.co.serengti.customers.entity.MobileCustomerEntity;
+import za.co.serengti.customers.dto.CustomerDTO;
+import za.co.serengti.customers.entity.EmailCustomer;
+import za.co.serengti.customers.entity.MobileCustomer;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -19,15 +19,15 @@ public class MappingConfig {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
-        modelMapper.createTypeMap(EmailCustomerEntity.class, Customer.class)
-                .addMapping(EmailCustomerEntity::getId, Customer::setId)
-                .addMapping(EmailCustomerEntity::getName, Customer::setName)
-                .addMapping(EmailCustomerEntity::getEmailAddress, Customer::setEmailAddress);
+        modelMapper.createTypeMap(EmailCustomer.class, CustomerDTO.class)
+                .addMapping(EmailCustomer::getId, CustomerDTO::setId)
+                .addMapping(EmailCustomer::getName, CustomerDTO::setName)
+                .addMapping(EmailCustomer::getEmailAddress, CustomerDTO::setEmailAddress);
 
-        modelMapper.createTypeMap(MobileCustomerEntity.class, Customer.class)
-                .addMapping(MobileCustomerEntity::getId, Customer::setId)
-                .addMapping(MobileCustomerEntity::getName, Customer::setName)
-                .addMapping(MobileCustomerEntity::getMobileNumber, Customer::setMobileNumber);
+        modelMapper.createTypeMap(MobileCustomer.class, CustomerDTO.class)
+                .addMapping(MobileCustomer::getId, CustomerDTO::setId)
+                .addMapping(MobileCustomer::getName, CustomerDTO::setName)
+                .addMapping(MobileCustomer::getMobileNumber, CustomerDTO::setMobileNumber);
 
         return modelMapper;
     }

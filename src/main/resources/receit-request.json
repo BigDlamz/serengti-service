@@ -1,0 +1,18 @@
+{
+  "customerIdentifier": "+27662012600",
+  "receiptDetails": {
+    "timestamp": "2022-05-01T15:30:50",
+    "lineItems": [
+      {
+        "sku": "SKU123",
+        "quantity": 1,
+        "price": 10.99
+      },
+      {
+        "sku": "SKU789",
+        "quantity": 1,
+        "price": 20.00
+      }
+    ]
+  }
+}

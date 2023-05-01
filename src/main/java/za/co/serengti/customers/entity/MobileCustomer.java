@@ -1,7 +1,6 @@
 package za.co.serengti.customers.entity;
 
 import lombok.Data;
-import za.co.serengti.customers.entity.CustomerEntity;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -10,12 +9,12 @@ import javax.persistence.Entity;
 @Entity
 @Data
 @DiscriminatorValue("mobile_number")
-public class MobileCustomerEntity extends CustomerEntity {
-    public MobileCustomerEntity() {
+public class MobileCustomer extends Customer {
+    public MobileCustomer() {
         super();
     }
 
-    public MobileCustomerEntity(String name, String identifierType, String mobileNumber) {
+    public MobileCustomer(String name, String identifierType, String mobileNumber) {
         super(name, identifierType);
         this.mobileNumber = mobileNumber;
     }

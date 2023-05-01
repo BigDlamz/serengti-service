@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import za.co.serengti.receipts.domain.ReceiptDetails;
 
+
 @Data
 @Builder
 public class SaveReceiptRequest {

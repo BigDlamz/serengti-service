@@ -1,4 +1,4 @@
-package za.co.serengti.receipts.domain;
+package za.co.serengti.merchants.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,7 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
-    String name;
+public class ProductDTO {
     String sku;
     BigDecimal price;
     Integer quantity;

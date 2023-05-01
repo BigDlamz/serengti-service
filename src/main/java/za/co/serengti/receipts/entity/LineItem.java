@@ -2,31 +2,30 @@ package za.co.serengti.receipts.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+import za.co.serengti.merchants.entity.Product;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "receipt_items")
+@Table(name = "line_items")
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-public class ReceiptItemEntity extends PanacheEntityBase {
+@Data
+public class LineItem extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receipt_id")
-    public ReceiptEntity receipt;
+    public Receipt receipt;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "product_id")
-    public ProductEntity product;
+    public Product product;
 
-    @Column(name = "quantity")
-    public Integer quantity;
 
 }
