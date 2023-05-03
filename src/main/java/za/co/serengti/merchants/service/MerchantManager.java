@@ -22,7 +22,7 @@ public class MerchantManager {
      return storeService.find(storeId);
     }
 
-    public POSSystemDTO findPOS(Long posId) {
+    public POSSystemDTO findPosSystem(Long posId) {
         return  posService.findPOS(posId);
     }
 

@@ -3,6 +3,7 @@ package za.co.serengti.customers.entity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -11,9 +12,9 @@ import javax.persistence.*;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @DiscriminatorColumn(name = "identifier_type", discriminatorType = DiscriminatorType.STRING)
-public  class Customer extends PanacheEntityBase {
-    public Customer() {}
+public class Customer extends PanacheEntityBase {
 
     public Customer(String name, String identifierType) {
         this.name = name;

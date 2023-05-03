@@ -2,7 +2,7 @@ package za.co.serengti.application;
 
 import lombok.Builder;
 import lombok.Data;
-import za.co.serengti.receipts.domain.ReceiptDetails;
+import za.co.serengti.receipts.dto.ReceiptDetails;
 
 
 @Data

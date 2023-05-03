@@ -1,6 +1,7 @@
 package za.co.serengti.customers.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -22,4 +23,6 @@ public class EmailCustomer extends Customer {
 
     @Column(name = "email_address")
     public String emailAddress;
+
+
 }

@@ -23,7 +23,8 @@ public class ReceiptService {
 
     @Transactional
     public Long save(ReceiptDTO receiptDTO) {
-        return receiptRepository.save(mapper.convert(receiptDTO, Receipt.class));
+        Receipt receipt = mapper.convert(receiptDTO, Receipt.class);
+        return receiptRepository.save(receipt);
     }
 
     public ReceiptDTO find(Long ID) {

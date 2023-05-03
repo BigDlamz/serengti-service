@@ -2,11 +2,13 @@ package za.co.serengti.merchants.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@Data
 @Table(name = "stores")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,13 +18,15 @@ public class Store extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
+    @Column(name = "vat_registration_number")
+    public String vatRegistrationNumber;
+
     @Column(name = "name")
     public String name;
 
     @Column(name = "address")
     public String address;
 
-    @Column(name = "vat_registration_number")
-    public String vatRegistrationNumber;
+
 
 }

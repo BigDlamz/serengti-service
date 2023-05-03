@@ -8,7 +8,7 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class LineItemsRepository implements PanacheRepository<LineItem> {
 
-    public LineItem merge(LineItem receipt) {
+    public LineItem save(LineItem receipt) {
         persistAndFlush(receipt);
         return receipt;
     }

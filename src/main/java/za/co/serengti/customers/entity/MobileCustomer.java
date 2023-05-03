@@ -21,4 +21,5 @@ public class MobileCustomer extends Customer {
 
     @Column(name = "mobile_number")
     public String mobileNumber;
+
 }
