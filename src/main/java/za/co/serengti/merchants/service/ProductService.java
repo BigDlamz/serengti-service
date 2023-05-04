@@ -35,10 +35,6 @@ public class ProductService {
         return mapper.convert(product, ProductDTO.class);
     }
 
-    public List<ProductDTO> findAll() {
-        return Collections.singletonList(mapper.convert(productRepository.listAll(), ProductDTO.class));
-    }
-
     @Transactional
     public Product save(Product product) {
         productRepository.persist(product);
@@ -62,11 +58,12 @@ public class ProductService {
                                 .sku(purchasedItem.getSku())
                                 .description("Description")
                                 .price(purchasedItem.getPrice())
-                                .quantity(purchasedItem.getQuantity())
+                                .quantity(null) //DROP the quantity column but keep the quantity field in the DTO and entity
                                 .build();
 
                         product = productRepository.save(prod);
                     }
+                    product.setQuantity(purchasedItem.getQuantity());
 
                     return mapper.convert(product, ProductDTO.class);
                 })

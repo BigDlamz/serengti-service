@@ -7,7 +7,6 @@ import za.co.serengti.merchants.dto.ProductDTO;
 import za.co.serengti.merchants.dto.StoreDTO;
 import za.co.serengti.merchants.service.MerchantManager;
 import za.co.serengti.merchants.service.ProductService;
-import za.co.serengti.receipts.dto.LineItemDTO;
 import za.co.serengti.receipts.dto.ReceiptDTO;
 import za.co.serengti.receipts.service.ReceiptService;
 
@@ -16,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 
 @Path("/receipts")
@@ -39,7 +39,7 @@ public class ReceiptResource {
     @POST
     public void save(SaveReceiptRequest request, @HeaderParam("X-POS-ID") Long posId, @HeaderParam("X-STORE-ID") String storeId) {
 
-        if(posId == null || storeId == null) {
+        if(Objects.isNull(posId) || Objects.isNull(storeId)) {
             throw new BadRequestException("Missing header");
         }
 
@@ -52,7 +52,7 @@ public class ReceiptResource {
                 .posSystem(pos)
                 .store(store)
                 .customer(customer)
-                .lineItems(receiptService.createLineItemsFromProducts(purchases))
+                .lineItems(receiptService.createLineItems(purchases))
                 .timestamp(LocalDateTime.now())
                 .build();
 

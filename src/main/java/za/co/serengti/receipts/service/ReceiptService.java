@@ -4,7 +4,6 @@ import za.co.serengti.merchants.dto.ProductDTO;
 import za.co.serengti.merchants.service.ProductService;
 import za.co.serengti.receipts.dto.LineItemDTO;
 import za.co.serengti.receipts.dto.ReceiptDTO;
-import za.co.serengti.receipts.entity.LineItem;
 import za.co.serengti.receipts.entity.Receipt;
 import za.co.serengti.receipts.repository.ReceiptRepository;
 import za.co.serengti.util.RecordMapper;
@@ -50,11 +49,11 @@ public class ReceiptService {
         return mapper.convert(receiptEntity, ReceiptDTO.class);
     }
 
-    public List<LineItemDTO> createLineItemsFromProducts(List<ProductDTO> products) {
+    public List<LineItemDTO> createLineItems(List<ProductDTO> products) {
         return products.stream().map(productDTO ->
                 LineItemDTO.builder()
                         .product(productDTO)
-                        .quantity(productDTO.getQuantity()) // Set default quantity to 1 or any desired value
+                        .quantity(productDTO.getQuantity())
                         .build()
         ).collect(Collectors.toList());
     }

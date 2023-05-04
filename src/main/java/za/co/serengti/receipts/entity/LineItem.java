@@ -27,5 +27,5 @@ public class LineItem extends PanacheEntityBase {
     @JoinColumn(name = "product_id")
     public Product product;
 
-
+    public Long quantity;
 }
