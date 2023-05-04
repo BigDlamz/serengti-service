@@ -45,6 +45,6 @@ public class Receipt extends PanacheEntityBase {
     public BigDecimal totalAmountPaid;
 
     @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL, orphanRemoval = true)
-    public List<LineItem> receiptItems;
+    public List<LineItem> lineItems;
 
 }

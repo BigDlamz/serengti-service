@@ -7,6 +7,7 @@ import za.co.serengti.merchants.dto.ProductDTO;
 import za.co.serengti.merchants.dto.StoreDTO;
 import za.co.serengti.merchants.service.MerchantManager;
 import za.co.serengti.merchants.service.ProductService;
+import za.co.serengti.receipts.dto.LineItemDTO;
 import za.co.serengti.receipts.dto.ReceiptDTO;
 import za.co.serengti.receipts.service.ReceiptService;
 
@@ -45,19 +46,18 @@ public class ReceiptResource {
         POSSystemDTO pos = merchantService.findPosSystem(posId);
         StoreDTO store = merchantService.findStore(Long.parseLong(storeId));
         CustomerDTO customer = customerService.findOrSaveCustomer(request.getCustomerIdentifier());
-        List<ProductDTO> lineItems = productService.findOrSavePurchasedProducts(request.getReceiptDetails().getPurchasedItems(),pos, store);
+        List<ProductDTO> purchases = productService.findOrSavePurchasedProducts(request.getPurchasedItems(),pos, store);
 
-        ReceiptDTO receiptDTO = ReceiptDTO.builder()
+        var receiptDTO = ReceiptDTO.builder()
                 .posSystem(pos)
                 .store(store)
                 .customer(customer)
-                .lineItems(lineItems)
+                .lineItems(receiptService.createLineItemsFromProducts(purchases))
                 .timestamp(LocalDateTime.now())
                 .build();
 
         receiptDTO.calculateTotalAmountPaid();
-
-       receiptService.save(receiptDTO);
+        receiptService.save(receiptDTO);
     }
 
     @GET

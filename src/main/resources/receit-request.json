@@ -1,18 +1,17 @@
 {
-  "customerIdentifier": "+27662012600",
-  "receiptDetails": {
-    "timestamp": "2022-05-01T15:30:50",
-    "lineItems": [
-      {
-        "sku": "SKU123",
-        "quantity": 1,
-        "price": 10.99
-      },
-      {
-        "sku": "SKU789",
-        "quantity": 1,
-        "price": 20.00
-      }
-    ]
-  }
+  "customerIdentifier": "+27662012388",
+  "timestamp": "2022-03-10T12:15:50",
+  "purchasedItems": [
+    {
+      "sku": "SKU123",
+      "price": 5.55,
+      "quantity": 1
+    },
+    {
+      "sku": "SKU789",
+      "price": 10.00,
+      "quantity": 1
+    }
+  ],
+  "totalAmountPaid": 15.55
 }

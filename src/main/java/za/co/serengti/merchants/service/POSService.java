@@ -20,7 +20,9 @@ public class POSService {
 
     public POSSystemDTO findPOS(Long posId) {
         POSSystem pos = posRepository.findById(posId);
-        return  mapper.convert(pos, POSSystemDTO.class);
+        if (pos == null) {
+            throw new IllegalStateException("This POS is not stored in our database: " + posId);
+        }
+        return mapper.convert(pos, POSSystemDTO.class);
     }
-
 }
