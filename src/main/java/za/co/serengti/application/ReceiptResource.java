@@ -43,13 +43,13 @@ public class ReceiptResource {
             throw new BadRequestException("Missing header");
         }
 
-        POSSystemDTO pos = merchantService.findPosSystem(posId);
+        POSSystemDTO posSystem = merchantService.findPosSystem(posId);
         StoreDTO store = merchantService.findStore(Long.parseLong(storeId));
         CustomerDTO customer = customerService.findOrSaveCustomer(request.getCustomerIdentifier());
-        List<ProductDTO> purchases = productService.findOrSavePurchasedProducts(request.getPurchasedItems(),pos, store);
+        List<ProductDTO> purchases = productService.findOrSavePurchasedProducts(request.getPurchasedItems(),posSystem, store);
 
         var receiptDTO = ReceiptDTO.builder()
-                .posSystem(pos)
+                .posSystem(posSystem)
                 .store(store)
                 .customer(customer)
                 .lineItems(receiptService.createLineItems(purchases))

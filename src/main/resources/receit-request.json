@@ -4,11 +4,13 @@
   "purchasedItems": [
     {
       "sku": "SKU123",
+      "description": "Description",
       "price": 5.55,
       "quantity": 1
     },
     {
       "sku": "SKU789",
+      "description": "Description",
       "price": 10.00,
       "quantity": 1
     }

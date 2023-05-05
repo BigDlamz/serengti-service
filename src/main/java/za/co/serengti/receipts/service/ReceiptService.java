@@ -1,10 +1,10 @@
 package za.co.serengti.receipts.service;
 
 import za.co.serengti.merchants.dto.ProductDTO;
-import za.co.serengti.merchants.service.ProductService;
 import za.co.serengti.receipts.dto.LineItemDTO;
 import za.co.serengti.receipts.dto.ReceiptDTO;
 import za.co.serengti.receipts.entity.Receipt;
+import za.co.serengti.receipts.repository.LineItemsRepository;
 import za.co.serengti.receipts.repository.ReceiptRepository;
 import za.co.serengti.util.RecordMapper;
 
@@ -17,15 +17,13 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 public class ReceiptService {
 
-    private final LineItemRepository lineItemRepository;
+    private final LineItemsRepository lineItemRepository;
     private final ReceiptRepository receiptRepository;
-    private final ProductService productService;
     private final RecordMapper mapper;
 
     @Inject
-    public ReceiptService(ReceiptRepository receiptRepository, ProductService productService, LineItemRepository lineItemRepository, RecordMapper converter) {
+    public ReceiptService(ReceiptRepository receiptRepository, LineItemsRepository lineItemRepository, RecordMapper converter) {
         this.receiptRepository = receiptRepository;
-        this.productService = productService;
         this.lineItemRepository = lineItemRepository;
         this.mapper = converter;
     }
@@ -50,10 +48,10 @@ public class ReceiptService {
     }
 
     public List<LineItemDTO> createLineItems(List<ProductDTO> products) {
-        return products.stream().map(productDTO ->
+        return products.stream().map(prod ->
                 LineItemDTO.builder()
-                        .product(productDTO)
-                        .quantity(productDTO.getQuantity())
+                        .product(prod)
+                        .quantity(prod.getQuantity())
                         .build()
         ).collect(Collectors.toList());
     }

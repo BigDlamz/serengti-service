@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import za.co.serengti.merchants.dto.POSSystemDTO;
+import za.co.serengti.merchants.dto.StoreDTO;
+import za.co.serengti.receipts.dto.PurchasedItem;
+import za.co.serengti.util.RecordMapper;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -38,11 +42,16 @@ public class Product extends PanacheEntityBase {
     @Column(name = "price")
     public BigDecimal price;
 
-    @Column(name = "quantity")
+    @Transient
     public Integer quantity;
 
-    public BigDecimal getTotalPrice(int quantity) {
-        return this.price.multiply(BigDecimal.valueOf(quantity));
+    public static Product of(RecordMapper mapper, POSSystemDTO posSystemDTO, StoreDTO storeDTO, PurchasedItem purchasedItem) {
+        return Product.builder()
+                .posSystem(mapper.convert(posSystemDTO, POSSystem.class))
+                .store(mapper.convert(storeDTO, Store.class))
+                .sku(purchasedItem.getSku())
+                .description(purchasedItem.getDescription())
+                .price(purchasedItem.getPrice())
+                .build();
     }
-
 }

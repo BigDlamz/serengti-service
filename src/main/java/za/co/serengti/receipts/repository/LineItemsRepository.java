@@ -8,8 +8,4 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class LineItemsRepository implements PanacheRepository<LineItem> {
 
-    public LineItem save(LineItem receipt) {
-        persistAndFlush(receipt);
-        return receipt;
-    }
 }
