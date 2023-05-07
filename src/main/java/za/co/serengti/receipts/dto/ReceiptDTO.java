@@ -1,5 +1,6 @@
 package za.co.serengti.receipts.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,13 +18,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReceiptDTO {
+    @JsonIgnore
     private Long id;
+    private LocalDateTime timestamp;
     private POSSystemDTO posSystem;
     private StoreDTO store;
-    private CustomerDTO customer; ;
-    private LocalDateTime timestamp;
-    private BigDecimal totalAmountPaid;
+    private CustomerDTO customer;
     private List<LineItemDTO> lineItems;
+    private BigDecimal totalAmountPaid;
 
     public void calculateTotalAmountPaid() {
         totalAmountPaid =  lineItems.stream()

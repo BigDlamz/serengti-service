@@ -1,7 +1,7 @@
 {
   "customerIdentifier": "+27662012388",
   "timestamp": "2022-03-10T12:15:50",
-  "purchasedItems": [
+  "lineItems": [
     {
       "sku": "SKU123",
       "description": "Description",

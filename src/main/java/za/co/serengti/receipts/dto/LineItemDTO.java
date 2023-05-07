@@ -1,5 +1,6 @@
 package za.co.serengti.receipts.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,7 @@ import za.co.serengti.merchants.dto.ProductDTO;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LineItemDTO {
+    @JsonIgnore
     private Long id;
     private ProductDTO product;
     private Integer quantity;

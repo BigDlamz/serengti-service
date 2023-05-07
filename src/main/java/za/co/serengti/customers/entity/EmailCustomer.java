@@ -1,28 +1,27 @@
 package za.co.serengti.customers.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @DiscriminatorValue("email_address")
 public class EmailCustomer extends Customer {
 
-    public EmailCustomer() {
-        super();
-    }
 
     public EmailCustomer(String name, String identifierType, String emailAddress) {
         super(name, identifierType);
-        this.emailAddress = emailAddress;
+        this.setEmailAddress(emailAddress);
     }
 
     @Column(name = "email_address")
-    public String emailAddress;
+    private String emailAddress;
 
 
 }

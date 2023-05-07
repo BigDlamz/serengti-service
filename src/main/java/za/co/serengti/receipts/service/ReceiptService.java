@@ -43,8 +43,8 @@ public class ReceiptService {
     }
 
     public ReceiptDTO find(Long ID) {
-        Receipt receiptEntity = receiptRepository.findById(ID);
-        return mapper.convert(receiptEntity, ReceiptDTO.class);
+        Receipt receipt = receiptRepository.findById(ID);
+        return mapper.convert(receipt, ReceiptDTO.class);
     }
 
     public List<LineItemDTO> createLineItems(List<ProductDTO> products) {

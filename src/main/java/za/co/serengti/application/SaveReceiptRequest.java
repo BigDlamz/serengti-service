@@ -12,6 +12,6 @@ import java.util.List;
 public class SaveReceiptRequest {
     private String customerIdentifier;
     private LocalDateTime timestamp;
-    private List<PurchasedItem> purchasedItems;
+    private List<PurchasedItem> lineItems;
     private BigDecimal totalAmountPaid;
 }

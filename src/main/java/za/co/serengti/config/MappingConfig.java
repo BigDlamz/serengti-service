@@ -3,8 +3,11 @@ package za.co.serengti.config;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import za.co.serengti.customers.dto.CustomerDTO;
+import za.co.serengti.customers.entity.Customer;
 import za.co.serengti.customers.entity.EmailCustomer;
 import za.co.serengti.customers.entity.MobileCustomer;
+import za.co.serengti.receipts.dto.ReceiptDTO;
+import za.co.serengti.receipts.entity.Receipt;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -19,6 +22,24 @@ public class MappingConfig {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
+        modelMapper.createTypeMap(Receipt.class, ReceiptDTO.class)
+                .addMapping(Receipt::getId, ReceiptDTO::setId)
+                .addMapping(Receipt::getTimestamp, ReceiptDTO::setTimestamp)
+                .addMapping(Receipt::getPosSystem, ReceiptDTO::setPosSystem)
+                .addMapping(Receipt::getStore, ReceiptDTO::setStore)
+                .addMapping(Receipt::getLineItems, ReceiptDTO::setLineItems)
+                .addMapping(Receipt::getTotalAmountPaid, ReceiptDTO::setTotalAmountPaid)
+                .addMappings(mapping -> mapping.using(ctx -> {
+                    Customer customer = (Customer) ctx.getSource();
+                    if (customer instanceof EmailCustomer) {
+                        return modelMapper.map(customer, CustomerDTO.class);
+                    } else if (customer instanceof MobileCustomer) {
+                        return modelMapper.map(customer, CustomerDTO.class);
+                    } else {
+                        return null;
+                    }
+                }).map(Receipt::getCustomer, ReceiptDTO::setCustomer));
+
         modelMapper.createTypeMap(EmailCustomer.class, CustomerDTO.class)
                 .addMapping(EmailCustomer::getId, CustomerDTO::setId)
                 .addMapping(EmailCustomer::getName, CustomerDTO::setName)
@@ -28,6 +49,7 @@ public class MappingConfig {
                 .addMapping(MobileCustomer::getId, CustomerDTO::setId)
                 .addMapping(MobileCustomer::getName, CustomerDTO::setName)
                 .addMapping(MobileCustomer::getMobileNumber, CustomerDTO::setMobileNumber);
+
 
         return modelMapper;
     }

@@ -1,25 +1,28 @@
 package za.co.serengti.customers.entity;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @DiscriminatorValue("mobile_number")
 public class MobileCustomer extends Customer {
-    public MobileCustomer() {
-        super();
-    }
 
     public MobileCustomer(String name, String identifierType, String mobileNumber) {
         super(name, identifierType);
-        this.mobileNumber = mobileNumber;
+        this.setMobileNumber(mobileNumber);
     }
 
     @Column(name = "mobile_number")
-    public String mobileNumber;
+    private String mobileNumber;
 
 }
