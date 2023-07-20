@@ -11,7 +11,10 @@ import java.util.List;
 @Builder
 public class SaveReceiptRequest {
     private String customerIdentifier;
-    private LocalDateTime timestamp;
+    private LocalDateTime transactionDate;
     private List<PurchasedItem> lineItems;
     private BigDecimal totalAmountPaid;
+    private TaxInvoice taxInvoice;
+    private Till till;
+    private Cashier cashier;
 }

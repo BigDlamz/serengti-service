@@ -27,6 +27,7 @@ public class Store extends PanacheEntityBase {
     @Column(name = "address")
     public String address;
 
-
+    @Column(name = "store_logo_url")
+    public String storeLogoURL;
 
 }

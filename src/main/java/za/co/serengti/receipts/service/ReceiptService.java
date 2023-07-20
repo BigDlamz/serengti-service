@@ -1,5 +1,6 @@
 package za.co.serengti.receipts.service;
 
+import lombok.extern.slf4j.Slf4j;
 import za.co.serengti.merchants.dto.ProductDTO;
 import za.co.serengti.receipts.dto.LineItemDTO;
 import za.co.serengti.receipts.dto.ReceiptDTO;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
+@Slf4j
 public class ReceiptService {
 
     private final LineItemsRepository lineItemRepository;
@@ -31,6 +33,8 @@ public class ReceiptService {
     @Transactional
     public Long save(ReceiptDTO receiptDTO) {
 
+        log.info("Saving receipt: {}", receiptDTO);
+
         Receipt receipt = mapper.convert(receiptDTO, Receipt.class);
         receiptRepository.save(receipt);
 
@@ -43,6 +47,9 @@ public class ReceiptService {
     }
 
     public ReceiptDTO find(Long ID) {
+
+        log.info("Finding receipt with ID: {}", ID);
+
         Receipt receipt = receiptRepository.findById(ID);
         return mapper.convert(receipt, ReceiptDTO.class);
     }

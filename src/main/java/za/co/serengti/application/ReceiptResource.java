@@ -45,19 +45,21 @@ public class ReceiptResource {
 
         POSSystemDTO posSystem = merchantService.findPosSystem(posId);
         StoreDTO store = merchantService.findStore(Long.parseLong(storeId));
+
         CustomerDTO customer = customerService.findOrSaveCustomer(request.getCustomerIdentifier());
+
         List<ProductDTO> purchases = productService.findOrSavePurchasedProducts(request.getLineItems(),posSystem, store);
 
-        var receiptDTO = ReceiptDTO.builder()
+        var receipt = ReceiptDTO.builder()
                 .posSystem(posSystem)
                 .store(store)
                 .customer(customer)
                 .lineItems(receiptService.createLineItems(purchases))
+                .totalAmountPaid(request.getTotalAmountPaid())
                 .timestamp(LocalDateTime.now())
                 .build();
 
-        receiptDTO.calculateTotalAmountPaid();
-        receiptService.save(receiptDTO);
+        receiptService.save(receipt);
     }
 
     @GET
