@@ -2,7 +2,8 @@ package za.co.serengti.application;
 
 import lombok.Builder;
 import lombok.Data;
-import za.co.serengti.receipts.dto.PurchasedItem;
+import za.co.serengti.receipts.dto.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,4 +18,5 @@ public class SaveReceiptRequest {
     private TaxInvoice taxInvoice;
     private Till till;
     private Cashier cashier;
+    private Marketing marketing;
 }

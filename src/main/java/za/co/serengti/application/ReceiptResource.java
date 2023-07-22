@@ -8,6 +8,7 @@ import za.co.serengti.merchants.dto.StoreDTO;
 import za.co.serengti.merchants.service.MerchantManager;
 import za.co.serengti.merchants.service.ProductService;
 import za.co.serengti.receipts.dto.ReceiptDTO;
+import za.co.serengti.receipts.entity.Receipt;
 import za.co.serengti.receipts.service.ReceiptService;
 
 import javax.ws.rs.*;
@@ -64,7 +65,7 @@ public class ReceiptResource {
 
     @GET
     @Path("/{id}")
-    public Response findReceipt(@PathParam("id") Long customerID) {
-        return Response.ok(receiptService.find(customerID)).build();
+    public ReceiptDTO findReceipt(@PathParam("id") Long customerID) {
+        return receiptService.find(customerID);
     }
 }

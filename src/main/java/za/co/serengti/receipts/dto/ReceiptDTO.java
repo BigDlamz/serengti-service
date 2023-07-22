@@ -26,13 +26,11 @@ public class ReceiptDTO {
     private CustomerDTO customer;
     private List<LineItemDTO> lineItems;
     private BigDecimal totalAmountPaid;
+    private Till till;
+    private Cashier cashier;
+    private TaxInvoice taxInvoice;
+    private Marketing marketing;
 
-    public void calculateTotalAmountPaid() {
-        totalAmountPaid =  lineItems.stream()
-                .map(lineItem -> lineItem.getProduct().getPrice()
-                        .multiply(BigDecimal.valueOf(lineItem.getQuantity())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-    }
 }
 
