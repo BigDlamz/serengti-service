@@ -7,13 +7,13 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 @ApplicationScoped
-public class MerchantManager {
+public class MerchantService {
 
     private final POSService posService;
     private final StoreService storeService;
 
     @Inject
-    public MerchantManager(POSService posService, StoreService storeService) {
+    public MerchantService(POSService posService, StoreService storeService) {
         this.posService = posService;
         this.storeService = storeService;
     }

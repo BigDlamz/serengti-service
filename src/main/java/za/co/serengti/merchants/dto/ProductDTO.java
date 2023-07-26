@@ -15,8 +15,11 @@ import java.math.BigDecimal;
 public class ProductDTO {
     @JsonIgnore
     private Long id;
+    private String name;
     private String description;
-    private String sku;
+    private String EAN13;
+    private String universalProductCode;
+    private String SKU;
     private BigDecimal price;
     @JsonIgnore
     private Integer quantity;
