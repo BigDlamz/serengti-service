@@ -101,7 +101,8 @@ CREATE TABLE receipts
     cashier_id       BIGINT,
     promotional_message_id BIGINT,
     timestamp         TIMESTAMP NOT NULL,
-    total_amount_paid NUMERIC(19, 2),
+    amount_before_tax NUMERIC(19, 2),
+    amount_after_tax  NUMERIC(19, 2),
     PRIMARY KEY (receipt_id),
     CONSTRAINT fk_receipt_store FOREIGN KEY (store_id) REFERENCES stores (store_id),
     CONSTRAINT fk_receipt_pos_system FOREIGN KEY (pos_system_id) REFERENCES pos_systems (pos_system_id),
@@ -121,7 +122,6 @@ CREATE TABLE line_items
     CONSTRAINT fk_receipt_item_receipt FOREIGN KEY (receipt_id) REFERENCES receipts (receipt_id),
     CONSTRAINT fk_receipt_item_product FOREIGN KEY (product_id) REFERENCES products (product_id)
 );
-
 
 
 --Sample Data--

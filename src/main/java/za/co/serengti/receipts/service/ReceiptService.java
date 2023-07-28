@@ -38,7 +38,7 @@ public class ReceiptService {
         Receipt receipt = mapper.convert(receiptDTO, Receipt.class);
         receiptRepository.save(receipt);
 
-        receipt.getLineItems().
+        receipt.getPurchasedItems().
                 forEach(lineItem -> {
             lineItem.setReceipt(receipt);
             lineItemRepository.persist(lineItem);

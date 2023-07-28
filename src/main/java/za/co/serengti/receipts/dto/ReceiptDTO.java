@@ -24,8 +24,9 @@ public class ReceiptDTO {
     private POSSystemDTO posSystem;
     private StoreDTO store;
     private CustomerDTO customer;
-    private List<LineItemDTO> lineItems;
-    private BigDecimal totalAmountPaid;
+    private List<LineItemDTO> purchasedItems;
+    private BigDecimal amountBeforeTax;
+    private BigDecimal amountAfterTax;
     private TillDTO till;
     private CashierDTO cashier;
     private TaxInvoiceDTO taxInvoice;

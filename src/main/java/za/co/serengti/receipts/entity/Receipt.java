@@ -37,10 +37,13 @@ public class Receipt extends PanacheEntityBase {
     @Column(name = "timestamp")
     public LocalDateTime timestamp;
 
-    @Column(name = "total_amount_paid")
-    public BigDecimal totalAmountPaid;
+    @Column(name = "amount_before_tax")
+    public BigDecimal amountBeforeTax;
+
+    @Column(name = "amount_after_tax")
+    public BigDecimal amountAfterTax;
 
     @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL, orphanRemoval = true)
-    public List<LineItem> lineItems;
+    public List<LineItem> purchasedItems;
 
 }
