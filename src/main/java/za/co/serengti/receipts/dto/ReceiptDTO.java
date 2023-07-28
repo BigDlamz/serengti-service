@@ -26,11 +26,10 @@ public class ReceiptDTO {
     private CustomerDTO customer;
     private List<LineItemDTO> lineItems;
     private BigDecimal totalAmountPaid;
-    private Till till;
-    private Cashier cashier;
-    private TaxInvoice taxInvoice;
-    private Marketing marketing;
-
+    private TillDTO till;
+    private CashierDTO cashier;
+    private TaxInvoiceDTO taxInvoice;
+    private PromotionsDTO promotions;
 
 }
 

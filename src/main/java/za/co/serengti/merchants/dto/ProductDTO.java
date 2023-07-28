@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -17,10 +15,8 @@ public class ProductDTO {
     private Long id;
     private String name;
     private String description;
-    private String EAN13;
+    private String ean13Code;
     private String universalProductCode;
-    private String SKU;
-    private BigDecimal price;
-    @JsonIgnore
-    private Integer quantity;
+    private String sku;
+
 }

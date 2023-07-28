@@ -1,5 +1,5 @@
 package za.co.serengti.receipts.dto;
 
-public class Cashier {
+public class CashierDTO {
     private String name;
 }

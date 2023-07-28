@@ -1,10 +1,7 @@
 package za.co.serengti.receipts.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import za.co.serengti.customers.entity.Customer;
 import za.co.serengti.merchants.entity.POSSystem;
 import za.co.serengti.merchants.entity.Store;
@@ -16,10 +13,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "receipts")
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class Receipt extends PanacheEntityBase {
 
     @Id

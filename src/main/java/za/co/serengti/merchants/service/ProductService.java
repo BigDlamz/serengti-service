@@ -5,7 +5,7 @@ import za.co.serengti.merchants.dto.ProductDTO;
 import za.co.serengti.merchants.dto.StoreDTO;
 import za.co.serengti.merchants.entity.Product;
 import za.co.serengti.merchants.repository.ProductRepository;
-import za.co.serengti.receipts.dto.PurchasedItem;
+import za.co.serengti.receipts.dto.PurchasedItemDTO;
 import za.co.serengti.util.RecordMapper;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -37,7 +37,7 @@ public class ProductService {
     }
 
     @Transactional
-    public List<ProductDTO> findOrSavePurchasedProducts(List<PurchasedItem> purchasedItems, POSSystemDTO posSystem, StoreDTO store) {
+    public List<ProductDTO> findOrSaveProducts(List<PurchasedItemDTO> purchasedItems, POSSystemDTO posSystem, StoreDTO store) {
         return purchasedItems
                 .stream()
                 .map(purchasedItem -> {
@@ -46,10 +46,9 @@ public class ProductService {
                     if (optional.isPresent()) {
                         product = optional.get();
                     } else {
-                        Product prod = Product.of(mapper,posSystem, store, purchasedItem);
+                        Product prod = null;
                         product = productRepository.save(prod);
                     }
-                    product.setQuantity(purchasedItem.getQuantity());
                     return mapper.convert(product, ProductDTO.class);
                 })
                 .collect(Collectors.toList());

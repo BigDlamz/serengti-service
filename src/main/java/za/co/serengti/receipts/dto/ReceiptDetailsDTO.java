@@ -12,8 +12,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReceiptDetails {
+public class ReceiptDetailsDTO {
 
     private LocalDateTime timestamp;
-    private List<PurchasedItem> purchasedItems;
+    private List<PurchasedItemDTO> purchasedItems;
 }

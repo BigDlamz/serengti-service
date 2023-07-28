@@ -1,5 +1,5 @@
 package za.co.serengti.receipts.dto;
 
-public class Marketing {
+public class PromotionsDTO {
     private String message;
 }

@@ -58,7 +58,7 @@ public class ReceiptService {
         return products.stream().map(prod ->
                 LineItemDTO.builder()
                         .product(prod)
-                        .quantity(prod.getQuantity())
+                        .quantity(null)
                         .build()
         ).collect(Collectors.toList());
     }

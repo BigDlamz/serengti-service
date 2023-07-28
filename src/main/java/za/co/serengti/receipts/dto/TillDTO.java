@@ -1,5 +1,5 @@
 package za.co.serengti.receipts.dto;
 
-public class Till {
+public class TillDTO {
     private short number;
 }

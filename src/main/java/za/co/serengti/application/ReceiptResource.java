@@ -35,7 +35,7 @@ public class ReceiptResource {
     }
 
     @POST
-    public void save(SaveReceiptRequest request, @HeaderParam("X-POS-ID") Long posId, @HeaderParam("X-STORE-ID") String storeId) {
+    public void save(SaveReceiptRequestDTO request, @HeaderParam("POS-ID") Long posId, @HeaderParam("STORE-ID") String storeId) {
 
         if(Objects.isNull(posId) || Objects.isNull(storeId)) {
             throw new BadRequestException("Missing header");
@@ -46,7 +46,7 @@ public class ReceiptResource {
 
         CustomerDTO customer = customerService.findOrSaveCustomer(request.getCustomerIdentifier());
 
-        List<ProductDTO> purchases = productService.findOrSavePurchasedProducts(request.getLineItems(),posSystem, store);
+        List<ProductDTO> purchases = productService.findOrSaveProducts(request.getLineItems(),posSystem, store);
 
         var receipt = ReceiptDTO.builder()
                 .posSystem(posSystem)
@@ -55,6 +55,9 @@ public class ReceiptResource {
                 .lineItems(receiptService.createLineItems(purchases))
                 .totalAmountPaid(request.getTotalAmountPaid())
                 .timestamp(LocalDateTime.now())
+                .till(request.getTill())
+                .cashier(request.getCashier())
+                .promotions(request.getPromotions())
                 .build();
 
         receiptService.save(receipt);
