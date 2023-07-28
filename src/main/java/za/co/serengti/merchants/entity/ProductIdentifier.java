@@ -6,7 +6,7 @@ public class ProductIdentifier {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long product_identifier_id;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)

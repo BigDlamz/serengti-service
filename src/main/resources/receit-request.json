@@ -1,19 +1,31 @@
 {
-  "customerIdentifier": "+27662012388",
-  "timestamp": "2022-03-10T12:15:50",
-  "lineItems": [
+  "taxInvoice": {
+    "serialNumber": "string",
+    "vat": {
+      "current_rate": 0
+    }
+  },
+  "customerIdentifier": "string",
+  "transactionDate": "2022-03-10T12:15:50",
+  "till": {
+    "number": 0
+  },
+  "cashier": {
+    "name": "string"
+  },
+  "promotions": {
+    "message": "string"
+  },
+  "purchasedItems": [
     {
-      "sku": "SKU123",
-      "description": "Description",
-      "price": 5.55,
-      "quantity": 1
-    },
-    {
-      "sku": "SKU789",
-      "description": "Description",
-      "price": 10.00,
-      "quantity": 1
+      "sku": "string",
+      "ean13Code": "string",
+      "universalProductCode": "string",
+      "name": "string",
+      "description": "string",
+      "price": 0,
+      "quantity": 0
     }
   ],
-  "totalAmountPaid": 15.55
+  "totalAmountPaid": 0
 }

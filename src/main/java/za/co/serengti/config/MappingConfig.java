@@ -23,7 +23,7 @@ public class MappingConfig {
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
         modelMapper.createTypeMap(Receipt.class, ReceiptDTO.class)
-                .addMapping(Receipt::getId, ReceiptDTO::setId)
+                .addMapping(Receipt::getReceipt_id, ReceiptDTO::setId)
                 .addMapping(Receipt::getTimestamp, ReceiptDTO::setTimestamp)
                 .addMapping(Receipt::getPosSystem, ReceiptDTO::setPosSystem)
                 .addMapping(Receipt::getStore, ReceiptDTO::setStore)
@@ -41,12 +41,12 @@ public class MappingConfig {
                 }).map(Receipt::getCustomer, ReceiptDTO::setCustomer));
 
         modelMapper.createTypeMap(EmailCustomer.class, CustomerDTO.class)
-                .addMapping(EmailCustomer::getId, CustomerDTO::setId)
+                .addMapping(EmailCustomer::getCustomer_id, CustomerDTO::setId)
                 .addMapping(EmailCustomer::getName, CustomerDTO::setName)
                 .addMapping(EmailCustomer::getEmailAddress, CustomerDTO::setEmailAddress);
 
         modelMapper.createTypeMap(MobileCustomer.class, CustomerDTO.class)
-                .addMapping(MobileCustomer::getId, CustomerDTO::setId)
+                .addMapping(MobileCustomer::getCustomer_id, CustomerDTO::setId)
                 .addMapping(MobileCustomer::getName, CustomerDTO::setName)
                 .addMapping(MobileCustomer::getMobileNumber, CustomerDTO::setMobileNumber);
 

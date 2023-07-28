@@ -18,12 +18,12 @@ public class POSSystem extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    public Long pos_system_id;
 
     @Column(name = "name")
     public String name;
 
-    @Column(name = "vendor")
-    public String vendor;
+    @Column(name = "version")
+    public String version;
 
 }

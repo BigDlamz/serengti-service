@@ -1,9 +1,14 @@
 package za.co.serengti.receipts.dto;
 
-import java.math.BigDecimal;
+import lombok.Data;
 
+@Data
 public class VatDTO {
     private static final Float RATE = 15.00f;
-    private BigDecimal tax;
+    private Float current_rate;
+
+    public VatDTO() {
+        current_rate = RATE;
+    }
 
 }

@@ -17,7 +17,7 @@ public class LineItem extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    public Long line_item_id;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "receipt_id")

@@ -46,7 +46,7 @@ public class ReceiptResource {
 
         CustomerDTO customer = customerService.findOrSaveCustomer(request.getCustomerIdentifier());
 
-        List<ProductDTO> purchases = productService.findOrSaveProducts(request.getLineItems(),posSystem, store);
+        List<ProductDTO> purchases = productService.findOrSaveProducts(request.getPurchasedItems(),posSystem, store);
 
         var receipt = ReceiptDTO.builder()
                 .posSystem(posSystem)

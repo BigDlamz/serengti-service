@@ -17,6 +17,6 @@ public class PurchasedItemDTO {
     String universalProductCode;
     String name;
     String description;
-    BigDecimal itemPricePaid;
+    BigDecimal price;
     Integer quantity;
 }

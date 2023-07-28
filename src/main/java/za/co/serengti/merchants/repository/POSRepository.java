@@ -10,6 +10,6 @@ public class POSRepository implements PanacheRepository<POSSystem> {
 
     public Long save(POSSystem posSystem) {
         persistAndFlush(posSystem);
-        return posSystem.id;
+        return posSystem.pos_system_id;
     }
 }

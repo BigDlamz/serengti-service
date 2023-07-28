@@ -16,5 +16,4 @@ public class StoreDTO {
     private String name;
     private String address;
     private String vatRegistrationNumber;
-    private String storeLogoURL;
 }

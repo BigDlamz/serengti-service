@@ -11,12 +11,12 @@ import java.util.List;
 @Data
 @Builder
 public class SaveReceiptRequestDTO {
+    private TaxInvoiceDTO taxInvoice;
     private String customerIdentifier;
     private LocalDateTime transactionDate;
-    private List<PurchasedItemDTO> lineItems;
-    private BigDecimal totalAmountPaid;
-    private TaxInvoiceDTO taxInvoice;
     private TillDTO till;
     private CashierDTO cashier;
     private PromotionsDTO promotions;
+    private List<PurchasedItemDTO> purchasedItems;
+    private BigDecimal totalAmountPaid;
 }

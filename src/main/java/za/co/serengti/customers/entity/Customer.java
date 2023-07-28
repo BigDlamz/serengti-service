@@ -23,7 +23,7 @@ public class Customer extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+    protected Long customer_id;
 
     @Column(name = "name")
     protected String name;
