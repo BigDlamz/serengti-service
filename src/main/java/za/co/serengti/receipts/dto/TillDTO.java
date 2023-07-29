@@ -1,5 +1,6 @@
 package za.co.serengti.receipts.dto;
 
 public class TillDTO {
-    private short number;
+    private Long tillID;
+    private short tillNo;
 }

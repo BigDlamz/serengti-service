@@ -20,7 +20,8 @@ public class Receipt extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long receipt_id;
+    @Column(name = "receipt_id")
+    public Long receiptID;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "store_id")
@@ -33,6 +34,18 @@ public class Receipt extends PanacheEntityBase {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "customer_id")
     public Customer customer;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "tillID")
+    public Till till;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "cachierID")
+    public Cashier cashier;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "promotional_message_id")
+    public Promotion promotion;
 
     @Column(name = "timestamp")
     public LocalDateTime timestamp;

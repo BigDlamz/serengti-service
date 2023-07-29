@@ -17,7 +17,8 @@ import javax.persistence.*;
 public class Product extends PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long product_id;
+    @Column(name = "product_id")
+    public Long productID;
 
     @Column(name = "name", nullable = false)
     private String name;

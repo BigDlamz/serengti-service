@@ -34,8 +34,8 @@ public class ReceiptService {
     public Long save(ReceiptDTO receiptDTO) {
 
         log.info("Saving receipt: {}", receiptDTO);
-
         Receipt receipt = mapper.convert(receiptDTO, Receipt.class);
+
         receiptRepository.save(receipt);
 
         receipt.getPurchasedItems().
@@ -43,13 +43,12 @@ public class ReceiptService {
             lineItem.setReceipt(receipt);
             lineItemRepository.persist(lineItem);
         });
+
         return receiptRepository.save(receipt);
     }
 
     public ReceiptDTO find(Long ID) {
-
         log.info("Finding receipt with ID: {}", ID);
-
         Receipt receipt = receiptRepository.findById(ID);
         return mapper.convert(receipt, ReceiptDTO.class);
     }

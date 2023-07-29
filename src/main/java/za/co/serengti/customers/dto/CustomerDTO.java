@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CustomerDTO {
     @JsonIgnore
-    private Long id;
+    private Long customerID;
     private String name;
     private String emailAddress;
     private String mobileNumber;

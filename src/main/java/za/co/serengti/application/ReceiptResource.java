@@ -8,7 +8,6 @@ import za.co.serengti.merchants.dto.StoreDTO;
 import za.co.serengti.merchants.service.MerchantService;
 import za.co.serengti.merchants.service.ProductService;
 import za.co.serengti.receipts.dto.ReceiptDTO;
-import za.co.serengti.receipts.entity.Receipt;
 import za.co.serengti.receipts.service.ReceiptService;
 
 import javax.ws.rs.*;

@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ReceiptDTO {
     @JsonIgnore
-    private Long id;
+    private Long receiptID;
     private LocalDateTime timestamp;
     private POSSystemDTO posSystem;
     private StoreDTO store;

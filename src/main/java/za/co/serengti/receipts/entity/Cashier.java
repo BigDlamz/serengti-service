@@ -14,7 +14,8 @@ import javax.persistence.*;
 public class Cashier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cashier_id;
+    @Column(name = "cashier_id")
+    private Long cashierID;
 
     @Column(name = "name")
     private String name;

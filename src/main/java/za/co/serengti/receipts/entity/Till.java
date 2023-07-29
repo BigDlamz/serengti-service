@@ -17,7 +17,8 @@ import javax.persistence.*;
 public class Till {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long till_id;
+    @Column(name = "till_id")
+    private Long tillID;
 
     @ManyToOne
     @JoinColumn(name = "store_id", nullable = false)

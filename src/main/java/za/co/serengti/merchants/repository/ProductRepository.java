@@ -10,7 +10,7 @@ import java.util.Optional;
 public class ProductRepository implements PanacheRepository<Product> {
 
     public Optional<Product> findBySku(Long posSystemID, Long storeId, String sku) {
-        return Optional.ofNullable(find("pos_system_id = ?1 and store_id = ?2 and sku = ?3", posSystemID, storeId, sku).firstResult());
+        return Optional.ofNullable(find("pos_system_id = ?0 and store_id = ?1 and sku = ?2", posSystemID, storeId, sku).firstResult());
     }
 
     public Product save(Product product) {

@@ -10,6 +10,6 @@ public class ReceiptRepository implements PanacheRepository<Receipt> {
 
     public Long save(Receipt receipt) {
         persistAndFlush(receipt);
-        return receipt.getReceipt_id();
+        return receipt.getReceiptID();
     }
 }

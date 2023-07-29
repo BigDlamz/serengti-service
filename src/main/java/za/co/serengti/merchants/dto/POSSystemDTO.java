@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class POSSystemDTO {
     @JsonIgnore
-    private Long id;
+    private Long posSystemID;
     private String name;
-    private String vendor;
+    private String version;
 }

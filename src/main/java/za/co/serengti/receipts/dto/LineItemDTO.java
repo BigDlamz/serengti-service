@@ -13,7 +13,7 @@ import za.co.serengti.merchants.dto.ProductDTO;
 @NoArgsConstructor
 public class LineItemDTO {
     @JsonIgnore
-    private Long id;
+    private Long lineItemID;
     private ProductDTO product;
     private Integer quantity;
 }
