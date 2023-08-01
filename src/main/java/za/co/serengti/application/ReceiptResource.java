@@ -8,6 +8,7 @@ import za.co.serengti.merchants.dto.StoreDTO;
 import za.co.serengti.merchants.service.MerchantService;
 import za.co.serengti.merchants.service.ProductService;
 import za.co.serengti.receipts.dto.ReceiptDTO;
+import za.co.serengti.receipts.entity.Till;
 import za.co.serengti.receipts.service.ReceiptService;
 
 import javax.ws.rs.*;
@@ -48,15 +49,18 @@ public class ReceiptResource {
 
         List<ProductDTO> purchases = productService.findOrSaveProducts(request.getPurchasedItems(),posSystem, store);
 
+
         var receipt = ReceiptDTO.builder()
                 .posSystem(posSystem)
                 .store(store)
                 .customer(customer)
                 .purchasedItems(receiptService.createLineItems(purchases))
-                .timestamp(LocalDateTime.now())
+                .timestamp(request.getTransactionDate())
                 .till(request.getTill())
                 .cashier(request.getCashier())
                 .promotions(request.getPromotions())
+                .amountBeforeTax(request.getTaxInvoice().getAmountBeforeTax())
+                .amountAfterTax(request.getTaxInvoice().getAmountAfterTax())
                 .build();
 
         receiptService.save(receipt);

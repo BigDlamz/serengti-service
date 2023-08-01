@@ -43,30 +43,33 @@ public class ProductService {
     }
 
     @Transactional
-    public List<ProductDTO> findOrSaveProducts(List<PurchasedItemDTO> purchasedItems, POSSystemDTO posSystem, StoreDTO store) {
-        return purchasedItems
+    public List<ProductDTO> findOrSaveProducts(List<PurchasedItemDTO> purchases, POSSystemDTO posSystem, StoreDTO store) {
+        return purchases
                 .stream()
                 .map(purchasedItem -> {
-                    Optional<ProductIdentifier> optionalIdentifier = Optional.ofNullable(productIdentifierRepository.findBySkuAndStoreIdAndPosSystemId(purchasedItem.getSku(), mapper.convert(store,Store.class), mapper.convert(posSystem, POSSystem.class)));
+
+                    Optional<ProductIdentifier> identifier = Optional.ofNullable(productIdentifierRepository.findBySkuAndStoreIdAndPosSystemId(purchasedItem.getSku(), mapper.convert(store,Store.class), mapper.convert(posSystem, POSSystem.class)));
                     Product product;
-                    if (optionalIdentifier.isPresent()) {
-                        product = optionalIdentifier.get().getProduct();
+
+                    if (identifier.isPresent()) {
+
+                        product = identifier.get().getProduct();
                     } else {
+
                         Product prod = Product.builder()
-                                .name(purchasedItem.getName()) // Assuming you have getName in PurchasedItemDTO
-                                .description(purchasedItem.getDescription()) // Assuming you have getDescription in PurchasedItemDTO
+                                .name(purchasedItem.getName())
+                                .description(purchasedItem.getDescription())
                                 .build();
 
                         product = productRepository.save(prod);
 
-                        ProductIdentifier identifier = ProductIdentifier.builder()
+                        ProductIdentifier id = ProductIdentifier.builder()
                                 .product(product)
                                 .store(mapper.convert(store, Store.class))
                                 .posSystem(mapper.convert(posSystem, POSSystem.class))
                                 .sku(purchasedItem.getSku())
                                 .build();
-                        // set ean13Code and universalProductCode if they are available in PurchasedItemDTO
-                        productIdentifierRepository.persist(identifier);
+                        productIdentifierRepository.persist(id);
                     }
                     return mapper.convert(product, ProductDTO.class);
                 })

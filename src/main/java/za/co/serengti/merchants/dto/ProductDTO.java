@@ -18,5 +18,7 @@ public class ProductDTO {
     private String ean13Code;
     private String universalProductCode;
     private String sku;
+    private int quantity;
+
 
 }

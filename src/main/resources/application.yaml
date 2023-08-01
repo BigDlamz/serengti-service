@@ -1,18 +1,17 @@
 quarkus:
   datasource:
     db-kind: postgresql
-    username: philanidlamini
-    password: password123
+    username: postgres
+    password:
     jdbc:
-      url: jdbc:postgresql://localhost:5432/philanidlamini
+      url: jdbc:postgresql://localhost:5432/postgres
   hibernate-orm:
-    generate-ddl: false
+    database:
+      generation: update
+      default-schema: public
+    log:
+      sql: true
     packages:
       - za.co.serengti.receipts.entity
       - za.co.serengti.customers.entity
       - za.co.serengti.merchants.entity
-    log:
-      sql: true
-
-
-

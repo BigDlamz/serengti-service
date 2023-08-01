@@ -45,7 +45,7 @@ public class Receipt extends PanacheEntityBase {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "promotional_message_id")
-    public Promotion promotion;
+    public Promotions promotions;
 
     @Column(name = "timestamp")
     public LocalDateTime timestamp;

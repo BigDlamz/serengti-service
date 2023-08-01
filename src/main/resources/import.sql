@@ -162,9 +162,9 @@ VALUES (1, 1, 1, 'SKU123', null, null),
        (2, 2, 2, null, '1234567890123', null),
        (3, 2, 2, null, null, '34567890123');
 
-INSERT INTO receipts (store_id, pos_system_id, customer_id, till_id, cashier_id, promotional_message_id, timestamp, total_amount_paid)
-VALUES (1, 1, 1, 1, 1, 1, '2023-05-01 10:30:00', 29.97),
-       (2, 2, 2, 2, 2, 2, '2023-05-02 15:45:00', 59.98);
+INSERT INTO receipts (store_id, pos_system_id, customer_id, till_id, cashier_id, promotional_message_id, timestamp, amount_before_tax, amount_after_tax)
+VALUES (1, 1, 1, 1, 1, 1, '2023-05-01 10:30:00', 10.00, 15.00),
+       (2, 2, 2, 2, 2, 2, '2023-05-02 15:45:00', 30.00, 45.00);
 
 INSERT INTO line_items (receipt_id, product_id, quantity)
 VALUES (1, 1, 3),
