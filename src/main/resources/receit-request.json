@@ -1,31 +1,31 @@
 {
-  "taxInvoice": {
-    "serialNumber": "string",
-    "vat": {
-      "current_rate": 0
-    }
-  },
-  "customerIdentifier": "string",
-  "transactionDate": "2022-03-10T12:15:50",
+  "customerIdentifier": "Philani.dlamini@gmail.com",
+  "transactionDate": "2023-07-31T15:40:50",
   "till": {
-    "number": 0
+    "tillNumber": 5
   },
   "cashier": {
-    "name": "string"
+    "name": "Thembi",
+    "surname": "Dhlomo"
   },
   "promotions": {
-    "message": "string"
+    "name": "Black Friday",
+    "description": "get 40% off selected items"
   },
   "purchasedItems": [
     {
-      "sku": "string",
+      "sku": "sku878356",
       "ean13Code": "string",
       "universalProductCode": "string",
-      "name": "string",
-      "description": "string",
-      "price": 0,
-      "quantity": 0
+      "name": "Apples",
+      "description": "Red",
+      "price": 10.00,
+      "quantity": 15.00
     }
   ],
-  "totalAmountPaid": 0
+  "taxInvoice": {
+    "serialNumber": "12344577888",
+    "amountBeforeTax": 10,
+    "amountAfterTax": 15.00
+  }
 }

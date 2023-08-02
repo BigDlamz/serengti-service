@@ -15,3 +15,7 @@ quarkus:
       - za.co.serengti.receipts.entity
       - za.co.serengti.customers.entity
       - za.co.serengti.merchants.entity
+      - za.co.serengti.products.entity
+        za.co.serengti.receipts.entity
+        za.co.serengti.merchants.entity;
+

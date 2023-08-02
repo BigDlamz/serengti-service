@@ -1,6 +1,5 @@
 package za.co.serengti.merchants.service;
 
-import za.co.serengti.merchants.dto.StoreDTO;
 import za.co.serengti.merchants.entity.Store;
 import za.co.serengti.merchants.repository.StoreRepository;
 import za.co.serengti.util.RecordMapper;
@@ -20,9 +19,8 @@ public class StoreService {
         this.mapper = mapper;
     }
 
-    public StoreDTO find(Long storeId) {
-        Store store = storeRepository.findById(storeId);
-        return mapper.convert(store, StoreDTO.class);
+    public Store find(Long storeId) {
+        return storeRepository.findById(storeId);
     }
 
 }

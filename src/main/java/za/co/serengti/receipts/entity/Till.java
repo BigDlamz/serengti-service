@@ -2,6 +2,7 @@ package za.co.serengti.receipts.entity;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import za.co.serengti.merchants.entity.POSSystem;
@@ -10,10 +11,11 @@ import za.co.serengti.merchants.entity.Store;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Tills")
+@Table(name = "tills")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class Till {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

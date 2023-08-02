@@ -26,7 +26,7 @@ public class CustomerService {
     }
 
     @Transactional
-    public CustomerDTO findOrSaveCustomer(String identifier) {
+    public Customer findOrSaveCustomer(String identifier) {
         Identification.Type type = customerIdentifier.determineIdentifierType(identifier);
         Customer customer = null;
         if (type == Identification.Type.EMAIL) {
@@ -36,6 +36,6 @@ public class CustomerService {
             customer = customerRepo.findByMobileNumber(identifier)
                     .orElseGet(() -> customerRepo.save(new MobileCustomer("Philani", type.name(), identifier)));
         }
-        return recordMapper.convert(customer, CustomerDTO.class);
+        return customer;
     }
 }

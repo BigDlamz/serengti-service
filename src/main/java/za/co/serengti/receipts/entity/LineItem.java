@@ -2,6 +2,7 @@ package za.co.serengti.receipts.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import za.co.serengti.merchants.entity.Product;
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @Table(name = "line_items")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Data
 public class LineItem extends PanacheEntityBase {
 
@@ -28,5 +30,5 @@ public class LineItem extends PanacheEntityBase {
     @JoinColumn(name = "product_id")
     public Product product;
 
-    public Long quantity;
+    public Integer quantity;
 }

@@ -2,6 +2,8 @@ package za.co.serengti.merchants.service;
 
 import za.co.serengti.merchants.dto.POSSystemDTO;
 import za.co.serengti.merchants.dto.StoreDTO;
+import za.co.serengti.merchants.entity.POSSystem;
+import za.co.serengti.merchants.entity.Store;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -18,11 +20,11 @@ public class MerchantService {
         this.storeService = storeService;
     }
 
-    public StoreDTO findStore(Long storeId) {
+    public Store findStore(Long storeId) {
      return storeService.find(storeId);
     }
 
-    public POSSystemDTO findPosSystem(Long posId) {
+    public POSSystem findPosSystem(Long posId) {
         return  posService.findPOS(posId);
     }
 

@@ -1,22 +1,17 @@
 package za.co.serengti.merchants.service;
 
-import za.co.serengti.merchants.dto.POSSystemDTO;
 import za.co.serengti.merchants.dto.ProductDTO;
-import za.co.serengti.merchants.dto.StoreDTO;
 import za.co.serengti.merchants.entity.POSSystem;
 import za.co.serengti.merchants.entity.Product;
 import za.co.serengti.merchants.entity.ProductIdentifier;
 import za.co.serengti.merchants.entity.Store;
 import za.co.serengti.merchants.repository.ProductIdentifierRepository;
 import za.co.serengti.merchants.repository.ProductRepository;
-import za.co.serengti.receipts.dto.PurchasedItemDTO;
 import za.co.serengti.util.RecordMapper;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class ProductService {
@@ -31,11 +26,6 @@ public class ProductService {
         this.mapper = mapper;
     }
 
-    public ProductDTO find(Long posSystemID, Long storeID, String sku) {
-        Optional<Product> product = productRepository.findBySku(posSystemID, storeID, sku);
-        return mapper.convert(product.orElse(null), ProductDTO.class);
-    }
-
     @Transactional
     public Product save(Product product) {
         productRepository.persist(product);
@@ -43,36 +33,25 @@ public class ProductService {
     }
 
     @Transactional
-    public List<ProductDTO> findOrSaveProducts(List<PurchasedItemDTO> purchases, POSSystemDTO posSystem, StoreDTO store) {
-        return purchases
-                .stream()
-                .map(purchasedItem -> {
+    public Product findOrSaveProduct(ProductDTO productDTO, POSSystem posSystem, Store store) {
+        ProductIdentifier productIdentifier = productIdentifierRepository.findBySkuAndStoreIdAndPosSystemId(productDTO.getSku(), store, posSystem);
+        if (productIdentifier != null) {
+            // If ProductIdentifier is found, return the associated Product
+            return productIdentifier.getProduct();
+        } else {
+            // If no ProductIdentifier is found, create and save a new Product
+            Product product = mapper.convert(productDTO, Product.class);
+            productRepository.persist(product);
 
-                    Optional<ProductIdentifier> identifier = Optional.ofNullable(productIdentifierRepository.findBySkuAndStoreIdAndPosSystemId(purchasedItem.getSku(), mapper.convert(store,Store.class), mapper.convert(posSystem, POSSystem.class)));
-                    Product product;
+            // Create and save a new ProductIdentifier linking the Product to the sku, storeId, and posSystemId
+            ProductIdentifier newProductIdentifier = new ProductIdentifier();
+            newProductIdentifier.setProduct(product);
+            newProductIdentifier.setSku(productDTO.getSku());
+            newProductIdentifier.setStore(store);
+            newProductIdentifier.setPosSystem(posSystem);
+            productIdentifierRepository.persist(newProductIdentifier);
 
-                    if (identifier.isPresent()) {
-
-                        product = identifier.get().getProduct();
-                    } else {
-
-                        Product prod = Product.builder()
-                                .name(purchasedItem.getName())
-                                .description(purchasedItem.getDescription())
-                                .build();
-
-                        product = productRepository.save(prod);
-
-                        ProductIdentifier id = ProductIdentifier.builder()
-                                .product(product)
-                                .store(mapper.convert(store, Store.class))
-                                .posSystem(mapper.convert(posSystem, POSSystem.class))
-                                .sku(purchasedItem.getSku())
-                                .build();
-                        productIdentifierRepository.persist(id);
-                    }
-                    return mapper.convert(product, ProductDTO.class);
-                })
-                .collect(Collectors.toList());
-    }
+            return product;
+        }
+}
 }

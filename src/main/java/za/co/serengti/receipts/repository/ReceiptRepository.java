@@ -8,8 +8,8 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class ReceiptRepository implements PanacheRepository<Receipt> {
 
-    public Long save(Receipt receipt) {
+    public Receipt save(Receipt receipt) {
         persistAndFlush(receipt);
-        return receipt.getReceiptID();
+        return receipt;
     }
 }
