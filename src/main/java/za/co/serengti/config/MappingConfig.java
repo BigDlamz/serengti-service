@@ -24,7 +24,7 @@ public class MappingConfig {
 
         modelMapper.createTypeMap(Receipt.class, ReceiptDTO.class)
                 .addMapping(Receipt::getReceiptID, ReceiptDTO::setReceiptID)
-                .addMapping(Receipt::getTimestamp, ReceiptDTO::setTimestamp)
+                .addMapping(Receipt::getTransactionDate, ReceiptDTO::setTimestamp)
                 .addMapping(Receipt::getPosSystem, ReceiptDTO::setPosSystem)
                 .addMapping(Receipt::getStore, ReceiptDTO::setStore)
                 .addMapping(Receipt::getTill, ReceiptDTO::setTill)

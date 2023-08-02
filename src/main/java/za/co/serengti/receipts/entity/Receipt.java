@@ -37,19 +37,19 @@ public class Receipt extends PanacheEntityBase {
     public Customer customer;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "tillID")
+    @JoinColumn(name = "till_Id")
     public Till till;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "cachierID")
+    @JoinColumn(name = "cashier_Id")
     public Cashier cashier;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "promotional_message_id")
+    @JoinColumn(name = "promotion_id")
     public Promotions promotions;
 
-    @Column(name = "timestamp")
-    public LocalDateTime timestamp;
+    @Column(name = "transaction_date")
+    public LocalDateTime transactionDate;
 
     @Column(name = "amount_before_tax")
     public BigDecimal amountBeforeTax;

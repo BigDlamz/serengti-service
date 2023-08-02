@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CashierDTO {
+    private Long cashierId;
     private String name;
     private String surname;
 }

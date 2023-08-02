@@ -15,7 +15,7 @@ public class Cashier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cashier_id")
-    private Long cashierID;
+    private Long cashierId;
 
     @Column(name = "name")
     private String name;

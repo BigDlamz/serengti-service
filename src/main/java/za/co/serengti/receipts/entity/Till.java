@@ -20,7 +20,7 @@ public class Till {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "till_id")
-    private Long tillID;
+    private Long tillId;
 
     @ManyToOne
     @JoinColumn(name = "store_id", nullable = false)

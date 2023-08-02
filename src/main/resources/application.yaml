@@ -2,7 +2,7 @@ quarkus:
   datasource:
     db-kind: postgresql
     username: postgres
-    password:
+    password: password
     jdbc:
       url: jdbc:postgresql://localhost:5432/postgres
   hibernate-orm:
@@ -10,7 +10,7 @@ quarkus:
       generation: update
       default-schema: public
     log:
-      sql: true
+      sql: false
     packages:
       - za.co.serengti.receipts.entity
       - za.co.serengti.customers.entity

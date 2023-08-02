@@ -57,7 +57,7 @@ public class ReceiptService {
             Till till = saveTill(request.getTill(), posSystem, store);
             Cashier cashier = saveCashier(request.getCashier());
             Promotions promotions = savePromotions(request.getPromotions());
-            receipt = save(buildReceipt(posSystem, store, customer, lineItems, till, cashier, promotions, request.getTransactionDate()));  // call save method before logging the receipt's ID
+            receipt = save(buildReceipt(request,posSystem, store, customer, lineItems, till, cashier, promotions));  // call save method before logging the receipt's ID
             log.info("Successfully processed receipt. Receipt ID: {}", receipt.getReceiptID());
         } catch (Exception e) {
             log.error("Error processing receipt for POS ID: {} and Store ID: {}", posId, storeId, e);
@@ -66,7 +66,6 @@ public class ReceiptService {
         return receipt;
     }
 
-    @Transactional
     public Receipt save(Receipt receipt) {
         return receiptRepository.save(receipt);
     }
@@ -107,7 +106,7 @@ public class ReceiptService {
         Cashier cashier;
         try {
             cashier = cashierService.save(mapper.convert(cashierDTO, Cashier.class));
-            log.info("Successfully saved cashier information. Cashier ID: {}", cashier.getCashierID());
+            log.info("Successfully saved cashier information. Cashier ID: {}", cashier.getCashierId());
         } catch (Exception e) {
             log.error("Error saving cashier information", e);
             throw e;
@@ -128,7 +127,7 @@ public class ReceiptService {
         return promotions;
     }
 
-    private Receipt buildReceipt(POSSystem posSystem, Store store, Customer customer, List<LineItem> lineItems, Till till, Cashier cashier, Promotions promotions, LocalDateTime transactionDate) {
+    private Receipt buildReceipt(SaveReceiptRequestDTO request, POSSystem posSystem, Store store, Customer customer, List<LineItem> lineItems, Till till, Cashier cashier, Promotions promotions) {
         Receipt receipt;
         try {
             receipt = Receipt.builder()
@@ -139,7 +138,9 @@ public class ReceiptService {
                     .till(till)
                     .cashier(cashier)
                     .promotions(promotions)
-                    .timestamp(transactionDate)
+                    .transactionDate(request.getTransactionDate())
+                    .amountBeforeTax(request.getTaxInvoice().getAmountBeforeTax())
+                    .amountAfterTax(request.getTaxInvoice().getAmountAfterTax())
                     .build();
         } catch (Exception e) {
             log.error("Error building receipt", e);
@@ -147,4 +148,6 @@ public class ReceiptService {
         }
         return receipt;
     }
+
+    //CREATE A seperate tax invoice table, run it past ChatGPT first
 }
