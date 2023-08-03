@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "products")
@@ -25,5 +26,8 @@ public class Product extends PanacheEntityBase {
 
     @Column(name = "description")
     public String description;
+
+    @Column(name = "unit_price")
+    public BigDecimal unit_price;
 
 }

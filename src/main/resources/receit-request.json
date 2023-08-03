@@ -1,31 +1,33 @@
 {
-  "customerIdentifier": "Philani.dlamini@gmail.com",
-  "transactionDate": "2023-07-31T15:40:50",
+  "customerIdentifier": "philani.dlamini@Gmail.com",
+  "transactionDate": "2023-08-03T16:30:50",
   "till": {
-    "tillNumber": 5
+    "tillNumber": 3
   },
   "cashier": {
-    "name": "Thembi",
-    "surname": "Dhlomo"
+    "name": "Londiwe",
+    "surname": "Mdletshe"
   },
   "promotions": {
     "name": "Black Friday",
-    "description": "get 40% off selected items"
+    "description": "Get 10% off on all items"
   },
   "purchasedItems": [
     {
-      "sku": "sku878356",
+      "name": "Prada Men's",
+      "description": "Italian Shoes",
       "ean13Code": "string",
       "universalProductCode": "string",
-      "name": "Apples",
-      "description": "Red",
-      "price": 10.00,
-      "quantity": 15.00
+      "sku": "sku123456789",
+      "quantity": 1,
+      "unitPrice": 100.00
     }
   ],
-  "taxInvoice": {
-    "serialNumber": "12344577888",
-    "amountBeforeTax": 10,
-    "amountAfterTax": 15.00
-  }
+  "discountAmount": 10.00,
+  "subTotal": 90.00,
+  "vatRate": 15.00,
+  "vatAmount": 13.05,
+  "totalDueAfterTax": 103.5,
+  "amountPaid": 105.00,
+  "changeDue": 1.50
 }

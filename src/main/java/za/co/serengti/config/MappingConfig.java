@@ -31,8 +31,8 @@ public class MappingConfig {
                 .addMapping(Receipt::getCashier, ReceiptDTO::setCashier)
                 .addMapping(Receipt::getPromotions, ReceiptDTO::setPromotions)
                 .addMapping(Receipt::getPurchasedItems, ReceiptDTO::setPurchasedItems)
-                .addMapping(Receipt::getAmountBeforeTax, ReceiptDTO::setAmountBeforeTax)
-                .addMapping(Receipt::getAmountAfterTax, ReceiptDTO::setAmountAfterTax)
+                .addMapping(Receipt::getSubTotal, ReceiptDTO::setSubTotal)
+                .addMapping(Receipt::getVatRate, ReceiptDTO::setVatRate)
                 .addMappings(mapping -> mapping.using(ctx -> {
                     Customer customer = (Customer) ctx.getSource();
                     if (customer instanceof EmailCustomer) {

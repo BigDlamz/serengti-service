@@ -20,17 +20,22 @@ import java.util.List;
 public class ReceiptDTO {
     @JsonIgnore
     private Long receiptID;
+    private String serialNumber;
     private LocalDateTime timestamp;
     private POSSystemDTO posSystem;
     private StoreDTO store;
     private CustomerDTO customer;
     private List<LineItemDTO> purchasedItems;
-    private BigDecimal amountBeforeTax;
-    private BigDecimal amountAfterTax;
     private TillDTO till;
     private CashierDTO cashier;
-    private TaxInvoiceDTO taxInvoice;
     private PromotionsDTO promotions;
+    public BigDecimal discountAmount;
+    public BigDecimal subTotal;
+    public BigDecimal vatRate;
+    public BigDecimal vatAmount;
+    public BigDecimal totalDueAfterTax;
+    public BigDecimal amountPaid;
+    public BigDecimal change_due;
 
 }
 

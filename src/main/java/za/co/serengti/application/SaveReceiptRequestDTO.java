@@ -5,9 +5,9 @@ import lombok.Data;
 import za.co.serengti.merchants.dto.ProductDTO;
 import za.co.serengti.receipts.dto.CashierDTO;
 import za.co.serengti.receipts.dto.PromotionsDTO;
-import za.co.serengti.receipts.dto.TaxInvoiceDTO;
 import za.co.serengti.receipts.dto.TillDTO;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,6 +21,12 @@ public class SaveReceiptRequestDTO {
     private CashierDTO cashier;
     private PromotionsDTO promotions;
     private List<ProductDTO> purchasedItems;
-    private TaxInvoiceDTO taxInvoice;
+    public BigDecimal discountAmount;
+    public BigDecimal subTotal;
+    public BigDecimal vatRate;
+    public BigDecimal vatAmount;
+    public BigDecimal totalDueAfterTax;
+    public BigDecimal amountPaid;
+    public BigDecimal changeDue;
 
 }

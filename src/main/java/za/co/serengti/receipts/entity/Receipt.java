@@ -51,11 +51,26 @@ public class Receipt extends PanacheEntityBase {
     @Column(name = "transaction_date")
     public LocalDateTime transactionDate;
 
-    @Column(name = "amount_before_tax")
-    public BigDecimal amountBeforeTax;
+    @Column(name = "subtotal")
+    public BigDecimal subTotal;
 
-    @Column(name = "amount_after_tax")
-    public BigDecimal amountAfterTax;
+    @Column(name = "vat_rate")
+    public BigDecimal vatRate;
+
+    @Column(name = "vat_amount")
+    public BigDecimal vatAmount;
+
+    @Column(name = "discount_amount")
+    public BigDecimal discountAmount;
+
+    @Column(name = "total_due_after_tax")
+    public BigDecimal totalDueAfterTax;
+
+    @Column(name = "amount_paid")
+    public BigDecimal amountPaid;
+
+    @Column(name = "change_due")
+    public BigDecimal change_due;
 
     @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<LineItem> purchasedItems;

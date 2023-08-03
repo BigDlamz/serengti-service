@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -19,6 +22,6 @@ public class ProductDTO {
     private String universalProductCode;
     private String sku;
     private int quantity;
-
+    private BigDecimal unitPrice;
 
 }

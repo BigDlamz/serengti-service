@@ -16,7 +16,6 @@ import za.co.serengti.util.RecordMapper;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @ApplicationScoped
@@ -139,8 +138,13 @@ public class ReceiptService {
                     .cashier(cashier)
                     .promotions(promotions)
                     .transactionDate(request.getTransactionDate())
-                    .amountBeforeTax(request.getTaxInvoice().getAmountBeforeTax())
-                    .amountAfterTax(request.getTaxInvoice().getAmountAfterTax())
+                    .discountAmount(request.getDiscountAmount())
+                    .subTotal(request.getSubTotal())
+                    .vatRate(request.getVatRate())
+                    .vatAmount(request.getVatAmount())
+                    .totalDueAfterTax(request.getTotalDueAfterTax())
+                    .amountPaid(request.getAmountPaid())
+                    .change_due(request.getChangeDue())
                     .build();
         } catch (Exception e) {
             log.error("Error building receipt", e);
@@ -149,5 +153,8 @@ public class ReceiptService {
         return receipt;
     }
 
-    //CREATE A seperate tax invoice table, run it past ChatGPT first
+    public Receipt find(Long receiptId) {
+        return receiptRepository.findById(receiptId);
+    }
+
 }
