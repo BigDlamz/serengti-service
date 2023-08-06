@@ -28,6 +28,6 @@ public class Product extends PanacheEntityBase {
     public String description;
 
     @Column(name = "unit_price")
-    public BigDecimal unit_price;
+    public BigDecimal unitPrice;
 
 }

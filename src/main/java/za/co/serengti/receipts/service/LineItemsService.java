@@ -1,10 +1,10 @@
 package za.co.serengti.receipts.service;
 
 import za.co.serengti.merchants.dto.ProductDTO;
-import za.co.serengti.merchants.entity.POSSystem;
-import za.co.serengti.merchants.entity.Store;
+import za.co.serengti.merchants.entity.MetaData;
 import za.co.serengti.merchants.service.ProductService;
 import za.co.serengti.receipts.entity.LineItem;
+import za.co.serengti.receipts.entity.Receipt;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -20,14 +20,21 @@ public class LineItemsService {
         this.productService = productService;
     }
 
-    public List<LineItem> processLineItems(List<ProductDTO> purchases, POSSystem posSystem, Store store) {
+    public List<LineItem> processLineItems(List<ProductDTO> purchases, MetaData meta, Receipt receipt) {
         return purchases
                 .stream()
                 .map(prod ->
                         LineItem.builder()
-                                .product(productService.findOrSaveProduct(prod,posSystem,store))
+                                .product(productService.findOrSaveProduct(prod,meta))
                                 .quantity(prod.getQuantity())
+                                .receipt(receipt)
                                 .build()
                 ).collect(Collectors.toList());
+    }
+
+    public void saveLineItems(List<LineItem> lineItems) {
+        lineItems.forEach(lineItem -> {
+            lineItem.persist();
+        });
     }
 }

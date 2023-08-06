@@ -10,7 +10,7 @@ quarkus:
       generation: update
       default-schema: public
     log:
-      sql: false
+      sql: true
     packages:
       - za.co.serengti.receipts.entity
       - za.co.serengti.customers.entity

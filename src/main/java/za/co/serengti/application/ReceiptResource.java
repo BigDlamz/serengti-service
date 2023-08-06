@@ -1,8 +1,8 @@
 package za.co.serengti.application;
 
 import za.co.serengti.receipts.dto.ReceiptDTO;
+import za.co.serengti.receipts.mapper.ReceiptMapper;
 import za.co.serengti.receipts.service.ReceiptService;
-import za.co.serengti.util.RecordMapper;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -17,11 +17,11 @@ import java.util.Objects;
 public class ReceiptResource {
 
     private final ReceiptService receiptService;
-    private final RecordMapper mapper;
+    private final ReceiptMapper receiptMapper;
 
-    public ReceiptResource(ReceiptService receiptService,  RecordMapper mapper) {
+    public ReceiptResource(ReceiptService receiptService, ReceiptMapper receiptMapper) {
         this.receiptService = receiptService;
-        this.mapper = mapper;
+        this.receiptMapper = receiptMapper;
     }
 
     /**
@@ -32,7 +32,7 @@ public class ReceiptResource {
      * @param storeId the store ID
      */
     @POST
-    public void save(SaveReceiptRequestDTO request, @HeaderParam("POS-ID") Long posId, @HeaderParam("STORE-ID") Long storeId) {
+    public void save(SaveReceiptRequest request, @HeaderParam("POS-ID") Long posId, @HeaderParam("STORE-ID") Long storeId) {
         if(Objects.isNull(request)) {
             throw new BadRequestException("Request body cannot be null");
         }
@@ -57,6 +57,6 @@ public class ReceiptResource {
         if(Objects.isNull(receiptId)) {
             throw new BadRequestException("ReceiptId cannot be null");
         }
-        return mapper.convert(receiptService.find(receiptId), ReceiptDTO.class);
+        return receiptMapper.toDto(receiptService.find(receiptId));
     }
 }

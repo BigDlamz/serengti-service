@@ -2,6 +2,7 @@ package za.co.serengti.merchants.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @Table(name = "stores")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Store extends PanacheEntityBase {
 
     @Id

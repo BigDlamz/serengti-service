@@ -1,5 +1,6 @@
 package za.co.serengti.receipts.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.*;
 import za.co.serengti.customers.entity.Customer;
@@ -23,6 +24,9 @@ public class Receipt extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "receipt_id")
     public Long receiptID;
+
+    @Column(name = "serial_number")
+    public Long serialNumber;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "store_id")
@@ -73,6 +77,7 @@ public class Receipt extends PanacheEntityBase {
     public BigDecimal change_due;
 
     @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL, orphanRemoval = true)
-    public List<LineItem> purchasedItems;
+    @JsonManagedReference
+    public List<LineItem> lineItems;
 
 }

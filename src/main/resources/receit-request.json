@@ -12,7 +12,7 @@
     "name": "Black Friday",
     "description": "Get 10% off on all items"
   },
-  "purchasedItems": [
+  "lineItems": [
     {
       "name": "Prada Men's",
       "description": "Italian Shoes",

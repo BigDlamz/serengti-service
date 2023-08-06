@@ -1,5 +1,6 @@
 package za.co.serengti.receipts.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +24,7 @@ public class LineItem extends PanacheEntityBase {
     public Long lineItemID;
 
     @ManyToOne(cascade = CascadeType.MERGE)
+    @JsonBackReference
     @JoinColumn(name = "receipt_id")
     public Receipt receipt;
 

@@ -1,18 +1,16 @@
 package za.co.serengti.receipts.service;
 
 import lombok.extern.slf4j.Slf4j;
-import za.co.serengti.application.SaveReceiptRequestDTO;
+import za.co.serengti.application.SaveReceiptRequest;
 import za.co.serengti.customers.entity.Customer;
 import za.co.serengti.customers.service.CustomerService;
-import za.co.serengti.merchants.entity.POSSystem;
-import za.co.serengti.merchants.entity.Store;
+import za.co.serengti.merchants.entity.MetaData;
 import za.co.serengti.merchants.service.MerchantService;
 import za.co.serengti.receipts.dto.CashierDTO;
 import za.co.serengti.receipts.dto.PromotionsDTO;
 import za.co.serengti.receipts.dto.TillDTO;
 import za.co.serengti.receipts.entity.*;
 import za.co.serengti.receipts.repository.ReceiptRepository;
-import za.co.serengti.util.RecordMapper;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
@@ -29,11 +27,10 @@ public class ReceiptService {
     private final CashierService cashierService;
     private final ReceiptRepository receiptRepository;
     private final PromotionsService promotionsService;
-    private final RecordMapper mapper;
 
     public ReceiptService(MerchantService merchantService, CustomerService customerService,
                           LineItemsService lineItemsService, TillService tillService,
-                          CashierService cashierService, ReceiptRepository receiptRepository, PromotionsService promotionsService, RecordMapper mapper) {
+                          CashierService cashierService, ReceiptRepository receiptRepository, PromotionsService promotionsService) {
         this.merchantService = merchantService;
         this.customerService = customerService;
         this.lineItemsService = lineItemsService;
@@ -41,60 +38,61 @@ public class ReceiptService {
         this.cashierService = cashierService;
         this.receiptRepository = receiptRepository;
         this.promotionsService = promotionsService;
-        this.mapper = mapper;
     }
 
     @Transactional
-    public Receipt process(SaveReceiptRequestDTO request, Long posId, Long storeId) {
+    public Long process(SaveReceiptRequest request, Long posId, Long storeId) {
         log.info("Processing receipt for POS ID: {} and Store ID: {}", posId, storeId);
         Receipt receipt;
         try {
-            POSSystem posSystem = merchantService.findPosSystem(posId);
-            Store store = merchantService.findStore(storeId);
+            MetaData meta = MetaData.
+                    builder()
+                    .posSystem(merchantService.findPosSystem(posId))
+                    .store(merchantService.findStore(storeId))
+                    .build();
+
             Customer customer = customerService.findOrSaveCustomer(request.getCustomerIdentifier());
-            List<LineItem> lineItems = saveLineItems(request, posSystem, store);
-            Till till = saveTill(request.getTill(), posSystem, store);
+            Till till = saveTill(request.getTill(), meta);
             Cashier cashier = saveCashier(request.getCashier());
             Promotions promotions = savePromotions(request.getPromotions());
-            receipt = save(buildReceipt(request,posSystem, store, customer, lineItems, till, cashier, promotions));  // call save method before logging the receipt's ID
+            receipt = save(buildReceipt(request,meta, customer, till, cashier, promotions));
+            saveLineItems(request, meta, receipt);
+
             log.info("Successfully processed receipt. Receipt ID: {}", receipt.getReceiptID());
         } catch (Exception e) {
             log.error("Error processing receipt for POS ID: {} and Store ID: {}", posId, storeId, e);
             throw e;
         }
-        return receipt;
+        return receipt.receiptID;
     }
 
     public Receipt save(Receipt receipt) {
         return receiptRepository.save(receipt);
     }
 
-    private List<LineItem> saveLineItems(SaveReceiptRequestDTO request, POSSystem posSystem, Store store) {
-        log.info("Start processing line items for POS ID: {} and Store ID: {}", posSystem.posSystemID, store.getStoreID());
-        List<LineItem> lineItems;
+    private void saveLineItems(SaveReceiptRequest request, MetaData meta, Receipt receipt) {
+        log.info("Start processing line items for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreID());
         try {
-            lineItems = lineItemsService.processLineItems(request.getPurchasedItems(), posSystem, store);
-            log.info("Successfully processed line items for POS ID: {} and Store ID: {}", posSystem.posSystemID, store.getStoreID());
+            List<LineItem> lineItems = lineItemsService.processLineItems(request.getLineItems(), meta, receipt);
+            lineItemsService.saveLineItems(lineItems);
+            log.info("Successfully processed line items for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreID());
         }
         catch (Exception e) {
-            log.error("Error processing line items for POS ID: {} and Store ID: {}",  posSystem.posSystemID, store.getStoreID(), e);
+            log.error("Error processing line items for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreID(), e);
             throw e;
         }
-        return lineItems;
     }
 
-    private Till saveTill(TillDTO tillDTO, POSSystem posSystem, Store store) {
-        log.info("Start saving till information for POS ID: {} and Store ID: {}", posSystem.posSystemID, store.getStoreID());
+    private Till saveTill(TillDTO tillDTO, MetaData meta) {
+        log.info("Start saving till information for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreID());
        Till savedTill;
         try {
-            Till till = mapper.convert(tillDTO, Till.class);
-            till.setStore(store);
-            till.setPosSystem(posSystem);
+            Till till = tillService.toEntity(tillDTO, meta);
             savedTill = tillService.save(till);
-            log.info("Successfully saved till information for POS ID: {} and Store ID: {}", posSystem.posSystemID, store.getStoreID());
+            log.info("Successfully saved till information for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreID());
         }
         catch (Exception e) {
-            log.error("Error saving till information for POS ID: {} and Store ID: {}", posSystem.posSystemID, store.getStoreID(), e);
+            log.error("Error saving till information for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreID(), e);
             throw e;
         }
         return savedTill;
@@ -104,7 +102,7 @@ public class ReceiptService {
         log.info("Start saving cashier information");
         Cashier cashier;
         try {
-            cashier = cashierService.save(mapper.convert(cashierDTO, Cashier.class));
+            cashier = cashierService.save(cashierService.toEntity(cashierDTO));
             log.info("Successfully saved cashier information. Cashier ID: {}", cashier.getCashierId());
         } catch (Exception e) {
             log.error("Error saving cashier information", e);
@@ -117,7 +115,7 @@ public class ReceiptService {
         log.info("Start saving promotions information");
         Promotions promotions;
         try {
-            promotions = promotionsService.save(mapper.convert(promotionsDTO, Promotions.class));
+            promotions = promotionsService.save(promotionsService.toEntity(promotionsDTO));
             log.info("Successfully saved promotions information. Promotions ID: {}", promotions.getPromotionID());
         } catch (Exception e) {
             log.error("Error saving promotions information", e);
@@ -126,14 +124,13 @@ public class ReceiptService {
         return promotions;
     }
 
-    private Receipt buildReceipt(SaveReceiptRequestDTO request, POSSystem posSystem, Store store, Customer customer, List<LineItem> lineItems, Till till, Cashier cashier, Promotions promotions) {
+    private Receipt buildReceipt(SaveReceiptRequest request, MetaData meta, Customer customer, Till till, Cashier cashier, Promotions promotions) {
         Receipt receipt;
         try {
             receipt = Receipt.builder()
-                    .posSystem(posSystem)
-                    .store(store)
+                    .posSystem(meta.getPosSystem())
+                    .store(meta.getStore())
                     .customer(customer)
-                    .purchasedItems(lineItems)
                     .till(till)
                     .cashier(cashier)
                     .promotions(promotions)

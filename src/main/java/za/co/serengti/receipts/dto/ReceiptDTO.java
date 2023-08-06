@@ -20,12 +20,11 @@ import java.util.List;
 public class ReceiptDTO {
     @JsonIgnore
     private Long receiptID;
-    private String serialNumber;
     private LocalDateTime timestamp;
     private POSSystemDTO posSystem;
     private StoreDTO store;
     private CustomerDTO customer;
-    private List<LineItemDTO> purchasedItems;
+    private List<LineItemDTO> lineItems;
     private TillDTO till;
     private CashierDTO cashier;
     private PromotionsDTO promotions;

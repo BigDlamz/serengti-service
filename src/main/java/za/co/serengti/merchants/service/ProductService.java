@@ -1,28 +1,24 @@
 package za.co.serengti.merchants.service;
 
 import za.co.serengti.merchants.dto.ProductDTO;
-import za.co.serengti.merchants.entity.POSSystem;
-import za.co.serengti.merchants.entity.Product;
-import za.co.serengti.merchants.entity.ProductIdentifier;
-import za.co.serengti.merchants.entity.Store;
+import za.co.serengti.merchants.entity.*;
+import za.co.serengti.merchants.mapper.ProductMapper;
 import za.co.serengti.merchants.repository.ProductIdentifierRepository;
 import za.co.serengti.merchants.repository.ProductRepository;
-import za.co.serengti.util.RecordMapper;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @ApplicationScoped
 public class ProductService {
 
-    private final ProductIdentifierRepository productIdentifierRepository;
+    private final ProductIdentifierRepository identifierRepository;
     private final ProductRepository productRepository;
-    private final RecordMapper mapper;
+    private final ProductMapper mapper;
 
-    public ProductService(ProductRepository productRepository, ProductIdentifierRepository productIdentifierRepository, RecordMapper mapper) {
+    public ProductService(ProductRepository productRepository, ProductIdentifierRepository identifierRepository, ProductMapper mapper) {
         this.productRepository = productRepository;
-        this.productIdentifierRepository = productIdentifierRepository;
+        this.identifierRepository = identifierRepository;
         this.mapper = mapper;
     }
 
@@ -33,25 +29,26 @@ public class ProductService {
     }
 
     @Transactional
-    public Product findOrSaveProduct(ProductDTO productDTO, POSSystem posSystem, Store store) {
-        ProductIdentifier productIdentifier = productIdentifierRepository.findBySkuAndStoreIdAndPosSystemId(productDTO.getSku(), store, posSystem);
+    public Product findOrSaveProduct(ProductDTO productDTO, MetaData meta) {
+        ProductIdentifier productIdentifier = identifierRepository.findBySkuAndPosSystemAndStore(productDTO.getSku(), meta);
         if (productIdentifier != null) {
-            // If ProductIdentifier is found, return the associated Product
             return productIdentifier.getProduct();
         } else {
-            // If no ProductIdentifier is found, create and save a new Product
-            Product product = mapper.convert(productDTO, Product.class);
-            productRepository.persist(product);
-
-            // Create and save a new ProductIdentifier linking the Product to the sku, storeId, and posSystemId
-            ProductIdentifier newProductIdentifier = new ProductIdentifier();
-            newProductIdentifier.setProduct(product);
-            newProductIdentifier.setSku(productDTO.getSku());
-            newProductIdentifier.setStore(store);
-            newProductIdentifier.setPosSystem(posSystem);
-            productIdentifierRepository.persist(newProductIdentifier);
-
+            Product product = saveProduct(productDTO);
+            saveProductIdentifier(productDTO, meta, product);
             return product;
         }
-}
+    }
+
+    private Product saveProduct(ProductDTO productDTO) {
+        Product product = mapper.toEntity(productDTO);
+        productRepository.persist(product);
+        return product;
+    }
+
+    private void saveProductIdentifier(ProductDTO productDTO, MetaData meta, Product product) {
+        ProductIdentifier newIdentifier = mapper.toProductIdentifierEntity(productDTO, product, meta);
+        identifierRepository.persist(newIdentifier);
+    }
+
 }

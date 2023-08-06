@@ -1,6 +1,7 @@
 package za.co.serengti.merchants.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,9 +19,13 @@ public class ProductDTO {
     private Long productID;
     private String name;
     private String description;
+    @JsonInclude(JsonInclude.Include. NON_NULL)
     private String ean13Code;
+    @JsonInclude(JsonInclude.Include. NON_NULL)
     private String universalProductCode;
+    @JsonInclude(JsonInclude.Include. NON_NULL)
     private String sku;
+    @JsonIgnore
     private int quantity;
     private BigDecimal unitPrice;
 

@@ -13,14 +13,14 @@ import java.util.List;
 
 @Data
 @Builder
-public class SaveReceiptRequestDTO {
+public class SaveReceiptRequest {
 
     private String customerIdentifier;
     private LocalDateTime transactionDate;
     private TillDTO till;
     private CashierDTO cashier;
     private PromotionsDTO promotions;
-    private List<ProductDTO> purchasedItems;
+    private List<ProductDTO> lineItems;
     public BigDecimal discountAmount;
     public BigDecimal subTotal;
     public BigDecimal vatRate;
