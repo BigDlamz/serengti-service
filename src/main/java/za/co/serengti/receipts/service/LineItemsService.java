@@ -5,9 +5,11 @@ import za.co.serengti.merchants.entity.MetaData;
 import za.co.serengti.merchants.service.ProductService;
 import za.co.serengti.receipts.entity.LineItem;
 import za.co.serengti.receipts.entity.Receipt;
+import za.co.serengti.util.ProductCategory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,13 +25,19 @@ public class LineItemsService {
     public List<LineItem> processLineItems(List<ProductDTO> purchases, MetaData meta, Receipt receipt) {
         return purchases
                 .stream()
-                .map(prod ->
-                        LineItem.builder()
-                                .product(productService.findOrSaveProduct(prod,meta))
-                                .quantity(prod.getQuantity())
-                                .receipt(receipt)
-                                .build()
-                ).collect(Collectors.toList());
+                .map(prod -> {
+                    // Validate the category
+                    if (!ProductCategory.isValidCategory(prod.getCategory())) {
+                        throw new BadRequestException("Invalid category value provided for product: " + prod.getName());
+                    }
+                    // Convert to LineItem
+                    return LineItem.builder()
+                            .product(productService.findOrSaveProduct(prod, meta))
+                            .quantity(prod.getQuantity())
+                            .receipt(receipt)
+                            .build();
+                })
+                .collect(Collectors.toList());
     }
 
     public void saveLineItems(List<LineItem> lineItems) {

@@ -1,9 +1,6 @@
 package za.co.serengti.merchants.service;
 
-import za.co.serengti.merchants.dto.POSSystemDTO;
-import za.co.serengti.merchants.dto.StoreDTO;
-import za.co.serengti.merchants.entity.POSSystem;
-import za.co.serengti.merchants.entity.Store;
+import za.co.serengti.merchants.entity.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -13,22 +10,30 @@ public class MerchantService {
 
     private final POSService posService;
     private final StoreService storeService;
+    private final ProductService productService;
 
     @Inject
-    public MerchantService(POSService posService, StoreService storeService) {
+    public MerchantService(POSService posService, StoreService storeService, ProductService productService) {
         this.posService = posService;
         this.storeService = storeService;
+        this.productService = productService;
     }
 
+    public void register(MetaData metaData) {
+        //TODO
+    }
+    public void registerProduct(Product product, MetaData metaData) {
+        //TODO
+    }
     public Store findStore(Long storeId) {
-     return storeService.find(storeId);
+        return storeService.find(storeId);
     }
 
     public POSSystem findPosSystem(Long posId) {
         return  posService.findPOS(posId);
     }
 
-    //TODO: merchants should be able to register their POS System on our database
-    //TODO: merchants should be able to register their stores
-    //TODO: merchants should be able to register their products
+    public void saveSpecial(Special special){
+
+    }
 }

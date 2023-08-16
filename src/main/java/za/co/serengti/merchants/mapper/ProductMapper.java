@@ -2,6 +2,7 @@ package za.co.serengti.merchants.mapper;
 
 import za.co.serengti.merchants.dto.ProductDTO;
 import za.co.serengti.merchants.entity.*;
+import za.co.serengti.util.ProductCategory;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -14,6 +15,7 @@ public class ProductMapper {
                 .name(dto.getName())
                 .description(dto.getDescription())
                 .unitPrice(dto.getUnitPrice())
+                .category(ProductCategory.fromDbValue(dto.getCategory()))
                 .build();
     }
 
@@ -37,6 +39,7 @@ public class ProductMapper {
           //      .universalProductCode(productIdentifier.getUniversalProductCode())
           //      .sku(productIdentifier.getSku())
                 .unitPrice(product.getUnitPrice())
+                .category(product.getCategory().getValue())
                 .build();
     }
 }

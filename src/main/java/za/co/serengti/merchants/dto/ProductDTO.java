@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import za.co.serengti.util.ProductCategory;
 
 import javax.persistence.Column;
 import java.math.BigDecimal;
@@ -25,7 +26,7 @@ public class ProductDTO {
     private String universalProductCode;
     @JsonInclude(JsonInclude.Include. NON_NULL)
     private String sku;
-    @JsonIgnore
+    private String category;
     private int quantity;
     private BigDecimal unitPrice;
 

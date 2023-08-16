@@ -23,6 +23,7 @@ public class StoreMapper {
                 .name(entity.getName())
                 .address(entity.getAddress())
                 .vatRegistrationNumber(entity.getVatRegistrationNumber())
+                .storeLogoURL(entity.getStoreLogoURL())
                 .build();
     }
 }

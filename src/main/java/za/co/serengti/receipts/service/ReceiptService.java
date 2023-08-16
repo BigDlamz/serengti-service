@@ -42,9 +42,12 @@ public class ReceiptService {
 
     @Transactional
     public Long process(SaveReceiptRequest request, Long posId, Long storeId) {
+
+
         log.info("Processing receipt for POS ID: {} and Store ID: {}", posId, storeId);
         Receipt receipt;
         try {
+
             MetaData meta = MetaData.
                     builder()
                     .posSystem(merchantService.findPosSystem(posId))
@@ -57,13 +60,12 @@ public class ReceiptService {
             Promotions promotions = savePromotions(request.getPromotions());
             receipt = save(buildReceipt(request,meta, customer, till, cashier, promotions));
             saveLineItems(request, meta, receipt);
-
-            log.info("Successfully processed receipt. Receipt ID: {}", receipt.getReceiptID());
+            log.info("Successfully processed receipt. Receipt ID: {}", receipt.getReceiptId());
         } catch (Exception e) {
             log.error("Error processing receipt for POS ID: {} and Store ID: {}", posId, storeId, e);
             throw e;
         }
-        return receipt.receiptID;
+        return receipt.receiptId;
     }
 
     public Receipt save(Receipt receipt) {
@@ -141,7 +143,7 @@ public class ReceiptService {
                     .vatAmount(request.getVatAmount())
                     .totalDueAfterTax(request.getTotalDueAfterTax())
                     .amountPaid(request.getAmountPaid())
-                    .change_due(request.getChangeDue())
+                    .changeDue(request.getChangeDue())
                     .build();
         } catch (Exception e) {
             log.error("Error building receipt", e);
@@ -151,7 +153,17 @@ public class ReceiptService {
     }
 
     public Receipt find(Long receiptId) {
+        log.info("Finding receipt with ID: {}", receiptId);
         return receiptRepository.findById(receiptId);
     }
 
+    public List<Receipt> findAllByCustomerEmail(String email) {
+        log.info("Finding all receipts for customer with email: {}", email);
+        return receiptRepository.findAllByCustomerEmail(email);
+    }
+
+    public Long findCustomerTotalReceipts(String email) {
+        log.info("Finding total receipts for customer with email: {}", email);
+        return receiptRepository.findCustomerTotalReceipts(email);
+    }
 }

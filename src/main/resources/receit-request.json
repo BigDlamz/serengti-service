@@ -1,12 +1,12 @@
 {
-  "customerIdentifier": "philani.dlamini@Gmail.com",
+  "customerIdentifier": "philani.dlamini@gmail.com",
   "transactionDate": "2023-08-03T16:30:50",
   "till": {
     "tillNumber": 3
   },
   "cashier": {
-    "name": "Londiwe",
-    "surname": "Mdletshe"
+    "name": "Pearl",
+    "surname": "Thusi"
   },
   "promotions": {
     "name": "Black Friday",
@@ -19,15 +19,56 @@
       "ean13Code": "string",
       "universalProductCode": "string",
       "sku": "sku123456789",
+      "category": "CLOTHING",
       "quantity": 1,
-      "unitPrice": 100.00
+      "unitPrice": 2000.00
+    },
+    {
+      "name": "Boxers",
+      "description": "Armanir",
+      "ean13Code": "string",
+      "universalProductCode": "string",
+      "sku": "sku127676767",
+      "quantity": 1,
+      "category": "CLOTHING",
+      "unitPrice": 1000.00
+    },
+    {
+      "name": "Michael Kors",
+      "description": "Men's Watch",
+      "ean13Code": "string",
+      "universalProductCode": "string",
+      "sku": "sku565656565",
+      "quantity": 1,
+      "category": "JEWELRY AND ACCESSORIES",
+      "unitPrice": 5000.00
+    },
+    {
+      "name": "T-shirt",
+      "description": "Polo",
+      "ean13Code": "string",
+      "universalProductCode": "string",
+      "sku": "sku78778787878",
+      "quantity": 1,
+      "category": "CLOTHING",
+      "unitPrice": 1000.00
+    },
+    {
+      "name": "Vest",
+      "description": "Wife Beater",
+      "ean13Code": "string",
+      "universalProductCode": "string",
+      "sku": "sku8989898989",
+      "quantity": 1,
+      "category": "CLOTHING",
+      "unitPrice": 1000.00
     }
   ],
-  "discountAmount": 10.00,
-  "subTotal": 90.00,
+  "discountAmount": 1000.00,
+  "subTotal": 9000.00,
   "vatRate": 15.00,
-  "vatAmount": 13.05,
-  "totalDueAfterTax": 103.5,
-  "amountPaid": 105.00,
-  "changeDue": 1.50
+  "vatAmount": 1350.00,
+  "totalDueAfterTax": 10350.00,
+  "amountPaid": 10500.00,
+  "changeDue": 150.00
 }

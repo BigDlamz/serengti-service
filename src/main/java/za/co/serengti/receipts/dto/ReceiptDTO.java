@@ -1,6 +1,5 @@
 package za.co.serengti.receipts.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,9 +16,8 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReceiptDTO {
-    @JsonIgnore
-    private Long receiptID;
+public class  ReceiptDTO {
+    private Long receiptId;
     private LocalDateTime timestamp;
     private POSSystemDTO posSystem;
     private StoreDTO store;
@@ -34,7 +32,7 @@ public class ReceiptDTO {
     public BigDecimal vatAmount;
     public BigDecimal totalDueAfterTax;
     public BigDecimal amountPaid;
-    public BigDecimal change_due;
+    public BigDecimal changeDue;
 
 }
 

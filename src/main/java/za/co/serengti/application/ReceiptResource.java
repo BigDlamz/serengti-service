@@ -1,12 +1,15 @@
 package za.co.serengti.application;
 
 import za.co.serengti.receipts.dto.ReceiptDTO;
+import za.co.serengti.receipts.entity.Receipt;
 import za.co.serengti.receipts.mapper.ReceiptMapper;
 import za.co.serengti.receipts.service.ReceiptService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Handles receipt-related HTTP requests.
@@ -52,11 +55,45 @@ public class ReceiptResource {
      * @return the receipt DTO
      */
     @GET
-    @Path("/{receiptId}")
+    @Path("/id/{receiptId}")
     public ReceiptDTO find(@PathParam("receiptId") Long receiptId) {
         if(Objects.isNull(receiptId)) {
             throw new BadRequestException("ReceiptId cannot be null");
         }
         return receiptMapper.toDto(receiptService.find(receiptId));
+    }
+
+    /**
+     * Finds all receipts by customer email.
+     * //TODO specify data range
+     * @param email email address to use when looking up receipts
+     * @return the receipt DTO
+     */
+    @GET
+    @Path("/email/{email}")
+    public List<ReceiptDTO> findAllReceipts(@PathParam("email") String email) {
+        if(Objects.isNull(email)) {
+            throw new BadRequestException("Email cannot be null");
+        }
+        List<Receipt> receipts = receiptService.findAllByCustomerEmail(email);
+        return receipts
+                .stream()
+                .map(receiptMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Finds customer total receipts count
+     *
+     * @param email email address to use when looking up receipts
+     * @return the receipt DTO
+     */
+    @GET
+    @Path("/email/{email}/count")
+    public Long findCustomerTotalReceipts(@PathParam("email") String email) {
+        if(Objects.isNull(email)) {
+            throw new BadRequestException("Email cannot be null");
+        }
+        return receiptService.findCustomerTotalReceipts(email);
     }
 }

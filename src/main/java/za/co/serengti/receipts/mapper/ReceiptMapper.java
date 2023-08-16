@@ -1,5 +1,6 @@
 package za.co.serengti.receipts.mapper;
 
+import lombok.extern.slf4j.Slf4j;
 import za.co.serengti.customers.mapper.CustomerMapper;
 import za.co.serengti.merchants.mapper.PosSystemMapper;
 import za.co.serengti.merchants.mapper.StoreMapper;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
+@Slf4j
 public class ReceiptMapper {
 
     private final PromotionsMapper promotionsMapper;
@@ -36,13 +38,14 @@ public class ReceiptMapper {
     }
 
     public ReceiptDTO toDto(Receipt entity) {
-
         List<LineItemDTO> lineItemDTOS = new ArrayList<>();
         for (LineItem lineItem : entity.getLineItems()) {
             lineItemDTOS.add(lineItemMapper.toDto(lineItem));
         }
+
+        log.info("Receipt ID: {}", entity.getReceiptId());
         return ReceiptDTO.builder()
-                .receiptID(entity.getReceiptID())
+                .receiptId(entity.getReceiptId())
                 .timestamp(entity.getTransactionDate())
                 .posSystem(posSystemMapper.toDto(entity.getPosSystem()))
                 .store(storeMapper.toDto(entity.getStore()))
@@ -57,7 +60,7 @@ public class ReceiptMapper {
                 .vatAmount(entity.getVatAmount())
                 .totalDueAfterTax(entity.getTotalDueAfterTax())
                 .amountPaid(entity.getAmountPaid())
-                .change_due(entity.getChange_due())
+                .changeDue(entity.getChangeDue())
                 .build();
     }
 }

@@ -23,10 +23,7 @@ public class Receipt extends PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "receipt_id")
-    public Long receiptID;
-
-    @Column(name = "serial_number")
-    public Long serialNumber;
+    public Long receiptId;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "store_id")
@@ -74,7 +71,7 @@ public class Receipt extends PanacheEntityBase {
     public BigDecimal amountPaid;
 
     @Column(name = "change_due")
-    public BigDecimal change_due;
+    public BigDecimal changeDue;
 
     @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
