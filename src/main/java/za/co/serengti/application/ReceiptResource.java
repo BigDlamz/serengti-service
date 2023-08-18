@@ -38,7 +38,7 @@ public class ReceiptResource {
     @APIResponse(responseCode = "500", description = "An internal server error occurred")
 
     public Response saveReceipt(@Valid SaveReceiptRequest request) {
-        Long receiptId = receiptService.process(request);
+        Long receiptId = receiptService.save(request);
         return Response
                 .created(URI.create("/receipts/" + receiptId))
                 .build();

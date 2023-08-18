@@ -42,7 +42,7 @@ public class ReceiptService {
     }
 
     @Transactional
-    public Long process(SaveReceiptRequest request) {
+    public Long save(SaveReceiptRequest request) {
 
         val posId = request.getPosSystemId();
         val storeId = request.getStoreId();
@@ -63,7 +63,7 @@ public class ReceiptService {
             Till till = saveTill(request.getTill(), meta);
             Cashier cashier = saveCashier(request.getCashier());
             Promotions promotions = savePromotions(request.getPromotions());
-            receipt = save(buildReceipt(request, meta, user, till, cashier, promotions));
+            receipt = receiptRepository.save(buildReceipt(request, meta, user, till, cashier, promotions));
             saveLineItems(request, meta, receipt);
             log.info("Successfully processed receipt. Receipt ID: {}", receipt.getReceiptId());
         } catch (Exception e) {
@@ -71,10 +71,6 @@ public class ReceiptService {
             throw e;
         }
         return receipt.receiptId;
-    }
-
-    public Receipt save(Receipt receipt) {
-        return receiptRepository.save(receipt);
     }
 
     private void saveLineItems(SaveReceiptRequest request, MetaData meta, Receipt receipt) {
