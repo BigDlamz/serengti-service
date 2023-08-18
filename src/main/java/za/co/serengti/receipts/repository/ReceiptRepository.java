@@ -15,11 +15,11 @@ public class ReceiptRepository implements PanacheRepository<Receipt> {
     }
 
     public List<Receipt> findAllByCustomerEmail(String email) {
-        return list("SELECT r FROM Receipt r JOIN r.customer c WHERE TYPE(c) = EmailCustomer AND LOWER(c.emailAddress) = LOWER(?1)", email);
+        return list("SELECT r FROM Receipt r JOIN r.user c WHERE TYPE(c) = EmailUser AND LOWER(c.emailAddress) = LOWER(?1)", email);
     }
 
     public long findCustomerTotalReceipts(String email) {
-        return count("FROM Receipt r, EmailCustomer c WHERE r.customer.customerID = c.customerID AND LOWER(c.emailAddress) = LOWER(?1)", email);
+        return count("FROM Receipt r, EmailUser c WHERE r.user.userId = c.userId AND LOWER(c.emailAddress) = LOWER(?1)", email);
     }
 }
 

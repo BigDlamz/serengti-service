@@ -1,9 +1,10 @@
 package za.co.serengti.receipts.service;
 
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import za.co.serengti.application.SaveReceiptRequest;
-import za.co.serengti.customers.entity.Customer;
-import za.co.serengti.customers.service.CustomerService;
+import za.co.serengti.users.entity.User;
+import za.co.serengti.users.service.CustomerService;
 import za.co.serengti.merchants.entity.MetaData;
 import za.co.serengti.merchants.service.MerchantService;
 import za.co.serengti.receipts.dto.CashierDTO;
@@ -41,11 +42,15 @@ public class ReceiptService {
     }
 
     @Transactional
-    public Long process(SaveReceiptRequest request, Long posId, Long storeId) {
+    public Long process(SaveReceiptRequest request) {
 
+        val posId = request.getPosSystemId();
+        val storeId = request.getStoreId();
 
         log.info("Processing receipt for POS ID: {} and Store ID: {}", posId, storeId);
+
         Receipt receipt;
+
         try {
 
             MetaData meta = MetaData.
@@ -54,11 +59,11 @@ public class ReceiptService {
                     .store(merchantService.findStore(storeId))
                     .build();
 
-            Customer customer = customerService.findOrSaveCustomer(request.getCustomerIdentifier());
+            User user = customerService.findOrSaveCustomer(request.getCustomerIdentifier());
             Till till = saveTill(request.getTill(), meta);
             Cashier cashier = saveCashier(request.getCashier());
             Promotions promotions = savePromotions(request.getPromotions());
-            receipt = save(buildReceipt(request,meta, customer, till, cashier, promotions));
+            receipt = save(buildReceipt(request, meta, user, till, cashier, promotions));
             saveLineItems(request, meta, receipt);
             log.info("Successfully processed receipt. Receipt ID: {}", receipt.getReceiptId());
         } catch (Exception e) {
@@ -78,8 +83,7 @@ public class ReceiptService {
             List<LineItem> lineItems = lineItemsService.processLineItems(request.getLineItems(), meta, receipt);
             lineItemsService.saveLineItems(lineItems);
             log.info("Successfully processed line items for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreID());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Error processing line items for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreID(), e);
             throw e;
         }
@@ -87,13 +91,12 @@ public class ReceiptService {
 
     private Till saveTill(TillDTO tillDTO, MetaData meta) {
         log.info("Start saving till information for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreID());
-       Till savedTill;
+        Till savedTill;
         try {
             Till till = tillService.toEntity(tillDTO, meta);
             savedTill = tillService.save(till);
             log.info("Successfully saved till information for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreID());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Error saving till information for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreID(), e);
             throw e;
         }
@@ -126,13 +129,13 @@ public class ReceiptService {
         return promotions;
     }
 
-    private Receipt buildReceipt(SaveReceiptRequest request, MetaData meta, Customer customer, Till till, Cashier cashier, Promotions promotions) {
+    private Receipt buildReceipt(SaveReceiptRequest request, MetaData meta, User user, Till till, Cashier cashier, Promotions promotions) {
         Receipt receipt;
         try {
             receipt = Receipt.builder()
                     .posSystem(meta.getPosSystem())
                     .store(meta.getStore())
-                    .customer(customer)
+                    .user(user)
                     .till(till)
                     .cashier(cashier)
                     .promotions(promotions)
@@ -162,7 +165,7 @@ public class ReceiptService {
         return receiptRepository.findAllByCustomerEmail(email);
     }
 
-    public Long findCustomerTotalReceipts(String email) {
+    public Long findUserReceiptCount(String email) {
         log.info("Finding total receipts for customer with email: {}", email);
         return receiptRepository.findCustomerTotalReceipts(email);
     }

@@ -1,4 +1,4 @@
-package za.co.serengti.customers.entity;
+package za.co.serengti.users.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,9 +15,9 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 @NoArgsConstructor
 @DiscriminatorValue("mobile_number")
-public class MobileCustomer extends Customer {
+public class MobileUser extends User {
 
-    public MobileCustomer(String name, String identifierType, String mobileNumber) {
+    public MobileUser(String name, String identifierType, String mobileNumber) {
         super(name, identifierType);
         this.setMobileNumber(mobileNumber);
     }

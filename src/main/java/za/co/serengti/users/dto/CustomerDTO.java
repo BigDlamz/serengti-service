@@ -1,4 +1,4 @@
-package za.co.serengti.customers.dto;
+package za.co.serengti.users.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CustomerDTO {
     @JsonIgnore
-    private Long customerID;
+    private Long userId;
     private String name;
     @JsonInclude(JsonInclude.Include. NON_NULL)
     private String emailAddress;

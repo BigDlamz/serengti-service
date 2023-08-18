@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import za.co.serengti.merchants.mapper.ProductCategoryConverter;
 import za.co.serengti.util.ProductCategory;
 
 import javax.persistence.*;

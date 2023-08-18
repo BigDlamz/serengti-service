@@ -14,7 +14,7 @@ public class TillMapper {
                 .builder()
                 .posSystem(meta.getPosSystem())
                 .store(meta.getStore())
-                .tillNumber(String.valueOf(dto.getTillNumber()))
+                .tillNumber(dto.getTillNumber())
                 .build();
 
     }
@@ -22,7 +22,7 @@ public class TillMapper {
     public TillDTO toDto(Till entity) {
         return TillDTO
                 .builder()
-                .tillNumber(Short.parseShort(entity.getTillNumber()))
+                .tillNumber(entity.getTillNumber())
                 .build();
     }
 }

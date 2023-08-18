@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TillDTO {
-    private short tillNumber;
+    private Long tillNumber;
 }

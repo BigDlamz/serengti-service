@@ -7,6 +7,7 @@ import za.co.serengti.receipts.dto.CashierDTO;
 import za.co.serengti.receipts.dto.PromotionsDTO;
 import za.co.serengti.receipts.dto.TillDTO;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +16,10 @@ import java.util.List;
 @Builder
 public class SaveReceiptRequest {
 
+    @NotNull(message =  "posSystemId is required")
+    private Long posSystemId;
+    @NotNull(message =  "storeId is required")
+    private Long storeId;
     private String customerIdentifier;
     private LocalDateTime transactionDate;
     private TillDTO till;

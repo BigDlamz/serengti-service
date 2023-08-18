@@ -1,4 +1,4 @@
-package za.co.serengti.customers.service;
+package za.co.serengti.users.service;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.regex.Pattern;

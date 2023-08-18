@@ -31,6 +31,6 @@ public class Till {
     private POSSystem posSystem;
 
     @Column(name = "till_number")
-    private String tillNumber;
+    private Long tillNumber;
 
 }

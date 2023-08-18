@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -32,5 +33,8 @@ public class Store extends PanacheEntityBase {
 
     @Column(name = "store_logo_url")
     public String storeLogoURL;
+
+    @OneToMany(mappedBy = "store")
+    public List<Special> specials;
 
 }

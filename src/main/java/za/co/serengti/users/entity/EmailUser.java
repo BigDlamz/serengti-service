@@ -1,4 +1,4 @@
-package za.co.serengti.customers.entity;
+package za.co.serengti.users.entity;
 
 import lombok.*;
 
@@ -12,10 +12,10 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 @NoArgsConstructor
 @DiscriminatorValue("email_address")
-public class EmailCustomer extends Customer {
+public class EmailUser extends User {
 
 
-    public EmailCustomer(String name, String identifierType, String emailAddress) {
+    public EmailUser(String name, String identifierType, String emailAddress) {
         super(name, identifierType);
         this.setEmailAddress(emailAddress);
     }

@@ -1,5 +1,6 @@
 package za.co.serengti.merchants.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,11 @@ public class Special {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "special_id")
     private Long specialId;
+
+    @ManyToOne
+    @JoinColumn(name = "store_id", nullable = false)
+    @JsonIgnore
+    private Store store;  // assuming you have a Store entity cla
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
