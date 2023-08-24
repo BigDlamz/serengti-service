@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import za.co.serengti.users.dto.CustomerDTO;
+import za.co.serengti.users.dto.UserDTO;
 import za.co.serengti.merchants.dto.POSSystemDTO;
 import za.co.serengti.merchants.dto.StoreDTO;
 
@@ -21,7 +21,7 @@ public class  ReceiptDTO {
     private LocalDateTime timestamp;
     private POSSystemDTO posSystem;
     private StoreDTO store;
-    private CustomerDTO customer;
+    private UserDTO user;
     private List<LineItemDTO> lineItems;
     private TillDTO till;
     private CashierDTO cashier;

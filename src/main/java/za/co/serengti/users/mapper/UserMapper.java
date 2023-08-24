@@ -1,6 +1,6 @@
 package za.co.serengti.users.mapper;
 
-import za.co.serengti.users.dto.CustomerDTO;
+import za.co.serengti.users.dto.UserDTO;
 import za.co.serengti.users.entity.User;
 import za.co.serengti.users.entity.EmailUser;
 import za.co.serengti.users.entity.MobileUser;
@@ -10,7 +10,7 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class UserMapper {
 
-    public User toEntity(CustomerDTO dto) {
+    public User toEntity(UserDTO dto) {
         if (dto.getEmailAddress() != null) {
             return new EmailUser(dto.getName(), "email_address", dto.getEmailAddress());
         } else if (dto.getMobileNumber() != null) {
@@ -20,8 +20,8 @@ public class UserMapper {
         }
     }
 
-    public CustomerDTO toDto(User entity) {
-        CustomerDTO dto = new CustomerDTO();
+    public UserDTO toDto(User entity) {
+        UserDTO dto = new UserDTO();
         dto.setUserId(entity.getUserId());
         dto.setName(entity.getName());
 

@@ -49,7 +49,7 @@ public class ReceiptMapper {
                 .timestamp(entity.getTransactionDate())
                 .posSystem(posSystemMapper.toDto(entity.getPosSystem()))
                 .store(storeMapper.toDto(entity.getStore()))
-                .customer(userMapper.toDto(entity.getUser()))
+                .user(userMapper.toDto(entity.getUser()))
                 .lineItems(lineItemDTOS)
                 .till(tillMapper.toDto(entity.getTill()))
                 .cashier(cashierMapper.toDto(entity.getCashier()))
