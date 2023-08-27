@@ -1,5 +1,7 @@
-package za.co.serengti.merchants.dto;
+package za.co.serengti.merchants.mapper;
 
+import za.co.serengti.merchants.dto.SpecialDTO;
+import za.co.serengti.merchants.dto.StoreDTO;
 import za.co.serengti.merchants.entity.Special;
 import za.co.serengti.merchants.entity.Store;
 
@@ -14,7 +16,7 @@ public class SpecialMapper {
         return SpecialDTO.builder()
                 .specialId(special.getSpecialId())
                 .store(StoreDTO.builder()
-                        .storeID(special.getStore().getStoreID())
+                        .storeId(special.getStore().getStoreId())
                         .name(special.getStore().getName())
                         .address(special.getStore().getAddress())
                         .vatRegistrationNumber(special.getStore().getVatRegistrationNumber())
@@ -35,7 +37,7 @@ public class SpecialMapper {
         if (specialDTO == null) return null;
 
         Store store = Store.builder()
-                .storeID(specialDTO.getStore().getStoreID())
+                .storeId(specialDTO.getStore().getStoreId())
                 .name(specialDTO.getStore().getName())
                 .address(specialDTO.getStore().getAddress())
                 .vatRegistrationNumber(specialDTO.getStore().getVatRegistrationNumber())

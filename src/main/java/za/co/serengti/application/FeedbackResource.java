@@ -50,7 +50,27 @@ public class FeedbackResource {
         if (averageRating != null) {
             return Response.ok(averageRating).build();
         } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.ok(0).build();
         }
     }
+
+    @GET
+    @Path("/exists/{receiptId}")
+    public Response hasUserGivenFeedbackForReceipt(@PathParam("receiptId") Long receiptId) {
+        if (feedbackService.hasUserGivenFeedbackForReceipt(receiptId)) {
+            return Response.ok(true).build(); // Feedback exists for this receipt
+        } else {
+            return Response.ok(false).build(); // No feedback has been given for this receipt
+        }
+    }
+
+    @GET
+    @Path("/top5/store/{storeId}")
+    public List<FeedbackDTO> getTop5FeedbacksForStore(@PathParam("storeId") Long storeId) {
+        List<Feedback> feedbacks = feedbackService.getTop5FeedbacksForStore(storeId);
+        return feedbacks.stream()
+                .map(feedbackMapper::convertToDto)
+                .collect(Collectors.toList());
+    }
+
 }

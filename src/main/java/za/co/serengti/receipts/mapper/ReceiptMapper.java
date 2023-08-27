@@ -61,6 +61,7 @@ public class ReceiptMapper {
                 .totalDueAfterTax(entity.getTotalDueAfterTax())
                 .amountPaid(entity.getAmountPaid())
                 .changeDue(entity.getChangeDue())
+                .viewed(entity.getViewed())
                 .build();
     }
 }

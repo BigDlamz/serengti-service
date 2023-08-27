@@ -10,7 +10,7 @@ public class StoreMapper {
 
     public Store toEntity(StoreDTO dto) {
         return Store.builder()
-                .storeID(dto.getStoreID())
+                .storeId(dto.getStoreId())
                 .name(dto.getName())
                 .address(dto.getAddress())
                 .vatRegistrationNumber(dto.getVatRegistrationNumber())
@@ -19,7 +19,7 @@ public class StoreMapper {
 
     public StoreDTO toDto(Store entity) {
         return StoreDTO.builder()
-                .storeID(entity.getStoreID())
+                .storeId(entity.getStoreId())
                 .name(entity.getName())
                 .address(entity.getAddress())
                 .vatRegistrationNumber(entity.getVatRegistrationNumber())

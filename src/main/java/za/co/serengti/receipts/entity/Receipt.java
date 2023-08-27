@@ -73,6 +73,9 @@ public class Receipt extends PanacheEntityBase {
     @Column(name = "change_due")
     public BigDecimal changeDue;
 
+    @Column(name = "viewed", nullable = false)
+    public Boolean viewed;
+
     @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     public List<LineItem> lineItems;

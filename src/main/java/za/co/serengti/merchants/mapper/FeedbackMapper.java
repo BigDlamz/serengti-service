@@ -4,6 +4,7 @@ import za.co.serengti.merchants.dto.FeedbackDTO;
 import za.co.serengti.merchants.entity.Feedback;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.time.LocalDateTime;
 
 @ApplicationScoped
 public class FeedbackMapper {
@@ -14,6 +15,7 @@ public class FeedbackMapper {
         feedback.setReceiptId(feedbackDto.getReceiptId());
         feedback.setStarRating(feedbackDto.getStarRating());
         feedback.setUserComment(feedbackDto.getUserComment());
+        feedback.setFeedbackDate(LocalDateTime.now());
         return feedback;
     }
 

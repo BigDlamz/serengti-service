@@ -4,6 +4,7 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import za.co.serengti.receipts.entity.Receipt;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @ApplicationScoped
@@ -20,6 +21,16 @@ public class ReceiptRepository implements PanacheRepository<Receipt> {
 
     public long findCustomerTotalReceipts(String email) {
         return count("FROM Receipt r, EmailUser c WHERE r.user.userId = c.userId AND LOWER(c.emailAddress) = LOWER(?1)", email);
+    }
+
+    @Transactional
+    public boolean markReceiptAsViewed(Long receiptId) {
+        Receipt receipt = findById(receiptId);
+        if (receipt != null) {
+            receipt.setViewed(true); // Assuming your Receipt entity has a setViewed method
+            return true;
+        }
+        return false;
     }
 }
 

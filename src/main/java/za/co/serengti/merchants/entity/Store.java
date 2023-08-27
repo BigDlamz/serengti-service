@@ -20,7 +20,7 @@ public class Store extends PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_id")
-    public Long storeID;
+    public Long storeId;
 
     @Column(name = "vat_registration_number")
     public String vatRegistrationNumber;

@@ -93,5 +93,15 @@ public class ReceiptResource {
         validate.notNull(email, "email");
         return receiptService.findUserReceiptCount(email);
     }
+
+    @PUT
+    @Path("/markAsViewed/{receiptId}")
+    public Response markReceiptAsViewed(@PathParam("receiptId") Long receiptId) {
+        if (receiptService.markReceiptAsViewed(receiptId)) {
+            return Response.ok().build();  // Successfully marked as viewed
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();  // Receipt not found
+        }
+    }
 }
 

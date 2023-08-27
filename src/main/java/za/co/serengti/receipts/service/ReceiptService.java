@@ -74,26 +74,26 @@ public class ReceiptService {
     }
 
     private void saveLineItems(SaveReceiptRequest request, MetaData meta, Receipt receipt) {
-        log.info("Start processing line items for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreID());
+        log.info("Start processing line items for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreId());
         try {
             List<LineItem> lineItems = lineItemsService.processLineItems(request.getLineItems(), meta, receipt);
             lineItemsService.saveLineItems(lineItems);
-            log.info("Successfully processed line items for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreID());
+            log.info("Successfully processed line items for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreId());
         } catch (Exception e) {
-            log.error("Error processing line items for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreID(), e);
+            log.error("Error processing line items for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreId(), e);
             throw e;
         }
     }
 
     private Till saveTill(TillDTO tillDTO, MetaData meta) {
-        log.info("Start saving till information for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreID());
+        log.info("Start saving till information for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreId());
         Till savedTill;
         try {
             Till till = tillService.toEntity(tillDTO, meta);
             savedTill = tillService.save(till);
-            log.info("Successfully saved till information for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreID());
+            log.info("Successfully saved till information for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreId());
         } catch (Exception e) {
-            log.error("Error saving till information for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreID(), e);
+            log.error("Error saving till information for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreId(), e);
             throw e;
         }
         return savedTill;
@@ -164,5 +164,10 @@ public class ReceiptService {
     public Long findUserReceiptCount(String email) {
         log.info("Finding total receipts for customer with email: {}", email);
         return receiptRepository.findCustomerTotalReceipts(email);
+    }
+
+    public boolean markReceiptAsViewed(Long receiptId) {
+        log.info("Marking receiptId: {} as viewed", receiptId);
+        return receiptRepository.markReceiptAsViewed(receiptId);
     }
 }

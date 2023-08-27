@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS line_items;
+DROP TABLE IF EXISTS feedback;
 DROP TABLE IF EXISTS receipts;
 DROP TABLE IF EXISTS product_identifiers;
 DROP TABLE IF EXISTS specials;
@@ -131,6 +132,7 @@ CREATE TABLE receipts
     total_due_after_tax NUMERIC(19, 2),
     amount_paid NUMERIC(19, 2),
     change_due NUMERIC(19, 2),
+    viewed BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (receipt_id),
     CONSTRAINT fk_receipt_store FOREIGN KEY (store_id) REFERENCES stores (store_id),
     CONSTRAINT fk_receipt_pos_system FOREIGN KEY (pos_system_id) REFERENCES pos_systems (pos_system_id),
@@ -225,9 +227,9 @@ VALUES (1, 1, 1, '1234567890123', '123456789012', 'SKU_001'),
        (3, 2, 2, '3456789012345', '345678901234', 'SKU_003'),
        (4, 2, 2, '4567890123456', '456789012345', 'SKU_004');
 
-INSERT INTO receipts (store_id, pos_system_id, customer_id, till_id, cashier_id, promotion_id, transaction_date, subtotal, vat_rate, vat_amount, discount_amount, total_due_after_tax, amount_paid, change_due)
-VALUES (1, 1, 1, 1, 1, 1, '2023-05-01 10:30:00', 10.00, 15.00, 2.25, 0.00, 12.25, 12.25, 0.00),
-       (2, 2, 2, 2, 2, 2, '2023-05-02 15:45:00', 30.00, 45.00,  13.50, 0.00, 31.50, 31.50, 0.00);
+INSERT INTO receipts (store_id, pos_system_id, customer_id, till_id, cashier_id, promotion_id, transaction_date, subtotal, vat_rate, vat_amount, discount_amount, total_due_after_tax, amount_paid, change_due, viewed)
+VALUES (1, 1, 1, 1, 1, 1, '2023-05-01 10:30:00', 10.00, 15.00, 2.25, 0.00, 12.25, 12.25, 0.00, false),
+       (2, 2, 2, 2, 2, 2, '2023-05-02 15:45:00', 30.00, 45.00,  13.50, 0.00, 31.50, 31.50, 0.00, false);
 
 INSERT INTO line_items (receipt_id, product_id, quantity)
 VALUES (1, 1, 3),

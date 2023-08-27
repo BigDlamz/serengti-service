@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -30,7 +31,7 @@ public class Feedback {
     private String userComment;
 
     @Column(name = "feedback_date")
-    private java.util.Date feedbackDate;
+    private LocalDateTime feedbackDate;
 
 
 }

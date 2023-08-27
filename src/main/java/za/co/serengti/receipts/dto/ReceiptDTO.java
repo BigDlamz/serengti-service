@@ -33,6 +33,7 @@ public class  ReceiptDTO {
     public BigDecimal totalDueAfterTax;
     public BigDecimal amountPaid;
     public BigDecimal changeDue;
+    public Boolean viewed;
 
 }
 
