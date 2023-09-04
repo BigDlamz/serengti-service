@@ -5,6 +5,8 @@ import za.co.serengti.receipts.entity.Receipt;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @ApplicationScoped
@@ -15,8 +17,12 @@ public class ReceiptRepository implements PanacheRepository<Receipt> {
         return receipt;
     }
 
-    public List<Receipt> findAllByCustomerEmail(String email) {
-        return list("SELECT r FROM Receipt r JOIN r.user c WHERE TYPE(c) = EmailUser AND LOWER(c.emailAddress) = LOWER(?1)", email);
+    public List<Receipt> findAllReceiptsByCustomerEmailAndDate(String email, LocalDate date) {
+        LocalDateTime startDateTime = date.atStartOfDay();
+        LocalDateTime endDateTime = date.atTime(23, 59, 59);
+
+        return list("SELECT r FROM Receipt r JOIN r.user c WHERE TYPE(c) = EmailUser AND LOWER(c.emailAddress) = LOWER(?1) AND r.transactionDate >= ?2 AND r.transactionDate <= ?3",
+                email, startDateTime, endDateTime);
     }
 
     public long findCustomerTotalReceipts(String email) {

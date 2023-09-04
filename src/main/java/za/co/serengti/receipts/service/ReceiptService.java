@@ -15,6 +15,7 @@ import za.co.serengti.receipts.repository.ReceiptRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 
 @ApplicationScoped
@@ -156,9 +157,9 @@ public class ReceiptService {
         return receiptRepository.findById(receiptId);
     }
 
-    public List<Receipt> findAllByCustomerEmail(String email) {
-        log.info("Finding all receipts for customer with email: {}", email);
-        return receiptRepository.findAllByCustomerEmail(email);
+    public List<Receipt> findAllReceiptsByCustomerEmailAndDate(String email, LocalDate date) {
+        log.info("Finding all receipts for customer with email: {} and date: {}", email, date);
+        return receiptRepository.findAllReceiptsByCustomerEmailAndDate(email, date);
     }
 
     public Long findUserReceiptCount(String email) {
