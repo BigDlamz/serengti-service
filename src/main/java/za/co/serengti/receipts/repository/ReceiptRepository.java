@@ -25,15 +25,23 @@ public class ReceiptRepository implements PanacheRepository<Receipt> {
                 email, startDateTime, endDateTime);
     }
 
-    public long findCustomerTotalReceipts(String email) {
+    public long findTotalCustomerReceiptsCount(String email) {
         return count("FROM Receipt r, EmailUser c WHERE r.user.userId = c.userId AND LOWER(c.emailAddress) = LOWER(?1)", email);
     }
 
+    public long findUnreadReceiptsByEmail(String email) {
+        return count("FROM Receipt r " +
+                "JOIN r.user u " +
+                "WHERE LOWER(u.emailAddress) = LOWER(?1) " +
+                "AND r.viewed = false", email);
+
+    }
+
     @Transactional
-    public boolean markReceiptAsViewed(Long receiptId) {
+    public boolean markReceiptAsRead(Long receiptId) {
         Receipt receipt = findById(receiptId);
         if (receipt != null) {
-            receipt.setViewed(true); // Assuming your Receipt entity has a setViewed method
+            receipt.setViewed(true);
             return true;
         }
         return false;

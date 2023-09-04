@@ -7,7 +7,6 @@ import za.co.serengti.receipts.mapper.ReceiptMapper;
 import za.co.serengti.receipts.service.ReceiptService;
 import za.co.serengti.util.Validate;
 
-import javax.json.Json;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -40,7 +39,6 @@ public class ReceiptResource {
     @Operation(summary = "Save a new user receipt")
     @APIResponse(responseCode = "201", description = "Receipt saved")
     @APIResponse(responseCode = "500", description = "An internal server error occurred")
-
     public Response saveReceipt(@Valid SaveReceiptRequest request) {
         Long receiptId = receiptService.save(request);
         return Response
@@ -54,7 +52,6 @@ public class ReceiptResource {
     @APIResponse(responseCode = "200", description = "Receipt found")
     @APIResponse(responseCode = "404", description = "Receipt not found")
     @APIResponse(responseCode = "500", description = "An internal server error occurred")
-
     public Response findReceipt(@PathParam("receiptId") Long receiptId) {
         validate.notNull(receiptId, "receiptId");
         Receipt receipt = receiptService.find(receiptId);
@@ -72,7 +69,6 @@ public class ReceiptResource {
     @APIResponse(responseCode = "200", description = "Receipts found")
     @APIResponse(responseCode = "404", description = "No receipts found for email")
     @APIResponse(responseCode = "500", description = "An internal server error occurred")
-
     public Response findAllReceiptsByEmailAndDate(@QueryParam("email") String email, @QueryParam("transactionDate") String transactionDate) {
         LocalDate date;
         try {
@@ -87,7 +83,7 @@ public class ReceiptResource {
 
         if (receipts.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND)
-                    .entity(ResponseMessage.builder().message( "No receipts found for email: " + email + " on date: " + transactionDate).build())
+                    .entity(ResponseMessage.builder().message("No receipts found for email: " + email + " on date: " + transactionDate).build())
                     .build();
         }
 
@@ -99,24 +95,36 @@ public class ReceiptResource {
     }
 
     @GET
-    @Path("count")
+    @Path("counts")
     @Operation(summary = "Find the total number of receipts for a user")
     @APIResponse(responseCode = "500", description = "An internal server error occurred")
-
-    public Long findUserReceiptCount(@QueryParam("email") String email) {
+    public Response findTotalUserReceiptCount(@QueryParam("email") String email) {
         validate.notNull(email, "email");
-        return receiptService.findUserReceiptCount(email);
+        return Response.ok(ReceiptCount.builder()
+                .count(receiptService.findTotalUserReceiptCount(email))
+                .build())
+                .build();
     }
 
     @PUT
-    @Operation(summary = "Update the receipt as viewed")
-    @Path("/views/{receiptId}")
-    public Response markReceiptAsViewed(@PathParam("receiptId") Long receiptId) {
-        if (receiptService.markReceiptAsViewed(receiptId)) {
-            return Response.ok().build();  // Successfully marked as viewed
+    @Operation(summary = "Update the receipt as being read")
+    @Path("/reads/{receiptId}")
+    public Response updateReceiptAsRead(@PathParam("receiptId") Long receiptId) {
+        if (receiptService.markReceiptAsRead(receiptId)) {
+            return Response.ok().build();
         } else {
-            return Response.status(Response.Status.NOT_FOUND).build();  // Receipt not found
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
+    }
+
+    @GET
+    @Operation(summary = "Find the total number of unread receipts for a user")
+    @Path("/unread")
+    public Response findUnreadReceipts(@QueryParam("email") String email) {
+        validate.notNull(email, "email");
+        return Response.ok(ReceiptCount.builder()
+                .count(receiptService.findUnreadReceiptsByEmail(email)).build())
+                .build();
     }
 }
 

@@ -144,6 +144,7 @@ public class ReceiptService {
                     .totalDueAfterTax(request.getTotalDueAfterTax())
                     .amountPaid(request.getAmountPaid())
                     .changeDue(request.getChangeDue())
+                    .viewed(false)
                     .build();
         } catch (Exception e) {
             log.error("Error building receipt", e);
@@ -162,13 +163,18 @@ public class ReceiptService {
         return receiptRepository.findAllReceiptsByCustomerEmailAndDate(email, date);
     }
 
-    public Long findUserReceiptCount(String email) {
+    public Long findTotalUserReceiptCount(String email) {
         log.info("Finding total receipts for customer with email: {}", email);
-        return receiptRepository.findCustomerTotalReceipts(email);
+        return receiptRepository.findTotalCustomerReceiptsCount(email);
     }
 
-    public boolean markReceiptAsViewed(Long receiptId) {
+    public boolean markReceiptAsRead(Long receiptId) {
         log.info("Marking receiptId: {} as viewed", receiptId);
-        return receiptRepository.markReceiptAsViewed(receiptId);
+        return receiptRepository.markReceiptAsRead(receiptId);
+    }
+
+    public long findUnreadReceiptsByEmail(String email) {
+        log.info("Finding unread receipts for user with email: {}", email);
+        return receiptRepository.findUnreadReceiptsByEmail(email);
     }
 }
