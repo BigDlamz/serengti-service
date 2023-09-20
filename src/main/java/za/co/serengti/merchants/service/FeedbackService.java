@@ -6,7 +6,10 @@ import za.co.serengti.merchants.repository.FeedbackRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 @ApplicationScoped
@@ -31,7 +34,14 @@ public class FeedbackService {
     }
 
     public Double getAverageRatingForStore(Long storeId) {
-        return feedbackRepository.findAverageRatingForStore(storeId);
+        Double averageRating = feedbackRepository.findAverageRatingForStore(storeId);
+        if (averageRating == null || averageRating.isNaN()) {
+            return 0.0;
+        }
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+        symbols.setDecimalSeparator('.');
+        DecimalFormat df = new DecimalFormat("#.#", symbols);
+        return Double.parseDouble(df.format(feedbackRepository.findAverageRatingForStore(storeId)));
     }
 
     public boolean hasUserGivenFeedbackForReceipt(Long receiptId) {
