@@ -3,7 +3,7 @@ package za.co.serengti.receipts.mapper;
 import za.co.serengti.receipts.dto.CashierDTO;
 import za.co.serengti.receipts.entity.Cashier;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class CashierMapper {

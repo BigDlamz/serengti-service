@@ -6,8 +6,8 @@ import za.co.serengti.merchants.mapper.ProductMapper;
 import za.co.serengti.merchants.repository.ProductIdentifierRepository;
 import za.co.serengti.merchants.repository.ProductRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class ProductService {

@@ -7,9 +7,9 @@ import za.co.serengti.receipts.entity.LineItem;
 import za.co.serengti.receipts.entity.Receipt;
 import za.co.serengti.util.ProductCategory;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.BadRequestException;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.BadRequestException;
 import java.util.List;
 import java.util.stream.Collectors;
 

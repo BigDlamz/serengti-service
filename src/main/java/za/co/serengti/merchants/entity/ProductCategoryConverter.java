@@ -2,8 +2,8 @@ package za.co.serengti.merchants.entity;
 
 import za.co.serengti.util.ProductCategory;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 @Converter(autoApply = true)
 public class ProductCategoryConverter implements AttributeConverter<ProductCategory, String> {

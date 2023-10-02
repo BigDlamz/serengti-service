@@ -4,7 +4,7 @@ import za.co.serengti.merchants.entity.MetaData;
 import za.co.serengti.receipts.dto.TillDTO;
 import za.co.serengti.receipts.entity.Till;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class TillMapper {

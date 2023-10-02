@@ -7,7 +7,7 @@ import za.co.serengti.users.entity.User;
 import za.co.serengti.merchants.entity.POSSystem;
 import za.co.serengti.merchants.entity.Store;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;

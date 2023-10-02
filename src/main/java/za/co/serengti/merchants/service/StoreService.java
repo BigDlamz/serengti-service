@@ -3,8 +3,8 @@ package za.co.serengti.merchants.service;
 import za.co.serengti.merchants.entity.Store;
 import za.co.serengti.merchants.repository.StoreRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class StoreService {

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import za.co.serengti.merchants.entity.POSSystem;
 import za.co.serengti.merchants.entity.Store;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tills")

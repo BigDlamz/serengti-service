@@ -5,8 +5,8 @@ import za.co.serengti.receipts.entity.Promotions;
 import za.co.serengti.receipts.mapper.PromotionsMapper;
 import za.co.serengti.receipts.repository.PromotionsRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class PromotionsService {

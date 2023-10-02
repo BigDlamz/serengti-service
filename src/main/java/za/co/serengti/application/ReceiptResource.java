@@ -1,5 +1,6 @@
 package za.co.serengti.application;
 
+import io.smallrye.common.annotation.RunOnVirtualThread;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import za.co.serengti.receipts.entity.Receipt;
@@ -7,10 +8,10 @@ import za.co.serengti.receipts.mapper.ReceiptMapper;
 import za.co.serengti.receipts.service.ReceiptService;
 import za.co.serengti.util.Validate;
 
-import javax.validation.Valid;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -39,6 +40,7 @@ public class ReceiptResource {
     @Operation(summary = "Save a new user receipt")
     @APIResponse(responseCode = "201", description = "Receipt saved")
     @APIResponse(responseCode = "500", description = "An internal server error occurred")
+    @RunOnVirtualThread
     public Response saveReceipt(@Valid SaveReceiptRequest request) {
         Long receiptId = receiptService.save(request);
         return Response

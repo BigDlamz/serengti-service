@@ -1,6 +1,6 @@
 package za.co.serengti.users.service;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 

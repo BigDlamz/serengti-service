@@ -13,8 +13,8 @@ import za.co.serengti.receipts.dto.TillDTO;
 import za.co.serengti.receipts.entity.*;
 import za.co.serengti.receipts.repository.ReceiptRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -77,7 +77,8 @@ public class ReceiptService {
     private void saveLineItems(SaveReceiptRequest request, MetaData meta, Receipt receipt) {
         log.info("Start processing line items for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreId());
         try {
-            List<LineItem> lineItems = lineItemsService.processLineItems(request.getLineItems(), meta, receipt);
+            var items = request.getLineItems();
+            List<LineItem> lineItems = lineItemsService.processLineItems(items, meta, receipt);
             lineItemsService.saveLineItems(lineItems);
             log.info("Successfully processed line items for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreId());
         } catch (Exception e) {

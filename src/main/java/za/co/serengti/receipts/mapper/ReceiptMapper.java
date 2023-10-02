@@ -9,8 +9,8 @@ import za.co.serengti.receipts.dto.ReceiptDTO;
 import za.co.serengti.receipts.entity.LineItem;
 import za.co.serengti.receipts.entity.Receipt;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 

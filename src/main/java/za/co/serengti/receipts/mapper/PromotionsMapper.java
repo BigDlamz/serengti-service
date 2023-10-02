@@ -3,7 +3,7 @@ package za.co.serengti.receipts.mapper;
 import za.co.serengti.receipts.dto.PromotionsDTO;
 import za.co.serengti.receipts.entity.Promotions;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 
 @ApplicationScoped

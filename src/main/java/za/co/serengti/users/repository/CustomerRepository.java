@@ -3,8 +3,8 @@ package za.co.serengti.users.repository;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import za.co.serengti.users.entity.User;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import java.util.Optional;
 
 @ApplicationScoped

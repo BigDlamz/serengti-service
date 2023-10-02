@@ -3,9 +3,9 @@ package za.co.serengti.merchants.repository;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import za.co.serengti.merchants.entity.Feedback;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.Query;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.Query;
+import jakarta.transaction.Transactional;
 import java.util.List;
 
 @ApplicationScoped

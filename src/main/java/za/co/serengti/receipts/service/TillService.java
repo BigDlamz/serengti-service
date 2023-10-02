@@ -6,8 +6,8 @@ import za.co.serengti.receipts.entity.Till;
 import za.co.serengti.receipts.mapper.TillMapper;
 import za.co.serengti.receipts.repository.TillRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class TillService {

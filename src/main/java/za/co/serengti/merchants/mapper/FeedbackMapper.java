@@ -3,7 +3,7 @@ package za.co.serengti.merchants.mapper;
 import za.co.serengti.merchants.dto.FeedbackDTO;
 import za.co.serengti.merchants.entity.Feedback;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.time.LocalDateTime;
 
 @ApplicationScoped

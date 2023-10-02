@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import za.co.serengti.merchants.entity.Feedback;
 import za.co.serengti.merchants.repository.FeedbackRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;

@@ -3,8 +3,8 @@ package za.co.serengti.receipts.repository;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import za.co.serengti.receipts.entity.Receipt;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,9 +31,10 @@ public class ReceiptRepository implements PanacheRepository<Receipt> {
 
     public long findUnreadReceiptsByEmail(String email) {
         return count("FROM Receipt r " +
-                "JOIN r.user u " +
-                "WHERE LOWER(u.emailAddress) = LOWER(?1) " +
-                "AND r.viewed = false", email);
+                        "JOIN r.user u " +
+                        "WHERE LOWER(u.emailAddress) = LOWER(?1) " +
+                        "AND r.viewed = false",
+                email);
 
     }
 

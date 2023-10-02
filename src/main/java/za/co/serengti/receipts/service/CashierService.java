@@ -5,8 +5,8 @@ import za.co.serengti.receipts.entity.Cashier;
 import za.co.serengti.receipts.mapper.CashierMapper;
 import za.co.serengti.receipts.repository.CashierRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class CashierService {

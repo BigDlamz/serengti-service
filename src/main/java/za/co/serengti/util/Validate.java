@@ -1,7 +1,7 @@
 package za.co.serengti.util;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.ws.rs.BadRequestException;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.BadRequestException;
 import java.util.Objects;
 
 @ApplicationScoped

@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import za.co.serengti.util.ProductCategory;
 
-import javax.persistence.Column;
+import jakarta.persistence.Column;
 import java.math.BigDecimal;
 
 @Data

@@ -5,7 +5,7 @@ import za.co.serengti.users.entity.User;
 import za.co.serengti.users.entity.EmailUser;
 import za.co.serengti.users.entity.MobileUser;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class UserMapper {

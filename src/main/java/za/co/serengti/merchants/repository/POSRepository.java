@@ -3,7 +3,7 @@ package za.co.serengti.merchants.repository;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import za.co.serengti.merchants.entity.POSSystem;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class POSRepository implements PanacheRepository<POSSystem> {

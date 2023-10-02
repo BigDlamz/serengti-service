@@ -5,9 +5,9 @@ import za.co.serengti.users.entity.EmailUser;
 import za.co.serengti.users.entity.MobileUser;
 import za.co.serengti.users.repository.CustomerRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class CustomerService {

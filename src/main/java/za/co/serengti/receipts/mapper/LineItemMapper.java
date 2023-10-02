@@ -4,7 +4,7 @@ import za.co.serengti.merchants.mapper.ProductMapper;
 import za.co.serengti.receipts.dto.LineItemDTO;
 import za.co.serengti.receipts.entity.LineItem;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class LineItemMapper {

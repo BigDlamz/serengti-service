@@ -3,7 +3,7 @@ package za.co.serengti.merchants.repository;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import za.co.serengti.merchants.entity.Product;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.Optional;
 
 @ApplicationScoped

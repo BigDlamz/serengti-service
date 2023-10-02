@@ -4,7 +4,7 @@ import za.co.serengti.merchants.dto.ProductDTO;
 import za.co.serengti.merchants.entity.*;
 import za.co.serengti.util.ProductCategory;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class ProductMapper {

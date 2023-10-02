@@ -3,7 +3,7 @@ package za.co.serengti.merchants.mapper;
 import za.co.serengti.merchants.dto.StoreDTO;
 import za.co.serengti.merchants.entity.Store;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class StoreMapper {

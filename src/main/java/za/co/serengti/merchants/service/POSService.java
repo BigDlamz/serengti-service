@@ -3,7 +3,7 @@ package za.co.serengti.merchants.service;
 import za.co.serengti.merchants.entity.POSSystem;
 import za.co.serengti.merchants.repository.POSRepository;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class POSService {

@@ -5,7 +5,7 @@ import za.co.serengti.merchants.dto.StoreDTO;
 import za.co.serengti.merchants.entity.Special;
 import za.co.serengti.merchants.entity.Store;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class SpecialMapper {
