@@ -40,7 +40,6 @@ public class ReceiptResource {
     @Operation(summary = "Save a new user receipt")
     @APIResponse(responseCode = "201", description = "Receipt saved")
     @APIResponse(responseCode = "500", description = "An internal server error occurred")
-    @RunOnVirtualThread
     public Response saveReceipt(@Valid SaveReceiptRequest request) {
         Long receiptId = receiptService.save(request);
         return Response

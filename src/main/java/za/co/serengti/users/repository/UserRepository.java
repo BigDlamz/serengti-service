@@ -8,20 +8,20 @@ import jakarta.transaction.Transactional;
 import java.util.Optional;
 
 @ApplicationScoped
-public class CustomerRepository implements PanacheRepository<User> {
+public class UserRepository implements PanacheRepository<User> {
 
     @Transactional
-    public <T extends User> T save(T customer) {
-        persistAndFlush(customer);
-        return customer;
+    public <T extends User> T save(T user) {
+        persistAndFlush(user);
+        return user;
     }
 
     public Optional<User> findByEmailAddress(String emailAddress) {
-        return find("identifier_type = ?1 and email_address = ?2", "email_address", emailAddress).firstResultOptional();
+        return find("identifierType = 'email_address' and emailAddress = ?1", emailAddress).firstResultOptional();
     }
 
     public Optional<User> findByMobileNumber(String mobileNumber) {
-        return find("identifier_type = ?1 and mobile_number = ?2", "mobile_number", mobileNumber).firstResultOptional();
+        return find("identifier_type = 'mobile_number' and mobileNumber = ?2", mobileNumber).firstResultOptional();
     }
 
 }

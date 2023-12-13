@@ -1,10 +1,9 @@
 package za.co.serengti.receipts.service;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import za.co.serengti.application.SaveReceiptRequest;
-import za.co.serengti.users.entity.User;
-import za.co.serengti.users.service.CustomerService;
 import za.co.serengti.merchants.entity.MetaData;
 import za.co.serengti.merchants.service.MerchantService;
 import za.co.serengti.receipts.dto.CashierDTO;
@@ -12,29 +11,30 @@ import za.co.serengti.receipts.dto.PromotionsDTO;
 import za.co.serengti.receipts.dto.TillDTO;
 import za.co.serengti.receipts.entity.*;
 import za.co.serengti.receipts.repository.ReceiptRepository;
+import za.co.serengti.users.entity.User;
+import za.co.serengti.users.service.UserService;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @ApplicationScoped
 @Slf4j
 public class ReceiptService {
 
     private final MerchantService merchantService;
-    private final CustomerService customerService;
+    private final UserService userService;
     private final LineItemsService lineItemsService;
     private final TillService tillService;
     private final CashierService cashierService;
     private final ReceiptRepository receiptRepository;
     private final PromotionsService promotionsService;
 
-    public ReceiptService(MerchantService merchantService, CustomerService customerService,
+    public ReceiptService(MerchantService merchantService, UserService userService,
                           LineItemsService lineItemsService, TillService tillService,
                           CashierService cashierService, ReceiptRepository receiptRepository, PromotionsService promotionsService) {
         this.merchantService = merchantService;
-        this.customerService = customerService;
+        this.userService = userService;
         this.lineItemsService = lineItemsService;
         this.tillService = tillService;
         this.cashierService = cashierService;
@@ -45,33 +45,43 @@ public class ReceiptService {
     @Transactional
     public Long save(SaveReceiptRequest request) {
 
-        val posId = request.getPosSystemId();
-        val storeId = request.getStoreId();
+        validateTransactionDate(request);
 
-        log.info("Processing receipt for POS ID: {} and Store ID: {}", posId, storeId);
+        long posId = request.getPosSystemId();
+        long storeId = request.getStoreId();
 
+        log.info("Saving receipt for POS ID: {} and Store ID: {}", posId, storeId);
         Receipt receipt;
-
         try {
-
-            MetaData meta = MetaData.
-                    builder()
-                    .posSystem(merchantService.findPosSystem(posId))
-                    .store(merchantService.findStore(storeId))
-                    .build();
-
-            User user = customerService.findOrSaveCustomer(request.getCustomerIdentifier());
+            MetaData meta = getMetaData(posId, storeId);
+            User user = userService.findOrSaveUser(request.getUserIdentifier());
             Till till = saveTill(request.getTill(), meta);
             Cashier cashier = saveCashier(request.getCashier());
             Promotions promotions = savePromotions(request.getPromotions());
             receipt = receiptRepository.save(buildReceipt(request, meta, user, till, cashier, promotions));
             saveLineItems(request, meta, receipt);
-            log.info("Successfully processed receipt. Receipt ID: {}", receipt.getReceiptId());
+            log.info("Successfully saved receipt with ID: {}", receipt.getReceiptId());
         } catch (Exception e) {
-            log.error("Error processing receipt for POS ID: {} and Store ID: {}", posId, storeId, e);
+            log.error("Error saving receipt for POS ID: {} and Store ID: {}", posId, storeId, e);
             throw e;
         }
         return receipt.receiptId;
+    }
+
+    private MetaData getMetaData(long posId, long storeId) {
+        return MetaData.
+                builder()
+                .posSystem(merchantService.findPosSystem(posId))
+                .store(merchantService.findStore(storeId))
+                .build();
+    }
+
+    private static void validateTransactionDate(SaveReceiptRequest request) {
+        LocalDate transactionDate = request.getTransactionDate().toLocalDate();
+        LocalDate today = LocalDate.now();
+        if(!Objects.equals(transactionDate, today)) {
+                throw new IllegalArgumentException("Transaction date must be today & not in the past or future. Received transaction date:" + transactionDate);
+        }
     }
 
     private void saveLineItems(SaveReceiptRequest request, MetaData meta, Receipt receipt) {

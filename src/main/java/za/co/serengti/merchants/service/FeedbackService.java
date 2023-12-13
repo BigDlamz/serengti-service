@@ -29,7 +29,7 @@ public class FeedbackService {
         feedbackRepository.saveFeedback(feedback);
     }
 
-    public List<Feedback> getFeedbacksForStore(Long storeId) {
+    public List<Feedback> getFeedbackForStore(Long storeId) {
         return feedbackRepository.findFeedbackForStore(storeId);
     }
 
@@ -44,12 +44,12 @@ public class FeedbackService {
         return Double.parseDouble(df.format(feedbackRepository.findAverageRatingForStore(storeId)));
     }
 
-    public boolean hasUserGivenFeedbackForReceipt(Long receiptId) {
+    public boolean hasBeenRated(Long receiptId) {
         Feedback feedback = feedbackRepository.findFeedbackForReceipt(receiptId);
         return Objects.nonNull(feedback);
     }
 
-    public List<Feedback> getTop5FeedbacksForStore(Long storeId) {
+    public List<Feedback> getLatestFeedbackForStore(Long storeId) {
         return feedbackRepository.findTopFeedbacksForStore(storeId);
     }
 }

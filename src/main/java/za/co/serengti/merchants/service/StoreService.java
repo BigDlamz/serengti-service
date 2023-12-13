@@ -7,12 +7,14 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 @ApplicationScoped
-public class StoreService {
+public class StoreService implements StoreServiceInterface{
 
+    private final FeedbackService feedbackService;
     private final StoreRepository storeRepository;
 
     @Inject
-    public StoreService(StoreRepository storeRepository) {
+    public StoreService(FeedbackService feedbackService, StoreRepository storeRepository) {
+        this.feedbackService = feedbackService;
         this.storeRepository = storeRepository;
 
     }
