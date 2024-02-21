@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @ApplicationScoped
 public class FeedbackMapper {
 
-    public Feedback convertToEntity(FeedbackDTO feedbackDto) {
+    public Feedback toEntity(FeedbackDTO feedbackDto) {
         Feedback feedback = new Feedback();
         feedback.setFeedbackId(feedbackDto.getFeedbackId());
         feedback.setReceiptId(feedbackDto.getReceiptId());
@@ -19,7 +19,7 @@ public class FeedbackMapper {
         return feedback;
     }
 
-    public FeedbackDTO convertToDto(Feedback feedback) {
+    public FeedbackDTO toDto(Feedback feedback) {
         FeedbackDTO feedbackDto = new FeedbackDTO();
         feedbackDto.setFeedbackId(feedback.getFeedbackId());
         feedbackDto.setReceiptId(feedback.getReceiptId());

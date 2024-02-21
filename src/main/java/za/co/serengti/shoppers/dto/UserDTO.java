@@ -1,4 +1,4 @@
-package za.co.serengti.users.dto;
+package za.co.serengti.shoppers.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;

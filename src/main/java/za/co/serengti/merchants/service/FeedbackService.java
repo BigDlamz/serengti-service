@@ -16,7 +16,6 @@ import java.util.Objects;
 @Slf4j
 public class FeedbackService {
 
-
     FeedbackRepository feedbackRepository;
 
     @Inject
@@ -24,16 +23,16 @@ public class FeedbackService {
         this.feedbackRepository = feedbackRepository;
     }
 
-    public void addFeedback(Feedback feedback) {
+    public void saveFeedback(Feedback feedback) {
         log.info("Adding feedback for receiptId: {} payload: {}", feedback.getReceiptId(), feedback);
         feedbackRepository.saveFeedback(feedback);
     }
 
-    public List<Feedback> getFeedbackForStore(Long storeId) {
+    public List<Feedback> getFeedback(Long storeId) {
         return feedbackRepository.findFeedbackForStore(storeId);
     }
 
-    public Double getAverageRatingForStore(Long storeId) {
+    public Double getAverageRating(Long storeId) {
         Double averageRating = feedbackRepository.findAverageRatingForStore(storeId);
         if (averageRating == null || averageRating.isNaN()) {
             return 0.0;
@@ -44,12 +43,12 @@ public class FeedbackService {
         return Double.parseDouble(df.format(feedbackRepository.findAverageRatingForStore(storeId)));
     }
 
-    public boolean hasBeenRated(Long receiptId) {
+    public boolean hasServiceBeenRated(Long receiptId) {
         Feedback feedback = feedbackRepository.findFeedbackForReceipt(receiptId);
         return Objects.nonNull(feedback);
     }
 
-    public List<Feedback> getLatestFeedbackForStore(Long storeId) {
+    public List<Feedback> getTopFeedback(Long storeId) {
         return feedbackRepository.findTopFeedbacksForStore(storeId);
     }
 }

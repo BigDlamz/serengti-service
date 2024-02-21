@@ -21,17 +21,17 @@ public class ReceiptRepository implements PanacheRepository<Receipt> {
         LocalDateTime startDateTime = date.atStartOfDay();
         LocalDateTime endDateTime = date.atTime(23, 59, 59);
 
-        return list("SELECT r FROM Receipt r JOIN r.user c WHERE TYPE(c) = EmailUser AND LOWER(c.emailAddress) = LOWER(?1) AND r.transactionDate >= ?2 AND r.transactionDate <= ?3",
+        return list("SELECT r FROM Receipt r JOIN r.shopper c WHERE TYPE(c) = EmailShopper AND LOWER(c.emailAddress) = LOWER(?1) AND r.transactionDate >= ?2 AND r.transactionDate <= ?3",
                 email, startDateTime, endDateTime);
     }
 
-    public long findTotalCustomerReceiptsCount(String email) {
-        return count("FROM Receipt r, EmailUser c WHERE r.user.userId = c.userId AND LOWER(c.emailAddress) = LOWER(?1)", email);
+    public long findTotalShopperReceiptsCount(String email) {
+        return count("FROM Receipt r, EmailShopper c WHERE r.shopper.shopperId = c.shopperId AND LOWER(c.emailAddress) = LOWER(?1)", email);
     }
 
     public long findUnreadReceiptsByEmail(String email) {
         return count("FROM Receipt r " +
-                        "JOIN r.user u " +
+                        "JOIN r.shopper u " +
                         "WHERE LOWER(u.emailAddress) = LOWER(?1) " +
                         "AND r.viewed = false",
                 email);
@@ -39,7 +39,7 @@ public class ReceiptRepository implements PanacheRepository<Receipt> {
     }
 
     @Transactional
-    public boolean markReceiptAsRead(Long receiptId) {
+    public boolean updateMethodAsViewed(Long receiptId) {
         Receipt receipt = findById(receiptId);
         if (receipt != null) {
             receipt.setViewed(true);

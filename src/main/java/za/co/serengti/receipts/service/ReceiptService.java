@@ -11,8 +11,8 @@ import za.co.serengti.receipts.dto.PromotionsDTO;
 import za.co.serengti.receipts.dto.TillDTO;
 import za.co.serengti.receipts.entity.*;
 import za.co.serengti.receipts.repository.ReceiptRepository;
-import za.co.serengti.users.entity.User;
-import za.co.serengti.users.service.UserService;
+import za.co.serengti.shoppers.entity.Shopper;
+import za.co.serengti.shoppers.service.ShopperService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,18 +23,18 @@ import java.util.Objects;
 public class ReceiptService {
 
     private final MerchantService merchantService;
-    private final UserService userService;
+    private final ShopperService shopperService;
     private final LineItemsService lineItemsService;
     private final TillService tillService;
     private final CashierService cashierService;
     private final ReceiptRepository receiptRepository;
     private final PromotionsService promotionsService;
 
-    public ReceiptService(MerchantService merchantService, UserService userService,
+    public ReceiptService(MerchantService merchantService, ShopperService shopperService,
                           LineItemsService lineItemsService, TillService tillService,
                           CashierService cashierService, ReceiptRepository receiptRepository, PromotionsService promotionsService) {
         this.merchantService = merchantService;
-        this.userService = userService;
+        this.shopperService = shopperService;
         this.lineItemsService = lineItemsService;
         this.tillService = tillService;
         this.cashierService = cashierService;
@@ -54,11 +54,11 @@ public class ReceiptService {
         Receipt receipt;
         try {
             MetaData meta = getMetaData(posId, storeId);
-            User user = userService.findOrSaveUser(request.getUserIdentifier());
+            Shopper shopper = shopperService.findOrSaveNewShopper(request.getCustomerIdentifier());
             Till till = saveTill(request.getTill(), meta);
             Cashier cashier = saveCashier(request.getCashier());
             Promotions promotions = savePromotions(request.getPromotions());
-            receipt = receiptRepository.save(buildReceipt(request, meta, user, till, cashier, promotions));
+            receipt = receiptRepository.save(buildReceipt(request, meta, shopper, till, cashier, promotions));
             saveLineItems(request, meta, receipt);
             log.info("Successfully saved receipt with ID: {}", receipt.getReceiptId());
         } catch (Exception e) {
@@ -69,11 +69,7 @@ public class ReceiptService {
     }
 
     private MetaData getMetaData(long posId, long storeId) {
-        return MetaData.
-                builder()
-                .posSystem(merchantService.findPosSystem(posId))
-                .store(merchantService.findStore(storeId))
-                .build();
+        return merchantService.retrieveMetaData(posId, storeId);
     }
 
     private static void validateTransactionDate(SaveReceiptRequest request) {
@@ -137,13 +133,13 @@ public class ReceiptService {
         return promotions;
     }
 
-    private Receipt buildReceipt(SaveReceiptRequest request, MetaData meta, User user, Till till, Cashier cashier, Promotions promotions) {
+    private Receipt buildReceipt(SaveReceiptRequest request, MetaData meta, Shopper shopper, Till till, Cashier cashier, Promotions promotions) {
         Receipt receipt;
         try {
             receipt = Receipt.builder()
                     .posSystem(meta.getPosSystem())
                     .store(meta.getStore())
-                    .user(user)
+                    .shopper(shopper)
                     .till(till)
                     .cashier(cashier)
                     .promotions(promotions)
@@ -164,27 +160,27 @@ public class ReceiptService {
         return receipt;
     }
 
-    public Receipt find(Long receiptId) {
+    public Receipt retrieve(Long receiptId) {
         log.info("Finding receipt with ID: {}", receiptId);
         return receiptRepository.findById(receiptId);
     }
 
-    public List<Receipt> findAllReceiptsByCustomerEmailAndDate(String email, LocalDate date) {
+    public List<Receipt> retrieveReceiptsByEmailAndDate(String email, LocalDate date) {
         log.info("Finding all receipts for customer with email: {} and date: {}", email, date);
         return receiptRepository.findAllReceiptsByCustomerEmailAndDate(email, date);
     }
 
     public Long findTotalUserReceiptCount(String email) {
         log.info("Finding total receipts for customer with email: {}", email);
-        return receiptRepository.findTotalCustomerReceiptsCount(email);
+        return receiptRepository.findTotalShopperReceiptsCount(email);
     }
 
-    public boolean markReceiptAsRead(Long receiptId) {
+    public boolean updateReceiptAsViewed(Long receiptId) {
         log.info("Marking receiptId: {} as viewed", receiptId);
-        return receiptRepository.markReceiptAsRead(receiptId);
+        return receiptRepository.updateMethodAsViewed(receiptId);
     }
 
-    public long findUnreadReceiptsByEmail(String email) {
+    public long retrieveUnreadReceiptsByEmail(String email) {
         log.info("Finding unread receipts for user with email: {}", email);
         return receiptRepository.findUnreadReceiptsByEmail(email);
     }

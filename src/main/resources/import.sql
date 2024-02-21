@@ -30,9 +30,9 @@ CREATE TABLE pos_systems
     PRIMARY KEY (pos_system_id)
 );
 
-CREATE TABLE users
+CREATE TABLE shoppers
 (
-    user_id     SERIAL PRIMARY KEY,
+    shopper_id     SERIAL PRIMARY KEY,
     name            VARCHAR(255),
     mobile_number   VARCHAR(255),
     email_address   VARCHAR(255),
@@ -136,7 +136,7 @@ CREATE TABLE receipts
     PRIMARY KEY (receipt_id),
     CONSTRAINT fk_receipt_store FOREIGN KEY (store_id) REFERENCES stores (store_id),
     CONSTRAINT fk_receipt_pos_system FOREIGN KEY (pos_system_id) REFERENCES pos_systems (pos_system_id),
-    CONSTRAINT fk_receipt_customer FOREIGN KEY (user_id) REFERENCES users (user_id),
+    CONSTRAINT fk_receipt_customer FOREIGN KEY (store_id) REFERENCES shoppers (shopper_id),
     CONSTRAINT fk_receipt_cashier FOREIGN KEY (cashier_id) REFERENCES cashiers (cashier_id),
     CONSTRAINT fk_receipt_till FOREIGN KEY (till_id) REFERENCES tills (till_id),
     CONSTRAINT fk_receipt_promo_message FOREIGN KEY (promotion_id) REFERENCES promotions (promotion_id)
@@ -195,7 +195,7 @@ VALUES ('123456789', 'Woolworths', '123 Main Street Sandton', 'https://serengeti
        ('678765550', 'Zando', '1400 Chime Street Weltevreden Park', 'https://serengeti-bucket.s3.af-south-1.amazonaws.com/zando.png'),
        ('678765550', 'Mr Price', '500 Ntuli Road Hammersadale', 'https://serengeti-bucket.s3.af-south-1.amazonaws.com/mrprice.jpg');
 
-INSERT INTO users (name, mobile_number, email_address, identifier_type)
+INSERT INTO shoppers (name, mobile_number, email_address, identifier_type)
 VALUES ('Will Smith', '+27662012488', NULL, 'mobile_number'),
        ('Jane Doe', NULL, 'jane.doe@example.com', 'email_address');
 
@@ -218,8 +218,8 @@ VALUES ('Black Friday', 'Get 10% off on selected items', '2023-01-01', '2023-12-
        ('Promotion 2', 'Get 20% off on selected items', '2023-01-01', '2023-12-31', 20.00);
 
 INSERT INTO specials (product_id, name, description, special_image_url, old_price, new_price, start_date, end_date)
-VALUES (1, 'Milk Special', 'Discounted Full Cream Milk', 'https://serengeti-bucket.s3.af-south-1.amazonaws.com/milk_special.jpg', 25.00, 20.00, '2023-01-01', '2023-01-31'),
-       (2, 'Bread Special', 'Discounted Brown Bread', 'https://serengeti-bucket.s3.af-south-1.amazonaws.com/bread_special.jpg', 18.00, 15.00, '2023-02-01', '2023-02-28');
+VALUES (3, 'Milk Special', 'Discounted Full Cream Milk', 'https://serengeti-bucket.s3.af-south-1.amazonaws.com/milk.jpg', 25.00, 20.00, '2023-01-01', '2023-01-31'),
+       (4, 'Bread Special', 'Discounted Brown Bread', 'https://serengeti-bucket.s3.af-south-1.amazonaws.com/bread.jpg', 18.00, 15.00, '2023-02-01', '2023-02-28');
 
 INSERT INTO product_identifiers (product_id, store_id, pos_system_id, ean13_code, universal_product_code, sku)
 VALUES (1, 1, 1, '1234567890123', '123456789012', 'SKU_001'),

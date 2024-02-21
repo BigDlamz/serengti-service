@@ -3,7 +3,7 @@ package za.co.serengti.receipts.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.*;
-import za.co.serengti.users.entity.User;
+import za.co.serengti.shoppers.entity.Shopper;
 import za.co.serengti.merchants.entity.POSSystem;
 import za.co.serengti.merchants.entity.Store;
 
@@ -34,8 +34,8 @@ public class Receipt extends PanacheEntityBase {
     public POSSystem posSystem;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "user_id")
-    public User user;
+    @JoinColumn(name = "shopper_id")
+    public Shopper shopper;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "till_Id")

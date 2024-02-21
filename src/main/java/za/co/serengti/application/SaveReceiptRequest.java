@@ -20,7 +20,7 @@ public class SaveReceiptRequest {
     private Long posSystemId;
     @NotNull(message =  "storeId is required")
     private Long storeId;
-    private String userIdentifier;
+    private String customerIdentifier;
     private LocalDateTime transactionDate;
     private TillDTO till;
     private CashierDTO cashier;

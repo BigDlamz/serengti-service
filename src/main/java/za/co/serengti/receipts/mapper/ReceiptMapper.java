@@ -1,7 +1,7 @@
 package za.co.serengti.receipts.mapper;
 
 import lombok.extern.slf4j.Slf4j;
-import za.co.serengti.users.mapper.UserMapper;
+import za.co.serengti.shoppers.mapper.ShopperMapper;
 import za.co.serengti.merchants.mapper.PosSystemMapper;
 import za.co.serengti.merchants.mapper.StoreMapper;
 import za.co.serengti.receipts.dto.LineItemDTO;
@@ -21,17 +21,17 @@ public class ReceiptMapper {
     private final PromotionsMapper promotionsMapper;
     private final PosSystemMapper posSystemMapper;
     private final StoreMapper storeMapper;
-    private final UserMapper userMapper;
+    private final ShopperMapper shopperMapper;
     private final CashierMapper cashierMapper;
     private final TillMapper tillMapper;
     private final LineItemMapper lineItemMapper;
 
     @Inject
-    public ReceiptMapper(PromotionsMapper promotionsMapper, PosSystemMapper posSystemMapper, StoreMapper storeMapper, UserMapper userMapper, CashierMapper cashierMapper, TillMapper tillMapper, LineItemMapper lineItemMapper) {
+    public ReceiptMapper(PromotionsMapper promotionsMapper, PosSystemMapper posSystemMapper, StoreMapper storeMapper, ShopperMapper shopperMapper, CashierMapper cashierMapper, TillMapper tillMapper, LineItemMapper lineItemMapper) {
         this.promotionsMapper = promotionsMapper;
         this.posSystemMapper = posSystemMapper;
         this.storeMapper = storeMapper;
-        this.userMapper = userMapper;
+        this.shopperMapper = shopperMapper;
         this.cashierMapper = cashierMapper;
         this.tillMapper = tillMapper;
         this.lineItemMapper = lineItemMapper;
@@ -49,7 +49,7 @@ public class ReceiptMapper {
                 .timestamp(entity.getTransactionDate())
                 .posSystem(posSystemMapper.toDto(entity.getPosSystem()))
                 .store(storeMapper.toDto(entity.getStore()))
-                .user(userMapper.toDto(entity.getUser()))
+                .user(shopperMapper.toDto(entity.getShopper()))
                 .lineItems(lineItemDTOS)
                 .till(tillMapper.toDto(entity.getTill()))
                 .cashier(cashierMapper.toDto(entity.getCashier()))

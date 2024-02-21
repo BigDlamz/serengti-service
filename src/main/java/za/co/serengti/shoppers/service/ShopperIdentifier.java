@@ -1,18 +1,18 @@
-package za.co.serengti.users.service;
+package za.co.serengti.shoppers.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 @ApplicationScoped
-public class Identification {
+public class ShopperIdentifier {
     public enum Type {
         MOBILE,
         EMAIL,
         INVALID_IDENTIFIER
     }
 
-    public Type determineIdentifierType(String identifier) {
+    public Type identify(String identifier) {
         if (isMobileNumber(identifier)) {
             return Type.MOBILE;
         } else if (isEmailAddress(identifier)) {
