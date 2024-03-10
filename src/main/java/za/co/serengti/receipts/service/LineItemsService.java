@@ -25,15 +25,15 @@ public class LineItemsService {
     public List<LineItem> processLineItems(List<ProductDTO> purchases, MetaData meta, Receipt receipt) {
         return purchases
                 .stream()
-                .map(prod -> {
+                .map(product -> {
                     // Validate the category
-                    if (!ProductCategory.isValidCategory(prod.getCategory())) {
-                        throw new BadRequestException("Invalid category value provided for product: " + prod.getName());
+                    if (!ProductCategory.isValidCategory(product.getCategory())) {
+                        throw new BadRequestException("Invalid category value provided for product: " + product.getName());
                     }
                     // Convert to LineItem
                     return LineItem.builder()
-                            .product(productService.findOrSaveProduct(prod, meta))
-                            .quantity(prod.getQuantity())
+                            .product(productService.findOrSaveProduct(product, meta))
+                            .quantity(product.getQuantity())
                             .receipt(receipt)
                             .build();
                 })

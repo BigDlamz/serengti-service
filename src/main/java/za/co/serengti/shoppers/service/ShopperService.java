@@ -53,13 +53,13 @@ public class ShopperService {
     }
 
     @Transactional
-    public Shopper findOrSaveNewShopper(String identifier) {
-        ShopperIdentifier.Type type = shopperIdentifier.identify(identifier);
+    public Shopper findOrSaveNewShopper(String shopperId) {
+        ShopperIdentifier.Type type = shopperIdentifier.identify(shopperId);
         return switch (type) {
-            case EMAIL -> shopperRepository.findByEmailAddress(identifier)
-                    .orElseGet(() -> shopperRepository.save(new EmailShopper("Philani", type.name(), identifier)));
-            case MOBILE -> shopperRepository.findByMobileNumber(identifier)
-                    .orElseGet(() -> shopperRepository.save(new MobileShopper("Philani", type.name(), identifier)));
+            case EMAIL -> shopperRepository.findByEmailAddress(shopperId)
+                    .orElseGet(() -> shopperRepository.save(new EmailShopper("Philani", type.name(), shopperId)));
+            case MOBILE -> shopperRepository.findByMobileNumber(shopperId)
+                    .orElseGet(() -> shopperRepository.save(new MobileShopper("Philani", type.name(), shopperId)));
             default -> null;
         };
     }

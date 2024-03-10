@@ -1,5 +1,6 @@
 package za.co.serengti.application;
 
+import io.smallrye.common.annotation.RunOnVirtualThread;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -40,7 +41,7 @@ public class ShopperResource {
     @Operation(summary = "Save a new user receipt")
     @APIResponse(responseCode = "201", description = "Receipt saved")
     @APIResponse(responseCode = "500", description = "An internal server error occurred")
-
+    @RunOnVirtualThread
     public Response saveReceipt(@Valid SaveReceiptRequest request) {
         Long receiptId = shopperService.saveReceipt(request);
         return Response
@@ -54,7 +55,7 @@ public class ShopperResource {
     @APIResponse(responseCode = "200", description = "Receipt found")
     @APIResponse(responseCode = "404", description = "Receipt not found")
     @APIResponse(responseCode = "500", description = "An internal server error occurred")
-
+    @RunOnVirtualThread
     public Response retrieveReceipt(@PathParam("receiptId") Long receiptId) {
         validate.notNull(receiptId, "receiptId");
         Receipt receipt = shopperService.retrieveReceipt(receiptId);
@@ -72,7 +73,7 @@ public class ShopperResource {
     @APIResponse(responseCode = "200", description = "Receipts found")
     @APIResponse(responseCode = "404", description = "No receipts found for email")
     @APIResponse(responseCode = "500", description = "An internal server error occurred")
-
+    @RunOnVirtualThread
     public Response retrieveReceiptsByEmailAndDate(@QueryParam("email") String email, @QueryParam("transactionDate") String transactionDate) {
         LocalDate date;
         try {
@@ -101,7 +102,7 @@ public class ShopperResource {
     @Path("/receipts/counts")
     @Operation(summary = "Find the total number of receipts for a shopper")
     @APIResponse(responseCode = "500", description = "An internal server error occurred")
-
+    @RunOnVirtualThread
     public Response retrieveReceiptsTotalCount(@QueryParam("email") String email) {
         validate.notNull(email, "email");
         return Response.ok(ReceiptCount.builder().count(shopperService.retrieveReceiptsTotalCount(email)).build())
@@ -111,7 +112,7 @@ public class ShopperResource {
     @PUT
     @Operation(summary = "Update the receipt as being viewed")
     @Path("/receipts/views/{receiptId}")
-
+    @RunOnVirtualThread
     public Response updateReceiptAsViewed(@PathParam("receiptId") Long receiptId) {
         if (shopperService.updateReceiptAsViewed(receiptId)) {
             return Response.ok().build();
@@ -123,7 +124,7 @@ public class ShopperResource {
     @GET
     @Operation(summary = "Find the total number of unread receipts for a shopper")
     @Path("/receipts/unread")
-
+    @RunOnVirtualThread
     public Response retrieveUnreadReceipts(@QueryParam("email") String email) {
         validate.notNull(email, "email");
         Long unreadReceipts = shopperService.retrieveUnreadReceipts(email);
