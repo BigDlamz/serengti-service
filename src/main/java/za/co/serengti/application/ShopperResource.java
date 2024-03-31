@@ -12,6 +12,7 @@ import za.co.serengti.receipts.mapper.ReceiptMapper;
 import za.co.serengti.shoppers.service.ShopperService;
 import za.co.serengti.util.Validate;
 
+import javax.money.MonetaryAmount;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -103,9 +104,9 @@ public class ShopperResource {
     @Operation(summary = "Find the total number of receipts for a shopper")
     @APIResponse(responseCode = "500", description = "An internal server error occurred")
     @RunOnVirtualThread
-    public Response retrieveReceiptsTotalCount(@QueryParam("email") String email) {
+    public Response retrieveTotalReceiptsCount(@QueryParam("email") String email) {
         validate.notNull(email, "email");
-        return Response.ok(ReceiptCount.builder().count(shopperService.retrieveReceiptsTotalCount(email)).build())
+        return Response.ok(ShopperStats.builder().totalReceiptsCount(shopperService.retrieveReceiptsTotalCount(email)).build())
                 .build();
     }
 
@@ -127,8 +128,24 @@ public class ShopperResource {
     @RunOnVirtualThread
     public Response retrieveUnreadReceipts(@QueryParam("email") String email) {
         validate.notNull(email, "email");
-        Long unreadReceipts = shopperService.retrieveUnreadReceipts(email);
-        return Response.ok(ReceiptCount.builder().count(unreadReceipts).build())
+        Long unreadReceiptsCount = shopperService.retrieveUnreadReceipts(email);
+        return Response.ok(ShopperStats
+                        .builder()
+                        .unreadReceiptsCount(unreadReceiptsCount)
+                        .build())
+                .build();
+    }
+    @GET
+    @Operation(summary = "Find the total number payments made by a shopper")
+    @Path("/payments/count")
+    @RunOnVirtualThread
+    public Response retrieveTotalPayments(@QueryParam("email") String email) {
+        validate.notNull(email, "email");
+        MonetaryAmount totalPaymentsMade = shopperService.retrieveTotalPaymentsMade(email);
+        return Response.ok(ShopperStats
+                        .builder()
+                        .totalPaymentsMade(totalPaymentsMade)
+                        .build())
                 .build();
     }
 }

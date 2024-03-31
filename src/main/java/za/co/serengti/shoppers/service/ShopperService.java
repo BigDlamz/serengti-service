@@ -11,7 +11,11 @@ import za.co.serengti.shoppers.entity.MobileShopper;
 import za.co.serengti.shoppers.entity.Shopper;
 import za.co.serengti.shoppers.repository.ShopperRepository;
 
+import javax.money.CurrencyUnit;
+import javax.money.Monetary;
+import javax.money.MonetaryAmount;
 import java.time.LocalDate;
+import java.util.Currency;
 import java.util.List;
 
 @ApplicationScoped
@@ -64,4 +68,11 @@ public class ShopperService {
         };
     }
 
+    public MonetaryAmount retrieveTotalPaymentsMade(String email) {
+        CurrencyUnit usd = Monetary.getCurrency("ZAR");
+        return Monetary.getDefaultAmountFactory()
+                .setCurrency(usd)
+                .setNumber(1500.00)
+                .create();
+    }
 }
