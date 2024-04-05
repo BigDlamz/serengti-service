@@ -1,4 +1,4 @@
-package za.co.serengti.application;
+package za.co.serengti.controller;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import jakarta.validation.Valid;
@@ -7,6 +7,9 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import za.co.serengti.controller.dto.ResponseMessageDTO;
+import za.co.serengti.controller.dto.SaveReceiptRequestDTO;
+import za.co.serengti.controller.dto.ShopperStatsDTO;
 import za.co.serengti.receipts.entity.Receipt;
 import za.co.serengti.receipts.mapper.ReceiptMapper;
 import za.co.serengti.shoppers.service.ShopperService;
@@ -43,7 +46,7 @@ public class ShopperResource {
     @APIResponse(responseCode = "201", description = "Receipt saved")
     @APIResponse(responseCode = "500", description = "An internal server error occurred")
     @RunOnVirtualThread
-    public Response saveReceipt(@Valid SaveReceiptRequest request) {
+    public Response saveReceipt(@Valid SaveReceiptRequestDTO request) {
         Long receiptId = shopperService.saveReceipt(request);
         return Response
                 .created(URI.create("/shoppers/receipts/" + receiptId))
@@ -88,7 +91,7 @@ public class ShopperResource {
 
         if (receipts.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND)
-                    .entity(ResponseMessage.builder().message("No receipts found for email: " + email + " on date: " + transactionDate).build())
+                    .entity(ResponseMessageDTO.builder().message("No receipts found for email: " + email + " on date: " + transactionDate).build())
                     .build();
         }
 
@@ -106,7 +109,7 @@ public class ShopperResource {
     @RunOnVirtualThread
     public Response retrieveTotalReceiptsCount(@QueryParam("email") String email) {
         validate.notNull(email, "email");
-        return Response.ok(ShopperStats.builder().totalReceiptsCount(shopperService.retrieveReceiptsTotalCount(email)).build())
+        return Response.ok(ShopperStatsDTO.builder().totalReceiptsCount(shopperService.retrieveReceiptsTotalCount(email)).build())
                 .build();
     }
 
@@ -129,24 +132,25 @@ public class ShopperResource {
     public Response retrieveUnreadReceipts(@QueryParam("email") String email) {
         validate.notNull(email, "email");
         Long unreadReceiptsCount = shopperService.retrieveUnreadReceipts(email);
-        return Response.ok(ShopperStats
+        return Response.ok(ShopperStatsDTO
                         .builder()
                         .unreadReceiptsCount(unreadReceiptsCount)
                         .build())
                 .build();
     }
+
     @GET
     @Operation(summary = "Find the total number payments made by a shopper")
-    @Path("/payments/count")
+    @Path("/payments/totals")
     @RunOnVirtualThread
     public Response retrieveTotalPayments(@QueryParam("email") String email) {
-        validate.notNull(email, "email");
         MonetaryAmount totalPaymentsMade = shopperService.retrieveTotalPaymentsMade(email);
-        return Response.ok(ShopperStats
+        return Response.ok(ShopperStatsDTO
                         .builder()
                         .totalPaymentsMade(totalPaymentsMade)
                         .build())
                 .build();
     }
+
 }
 

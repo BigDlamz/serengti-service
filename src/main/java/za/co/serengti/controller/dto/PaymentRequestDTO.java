@@ -1,4 +1,4 @@
-package za.co.serengti.payments.service;
+package za.co.serengti.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,11 +13,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class PaymentRequest {
+public class PaymentRequestDTO {
 
     long posId;
     long storeId;
-    LocalDateTime transactionDate;
+    private LocalDateTime transactionDate;
     String payingCustomerIdentifier;
     List<ProductDTO> purchasedProducts;
+
 }

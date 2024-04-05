@@ -3,7 +3,7 @@ package za.co.serengti.shoppers.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import za.co.serengti.application.SaveReceiptRequest;
+import za.co.serengti.controller.dto.SaveReceiptRequestDTO;
 import za.co.serengti.receipts.entity.Receipt;
 import za.co.serengti.receipts.service.ReceiptService;
 import za.co.serengti.shoppers.entity.EmailShopper;
@@ -14,8 +14,8 @@ import za.co.serengti.shoppers.repository.ShopperRepository;
 import javax.money.CurrencyUnit;
 import javax.money.Monetary;
 import javax.money.MonetaryAmount;
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Currency;
 import java.util.List;
 
 @ApplicationScoped
@@ -32,7 +32,7 @@ public class ShopperService {
         this.receiptService = receiptService;
     }
 
-    public Long saveReceipt(SaveReceiptRequest request) {
+    public Long saveReceipt(SaveReceiptRequestDTO request) {
         return receiptService.save(request);
     }
 
@@ -69,10 +69,12 @@ public class ShopperService {
     }
 
     public MonetaryAmount retrieveTotalPaymentsMade(String email) {
-        CurrencyUnit usd = Monetary.getCurrency("ZAR");
-        return Monetary.getDefaultAmountFactory()
-                .setCurrency(usd)
-                .setNumber(1500.00)
-                .create();
+      BigDecimal totalAmountPaid = receiptService.retrieveTotalAmountPaidByEmail(email);
+      System.out.print("Total amount paid on purchases: " + totalAmountPaid);
+      CurrencyUnit currency = Monetary.getCurrency("ZAR");
+      return Monetary.getDefaultAmountFactory()
+              .setCurrency(currency)
+              .setNumber(totalAmountPaid)
+              .create();
     }
 }

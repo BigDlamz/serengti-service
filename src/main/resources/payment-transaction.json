@@ -1,0 +1,23 @@
+{
+  "posId": 1,
+  "storeId": 2,
+  "transactionDate": "2024-04-03T12:15:50",
+  "payingCustomerIdentifier": "philani.dlamini@gmail.com",
+  "purchasedProducts": [
+    {
+      "name": "Michael Kors",
+      "description": "Men's Watch",
+      "ean13Code": "string",
+      "universalProductCode": "string",
+      "sku": "sku565656565",
+      "quantity": 1,
+      "category": "JEWELRY AND ACCESSORIES",
+      "unitPrice": 100.00
+    }
+  ]
+}
+
+
+
+
+

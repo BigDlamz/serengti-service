@@ -43,7 +43,6 @@ public class ReceiptMapper {
             lineItemDTOS.add(lineItemMapper.toDto(lineItem));
         }
 
-        log.info("Receipt ID: {}", entity.getReceiptId());
         return ReceiptDTO.builder()
                 .receiptId(entity.getReceiptId())
                 .timestamp(entity.getTransactionDate())

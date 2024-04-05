@@ -5,6 +5,8 @@ import za.co.serengti.receipts.entity.Receipt;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -47,6 +49,13 @@ public class ReceiptRepository implements PanacheRepository<Receipt> {
         }
         return false;
     }
+
+    public BigDecimal findTotalAmountPaidByEmail(String email) {
+        String query = "SELECT SUM(r.amountPaid) FROM Receipt r WHERE TYPE(r.shopper) = EmailShopper AND LOWER(r.shopper.emailAddress) = LOWER(?1)";
+        Object result = find(query, email).firstResult();
+            return (BigDecimal) result;
+        }
+
 }
 
 

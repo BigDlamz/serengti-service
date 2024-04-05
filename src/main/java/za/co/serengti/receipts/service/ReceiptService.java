@@ -3,7 +3,7 @@ package za.co.serengti.receipts.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import za.co.serengti.application.SaveReceiptRequest;
+import za.co.serengti.controller.dto.SaveReceiptRequestDTO;
 import za.co.serengti.merchants.entity.MetaData;
 import za.co.serengti.merchants.service.MerchantService;
 import za.co.serengti.receipts.dto.CashierDTO;
@@ -14,6 +14,7 @@ import za.co.serengti.receipts.repository.ReceiptRepository;
 import za.co.serengti.shoppers.entity.Shopper;
 import za.co.serengti.shoppers.service.ShopperService;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -43,7 +44,7 @@ public class ReceiptService {
     }
 
     @Transactional
-    public Long save(SaveReceiptRequest request) {
+    public Long save(SaveReceiptRequestDTO request) {
 
         validateTransactionDate(request);
 
@@ -72,7 +73,7 @@ public class ReceiptService {
         return merchantService.retrieveMetaData(posId, storeId);
     }
 
-    private static void validateTransactionDate(SaveReceiptRequest request) {
+    private static void validateTransactionDate(SaveReceiptRequestDTO request) {
         LocalDate transactionDate = request.getTransactionDate().toLocalDate();
         LocalDate today = LocalDate.now();
         if(!Objects.equals(transactionDate, today)) {
@@ -80,7 +81,7 @@ public class ReceiptService {
         }
     }
 
-    private void saveLineItems(SaveReceiptRequest request, MetaData meta, Receipt receipt) {
+    private void saveLineItems(SaveReceiptRequestDTO request, MetaData meta, Receipt receipt) {
         log.info("Start processing line items for POS ID: {} and Store ID: {}", meta.getPosSystem().posSystemID, meta.getStore().getStoreId());
         try {
             var items = request.getLineItems();
@@ -133,7 +134,7 @@ public class ReceiptService {
         return promotions;
     }
 
-    private Receipt buildReceipt(SaveReceiptRequest request, MetaData meta, Shopper shopper, Till till, Cashier cashier, Promotions promotions) {
+    private Receipt buildReceipt(SaveReceiptRequestDTO request, MetaData meta, Shopper shopper, Till till, Cashier cashier, Promotions promotions) {
         Receipt receipt;
         try {
             receipt = Receipt.builder()
@@ -184,4 +185,9 @@ public class ReceiptService {
         log.info("Finding unread receipts for user with email: {}", email);
         return receiptRepository.findUnreadReceiptsByEmail(email);
     }
+    public BigDecimal retrieveTotalAmountPaidByEmail(String email) {
+        log.info("Finding total amount paid by user with email: {}", email);
+        return receiptRepository.findTotalAmountPaidByEmail(email);
+    }
+
 }

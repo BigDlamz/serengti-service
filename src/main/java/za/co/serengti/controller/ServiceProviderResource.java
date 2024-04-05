@@ -1,4 +1,4 @@
-package za.co.serengti.application;
+package za.co.serengti.controller;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -18,13 +18,13 @@ import java.util.stream.Collectors;
 @Path("/stores")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class StoreResource {
+public class ServiceProviderResource {
 
     private final StoreService storeService;
     private final FeedbackMapper convertor;
 
     @Inject
-    public StoreResource(StoreService storeService, FeedbackMapper convertor) {
+    public ServiceProviderResource(StoreService storeService, FeedbackMapper convertor) {
         this.storeService = storeService;
         this.convertor = convertor;
     }

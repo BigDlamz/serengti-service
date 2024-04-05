@@ -1,10 +1,10 @@
-package za.co.serengti.application;
+package za.co.serengti.controller.dto;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class ResponseMessage {
+public class ResponseMessageDTO {
     private String message;
 }

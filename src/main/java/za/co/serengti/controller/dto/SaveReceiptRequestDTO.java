@@ -1,4 +1,4 @@
-package za.co.serengti.application;
+package za.co.serengti.controller.dto;
 
 import lombok.Builder;
 import lombok.Data;
@@ -14,13 +14,15 @@ import java.util.List;
 
 @Data
 @Builder
-public class SaveReceiptRequest {
+public class SaveReceiptRequestDTO {
 
     @NotNull(message =  "posSystemId is required")
     private Long posSystemId;
     @NotNull(message =  "storeId is required")
     private Long storeId;
+    @NotNull(message =  "customerIdentifier is required")
     private String customerIdentifier;
+    @NotNull(message =  "transactionDate is required")
     private LocalDateTime transactionDate;
     private TillDTO till;
     private CashierDTO cashier;
