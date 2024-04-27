@@ -1,0 +1,1 @@
+ALTER TABLE payment_transactions RENAME TO payments;

@@ -1,0 +1,1 @@
+ALTER TABLE receipts DROP COLUMN change_due;
