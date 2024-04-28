@@ -33,14 +33,14 @@ public class MerchantServiceImpl implements MerchantService {
     @Override
     public List<SpecialDTO> retrieveSpecials(Long merchantId){
 
-        return specialService.retrieveSpecials(merchantId);
+        return specialService.retrieve(merchantId);
 
     }
 
     @Override
-    public List<FeedbackDTO> retrieveFeedback(Long storeId){
+    public List<FeedbackDTO> retrieveFeedback(Long merchantId){
 
-        return feedbackService.find(storeId);
+        return feedbackService.find(merchantId);
 
     }
 

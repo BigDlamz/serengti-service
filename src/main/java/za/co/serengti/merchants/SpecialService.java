@@ -16,7 +16,7 @@ public class SpecialService {
         this.converter = converter;
     }
 
-    public List<SpecialDTO> retrieveSpecials(Long merchantId ){
+    public List<SpecialDTO> retrieve(Long merchantId ){
 
         return specialRepository.findByStoreId(merchantId)
                 .stream()
