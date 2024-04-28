@@ -21,6 +21,6 @@ public class LineItemDTO {
     private Integer quantity;
     private BigDecimal unitPrice;
     @JsonIgnore
-    private ReceiptDTO receipt;
+    private Long receiptId;
 
 }

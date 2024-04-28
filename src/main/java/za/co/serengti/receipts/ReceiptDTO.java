@@ -24,13 +24,13 @@ public class  ReceiptDTO {
     private List<LineItemDTO> lineItems;
     private TillDTO till;
     private CashierDTO cashier;
-    public BigDecimal discountAmount;
-    public BigDecimal subTotal;
-    public BigDecimal vatRate;
-    public BigDecimal vatAmount;
-    public BigDecimal totalDueAfterTax;
-    public BigDecimal amountPaid;
-    public Boolean viewed;
+    private BigDecimal discountAmount;
+    private BigDecimal subTotal;
+    private BigDecimal vatRate;
+    private BigDecimal vatAmount;
+    private BigDecimal totalDueAfterTax;
+    private BigDecimal amountPaid;
+    private Boolean viewed;
 
 }
 

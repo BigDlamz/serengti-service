@@ -19,6 +19,6 @@ public class ShopperDTO {
     private String email;
     @JsonIgnore
     @JsonInclude(JsonInclude.Include. NON_NULL)
-    private String mobileNumber;
+    private String mobileNo;
 
 }

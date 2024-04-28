@@ -11,7 +11,7 @@ public class ShopperMapper {
                 .shopperId(dto.getShopperId())
                 .name(dto.getName())
                 .emailAddress(dto.getEmail())
-                .mobileNumber(dto.getMobileNumber())
+                .mobileNumber(dto.getMobileNo())
                 .build();
     }
 
@@ -21,7 +21,7 @@ public class ShopperMapper {
                 .shopperId(entity.getShopperId())
                 .name(entity.getName())
                 .email(entity.getEmailAddress())
-                .mobileNumber(entity.getMobileNumber())
+                .mobileNo(entity.getMobileNumber())
                 .build();
     }
 }

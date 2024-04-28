@@ -8,6 +8,7 @@ import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import za.co.serengti.receipts.ReceiptService;
+import za.co.serengti.shoppers.EmailValidator;
 import za.co.serengti.shoppers.StatsDTO;
 
 import javax.money.MonetaryAmount;
@@ -49,11 +50,15 @@ public class PaymentsResource {
 
     public Response retrieveTotalPayments(@QueryParam("email") String email) {
 
+        if(!EmailValidator.isValid(email)) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
         MonetaryAmount totalPayments = receiptService.findTotalPaid(email);
 
         return Response.ok(StatsDTO
                         .builder()
-                        .totalPaymentsMade(totalPayments)
+                        .totalPayments(totalPayments)
                         .build())
                 .build();
 

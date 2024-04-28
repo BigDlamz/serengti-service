@@ -2,10 +2,10 @@
   "merchantId": 1,
   "shopper": {
     "name": "Philani",
-    "email": "Philani.dlamini@gmail.com",
-    "mobileNumber:": "0662012388"
+    "email": "philani.dlamini@gmail.com",
+    "mobileNo:": "0662012388"
   },
-  "txDate": "2024-04-24T12:15:50",
+  "txDate": "2024-04-28T12:15:50",
   "cashier": {
     "name": "Tinashe",
     "surname": "Hondo"
@@ -19,6 +19,12 @@
       "productDescription": "Sirloin Steak",
       "quantity": 1,
       "unitPrice": 50.55
+    },
+    {
+      "productName": "Bread",
+      "productDescription": "Best of Both worlds",
+      "quantity": 1,
+      "unitPrice": 20.55
     }
   ]
 }

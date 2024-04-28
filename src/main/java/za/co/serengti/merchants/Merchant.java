@@ -1,21 +1,19 @@
 package za.co.serengti.merchants;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Data
+
 @Table(name = "merchants")
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Builder
-public class Merchant extends PanacheEntityBase {
+public class Merchant  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

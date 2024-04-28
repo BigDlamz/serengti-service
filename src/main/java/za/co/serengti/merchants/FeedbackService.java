@@ -23,18 +23,17 @@ public class FeedbackService {
         this.convertor = convertor;
     }
 
-    public void saveFeedback(FeedbackDTO saveFeedbackDTO) {
+    public void save(FeedbackDTO saveFeedbackDTO) {
 
         log.info("Saving feedback for receiptId: {}", saveFeedbackDTO.getReceiptId());
-
         var feedback = convertor.toEntity(saveFeedbackDTO);
+        repository.save(feedback);
 
-        repository.saveFeedback(feedback);
     }
 
-    public List<FeedbackDTO> retrieveFeedback(Long merchantId) {
+    public List<FeedbackDTO> find(Long merchantId) {
 
-        return repository.retrieveAllFeedback(merchantId)
+        return repository.findAll(merchantId)
                 .stream()
                 .map(convertor::toDTO)
                 .toList();
@@ -53,12 +52,12 @@ public class FeedbackService {
         var df = new DecimalFormat("#.#", symbols);
 
         return Double.parseDouble(df.format(rating));
+
     }
 
     public boolean isRated(Long receiptId) {
 
-        var isRated = repository.findFeedbackForReceipt(receiptId);
-
+        var isRated = repository.isRated(receiptId);
         return Objects.nonNull(isRated);
 
     }

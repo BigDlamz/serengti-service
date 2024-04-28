@@ -1,7 +1,5 @@
 package za.co.serengti.receipts;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,17 +13,15 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 @Data
-public class LineItem extends PanacheEntityBase {
+public class LineItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "line_item_id")
     public Long lineItemID;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JsonBackReference
-    @JoinColumn(name = "receipt_id")
-    public Receipt receipt;
+    @Column(name = "receipt_id")
+    public Long receiptId;
 
     @Column(name = "product_name")
     private String productName;
@@ -38,4 +34,5 @@ public class LineItem extends PanacheEntityBase {
 
     @Column(name = "unit_price")
     private BigDecimal unitPrice;
+
 }

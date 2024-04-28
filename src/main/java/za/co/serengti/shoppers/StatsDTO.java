@@ -9,7 +9,7 @@ import javax.money.MonetaryAmount;
 @Builder
 public class StatsDTO {
 
-    MonetaryAmount totalPaymentsMade;
+    MonetaryAmount totalPayments;
     Long unreadReceiptsCount;
     Long totalReceiptsCount;
 }

@@ -1,7 +1,6 @@
 package za.co.serengti.receipts;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.*;
 import za.co.serengti.shoppers.Shopper;
 import za.co.serengti.merchants.Merchant;
@@ -15,9 +14,10 @@ import java.util.List;
 @Table(name = "receipts")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
-public class Receipt extends PanacheEntityBase {
+public class Receipt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,7 +64,7 @@ public class Receipt extends PanacheEntityBase {
     @Column(name = "viewed", nullable = false)
     public Boolean viewed;
 
-    @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "receiptId", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     public List<LineItem> lineItems;
 

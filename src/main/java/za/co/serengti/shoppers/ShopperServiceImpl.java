@@ -2,24 +2,22 @@ package za.co.serengti.shoppers;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
-import java.util.Objects;
-
 @ApplicationScoped
 public class ShopperServiceImpl implements ShopperService {
 
-    private final ShopperRepository shopperRepository;
+    private final ShopperRepository repository;
     private final ShopperMapper convertor;
 
-    public ShopperServiceImpl(ShopperRepository shopperRepository, ShopperMapper convertor) {
-        this.shopperRepository = shopperRepository;
+    public ShopperServiceImpl(ShopperRepository repository, ShopperMapper convertor) {
+        this.repository = repository;
         this.convertor = convertor;
     }
 
     @Override
     public ShopperDTO find(String email) {
 
-        Shopper shopper = shopperRepository.
-                findByEmailAddress(email)
+        Shopper shopper = repository
+                .findByEmailAddress(email)
                 .orElse(null);
 
         assert shopper != null;

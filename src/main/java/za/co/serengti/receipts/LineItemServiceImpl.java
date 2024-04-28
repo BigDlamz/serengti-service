@@ -10,28 +10,33 @@ import java.util.List;
 @ApplicationScoped
 public class LineItemServiceImpl implements LineItemService {
 
-    private final LineItemsRepository lineItemsRepository;
-    private final LineItemMapper lineItemMapper;
+    private final LineItemsRepository repository;
+    private final LineItemMapper convertor;
 
     @Inject
-    public LineItemServiceImpl(LineItemsRepository lineItemsRepository, LineItemMapper lineItemMapper) {
-        this.lineItemsRepository = lineItemsRepository;
-        this.lineItemMapper = lineItemMapper;
+    public LineItemServiceImpl(LineItemsRepository repository, LineItemMapper convertor) {
+        this.repository = repository;
+        this.convertor = convertor;
     }
 
     @Override
     @Transactional
-    public List<LineItemDTO> save(List<LineItemDTO> lineItems, ReceiptDTO savedReceipt) {
+    public List<LineItemDTO> save(List<LineItemDTO> lineItems, ReceiptDTO receipt) {
 
-        lineItems.forEach(item -> item.setReceipt(savedReceipt));
+        lineItems.forEach(item -> item.setReceiptId(receipt.getReceiptId()));
 
-        List<LineItem> entities = lineItems.stream()
-                .map(lineItemMapper::toEntity)
+        List<LineItem> entities = lineItems
+                .stream()
+                .map(item -> {
+                    LineItem entity = convertor.toEntity(item);
+                    entity.setReceiptId(item.getReceiptId());
+                    return entity;
+                })
                 .toList();
 
-        return lineItemsRepository.save(entities).stream()
-                .map(lineItemMapper::toDTO)
+        return repository.save(entities)
+                .stream()
+                .map(convertor::toDTO)
                 .toList();
-
     }
 }

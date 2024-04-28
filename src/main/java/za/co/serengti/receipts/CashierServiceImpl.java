@@ -7,19 +7,19 @@ import jakarta.transaction.Transactional;
 @ApplicationScoped
 public class CashierServiceImpl implements CashierService {
 
-    private final CashierRepository cashierRepository;
+    private final CashierRepository repository;
     private final CashierMapper convertor;
 
     @Inject
-    public CashierServiceImpl(CashierRepository cashierRepository, CashierMapper convertor) {
-        this.cashierRepository = cashierRepository;
+    public CashierServiceImpl(CashierRepository repository, CashierMapper convertor) {
+        this.repository = repository;
         this.convertor = convertor;
     }
 
     @Override
     public Cashier find(Long cashierId) {
 
-        return cashierRepository.findById(cashierId);
+        return repository.findById(cashierId);
 
     }
 
@@ -28,7 +28,7 @@ public class CashierServiceImpl implements CashierService {
     public CashierDTO save(CashierDTO cashier) {
 
         Cashier entity = convertor.toEntity(cashier);
-        var savedEntity = cashierRepository.save(entity);
+        var savedEntity = repository.save(entity);
         return convertor.toDTO(savedEntity);
 
     }

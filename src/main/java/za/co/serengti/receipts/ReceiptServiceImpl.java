@@ -5,7 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import za.co.serengti.merchants.MerchantDTO;
-import za.co.serengti.merchants.MerchantFacade;
+import za.co.serengti.merchants.MerchantService;
 import za.co.serengti.payments.PaymentRequest;
 import za.co.serengti.shoppers.ShopperDTO;
 import za.co.serengti.shoppers.ShopperService;
@@ -23,20 +23,18 @@ import static za.co.serengti.receipts.FinanceService.ZA_VAT_RATE;
 @Slf4j
 public class ReceiptServiceImpl implements ReceiptService {
 
-    private final ReceiptService receiptService;
-    private final MerchantFacade merchantFacade;
+    private final ReceiptRepository receiptRepository;
+    private final LineItemService lineItemService;
+    private final MerchantService merchantService;
     private final ShopperService shopperService;
     private final CashierService cashierService;
-    private final TillService tillService;
-    private final LineItemService lineItemService;
-    private final ReceiptRepository receiptRepository;
     private final FinanceService financeService;
+    private final TillService tillService;
     private final ReceiptMapper converter;
 
     @Inject
-    public ReceiptServiceImpl(ReceiptService receiptService, MerchantFacade merchantFacade, ShopperService shopperService, CashierService cashierService, TillService tillService, LineItemService lineItemService, ReceiptRepository receiptRepository, FinanceService financeService, ReceiptMapper converter) {
-        this.receiptService = receiptService;
-        this.merchantFacade = merchantFacade;
+    public ReceiptServiceImpl(MerchantService merchantService, ShopperService shopperService, CashierService cashierService, TillService tillService, LineItemService lineItemService, ReceiptRepository receiptRepository, FinanceService financeService, ReceiptMapper converter) {
+        this.merchantService = merchantService;
         this.shopperService = shopperService;
         this.cashierService = cashierService;
         this.tillService = tillService;
@@ -78,11 +76,11 @@ public class ReceiptServiceImpl implements ReceiptService {
     public Long processReceipt(PaymentRequest request) {
 
         var shopper = shopperService.find(request.getShopper().getEmail());
-        var merchant = merchantFacade.find(request.getMerchantId());
+        var merchant = merchantService.find(request.getMerchantId());
 
         var receipt = assemble(request, shopper, merchant);
 
-        var savedReceipt = receiptService.save(receipt);
+        var savedReceipt = save(receipt);
 
         lineItemService.save(request.getLineItems(), savedReceipt);
 

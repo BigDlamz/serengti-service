@@ -16,14 +16,9 @@ public class ShopperRepository implements PanacheRepository<Shopper> {
 
     public Optional<Shopper> findByEmailAddress(String email) {
 
-        return find("emailAddress = LOWER(?1)", email).firstResultOptional();
+        return find("emailAddress = ?1", email).firstResultOptional();
 
     }
 
-    public Optional<Shopper> findByMobileNumber(String mobileNumber) {
-
-        return find("mobileNumber = ?2", mobileNumber).firstResultOptional();
-
-    }
 
 }

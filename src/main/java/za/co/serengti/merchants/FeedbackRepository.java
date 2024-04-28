@@ -11,11 +11,11 @@ import java.util.List;
 public class FeedbackRepository implements PanacheRepository<Feedback> {
 
     @Transactional
-    public void saveFeedback(Feedback feedback) {
+    public void save(Feedback feedback) {
         persist(feedback);
     }
 
-    public List<Feedback> retrieveAllFeedback(Long merchantId) {
+    public List<Feedback> findAll(Long merchantId) {
 
         return list("""
                 SELECT f FROM Feedback f \
@@ -37,7 +37,7 @@ public class FeedbackRepository implements PanacheRepository<Feedback> {
         }
         return null;
     }
-    public Feedback findFeedbackForReceipt(Long receiptId) {
+    public Feedback isRated(Long receiptId) {
 
         return find("receiptId", receiptId)
                 .firstResult();
