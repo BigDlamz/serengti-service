@@ -10,9 +10,6 @@ import za.co.serengti.payments.PaymentRequest;
 import za.co.serengti.shoppers.ShopperDTO;
 import za.co.serengti.shoppers.ShopperService;
 
-import javax.money.CurrencyUnit;
-import javax.money.Monetary;
-import javax.money.MonetaryAmount;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -24,7 +21,7 @@ import static za.co.serengti.receipts.FinanceService.ZA_VAT_RATE;
 public class ReceiptServiceImpl implements ReceiptService {
 
     private final ReceiptRepository receiptRepository;
-    private final LineItemService lineItemService;
+    private final LineItemService itemService;
     private final MerchantService merchantService;
     private final ShopperService shopperService;
     private final CashierService cashierService;
@@ -33,12 +30,12 @@ public class ReceiptServiceImpl implements ReceiptService {
     private final ReceiptMapper converter;
 
     @Inject
-    public ReceiptServiceImpl(MerchantService merchantService, ShopperService shopperService, CashierService cashierService, TillService tillService, LineItemService lineItemService, ReceiptRepository receiptRepository, FinanceService financeService, ReceiptMapper converter) {
+    public ReceiptServiceImpl(MerchantService merchantService, ShopperService shopperService, CashierService cashierService, TillService tillService, LineItemService itemService, ReceiptRepository receiptRepository, FinanceService financeService, ReceiptMapper converter) {
         this.merchantService = merchantService;
         this.shopperService = shopperService;
         this.cashierService = cashierService;
         this.tillService = tillService;
-        this.lineItemService = lineItemService;
+        this.itemService = itemService;
         this.receiptRepository = receiptRepository;
         this.financeService = financeService;
         this.converter = converter;
@@ -47,18 +44,19 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     @Transactional
-    public ReceiptDTO save(ReceiptDTO receiptDTO) {
+    public ReceiptDTO save(ReceiptDTO receipt) {
 
-        Receipt entity = converter.toEntity(receiptDTO);
-        Receipt receipt = receiptRepository.save(entity);
-        return converter.toDTO(receipt);
+        Receipt entity = converter.toEntity(receipt);
+        Receipt saved = receiptRepository.save(entity);
+        return converter.toDTO(saved);
 
     }
 
     @Override
     public ReceiptDTO find(Long receiptId) {
 
-        return converter.toDTO(receiptRepository.findById(receiptId));
+        Receipt receipt = receiptRepository.findById(receiptId);
+        return converter.toDTO(receipt);
 
     }
 
@@ -73,18 +71,16 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
-    public Long processReceipt(PaymentRequest request) {
+    public ReceiptDTO processReceipt(PaymentRequest request) {
 
         var shopper = shopperService.find(request.getShopper().getEmail());
         var merchant = merchantService.find(request.getMerchantId());
-
         var receipt = assemble(request, shopper, merchant);
-
         var savedReceipt = save(receipt);
 
-        lineItemService.save(request.getLineItems(), savedReceipt);
+        itemService.save(request.getLineItems(), savedReceipt);
 
-        return savedReceipt.getReceiptId();
+        return savedReceipt;
     }
 
 
@@ -97,9 +93,8 @@ public class ReceiptServiceImpl implements ReceiptService {
         var vatAmount = financeService.getVatAmount(sub);
         var totalDue = financeService.getTotalDue(sub, vatAmount);
 
-        CashierDTO cashier = cashierService.save(request.getCashier());
-
-        TillDTO till = tillService.save(request.getTill());
+        var cashier = cashierService.save(request.getCashier());
+        var till = tillService.save(request.getTill());
 
         return ReceiptDTO.builder()
                 .timestamp(request.getTxDate())
@@ -116,42 +111,26 @@ public class ReceiptServiceImpl implements ReceiptService {
                 .discountAmount(BigDecimal.ZERO)
                 .viewed(false).
                 build();
-    }
-
-    @Override
-    public boolean updateStatus(Long receiptId, Status status) {
-
-          return receiptRepository.updateStatus(receiptId, status);
 
     }
 
-    @Override
-    public Long findUnread(String shopperEmail)
-    {
+    public boolean updateStatus(UpdateStatusRequest request) {
 
-        return receiptRepository.findUnread(shopperEmail);
+        return receiptRepository.updateStatus(request.receiptId(), request.status());
 
     }
 
     @Override
-    public Long findTotalCount(String shopperEmail) {
+    public Long findUnread(String email) {
 
-        return receiptRepository.findTotalCount(shopperEmail);
+        return receiptRepository.findUnread(email);
 
     }
 
-
     @Override
-    public MonetaryAmount findTotalPaid(String shopperEmail) {
+    public Long findTotalCount(String email) {
 
-        var totalPaid = receiptRepository.findTotalPaid(shopperEmail);
-
-        CurrencyUnit currency = Monetary.getCurrency("ZAR");
-
-        return Monetary.getDefaultAmountFactory()
-                .setCurrency(currency)
-                .setNumber(totalPaid)
-                .create();
+        return receiptRepository.findTotalCount(email);
 
     }
 

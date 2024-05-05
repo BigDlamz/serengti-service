@@ -4,6 +4,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import za.co.serengti.receipts.*;
 
+import javax.money.Monetary;
+import javax.money.MonetaryAmount;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -15,21 +17,6 @@ public class PaymentServiceImpl implements PaymentService {
     private final FinanceService financeService;
     private final PaymentMapper convertor;
 
-    @Override
-    @Transactional
-    public void save(PaymentDTO paymentDTO) {
-
-        var entity = convertor.toEntity(paymentDTO);
-        paymentRepository.persist(entity);
-
-    }
-
-    @Override
-    public PaymentDTO find(Long paymentId) {
-
-        return convertor.toDTO(paymentRepository.findById(paymentId));
-
-    }
 
     public PaymentServiceImpl(ReceiptService receiptService, PaymentRepository paymentRepository, FinanceService financeService, PaymentMapper convertor) {
         this.receiptService = receiptService;
@@ -40,7 +27,56 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional
-    public void processPayment(PaymentRequest request) {
+    public void save(PaymentDTO payment) {
+
+        Payment entity = convertor.toEntity(payment);
+        paymentRepository.persist(entity);
+
+    }
+
+    @Override
+    public PaymentDTO find(Long paymentId) {
+
+        Payment payment = paymentRepository.findById(paymentId);
+        return convertor.toDTO(payment);
+
+    }
+
+    @Override
+    public MonetaryAmount getTotalPayments(Long userId) {
+
+        var currency = Monetary.getCurrency("ZAR");
+
+        return Monetary.getDefaultAmountFactory()
+                .setCurrency(currency)
+                .setNumber(paymentRepository.getTotalPayments(userId))
+                .create();
+
+    }
+
+    @Override
+    @Transactional
+    public void savePayment(PaymentRequest request) {
+
+        var receipt = saveReceipt(request);
+
+        var subtotal = financeService.getSubTotal(request.getLineItems());
+        var vatAmount = financeService.getVatAmount(subtotal);
+        var totalDue = financeService.getTotalDue(subtotal, vatAmount);
+
+        var payment = PaymentDTO.builder()
+                .receiptId(receipt.getReceiptId())
+                .shopperId(receipt.getShopper().getShopperId())
+                .paymentMethod(PaymentMethod.PAYSHAP.name())
+                .amountPaid(totalDue)
+                .paymentDate(request.getTxDate())
+                .build();
+
+        save(payment);
+
+    }
+
+    private ReceiptDTO saveReceipt(PaymentRequest request) {
 
         LocalDateTime today = LocalDateTime.now();
 
@@ -48,20 +84,7 @@ public class PaymentServiceImpl implements PaymentService {
             throw new IllegalArgumentException("Transaction date must not be in the past or future");
         }
 
-        Long receiptId = receiptService.processReceipt(request);
-
-        var sub = financeService.getSubTotal(request.getLineItems());
-        var vatAmount = financeService.getVatAmount(sub);
-        var totalDue = financeService.getTotalDue(sub, vatAmount);
-
-
-        save(PaymentDTO.builder()
-                .receiptId(receiptId)
-                .paymentMethod(PaymentMethod.PAYSHAP.name())
-                .amountPaid(totalDue)
-                .paymentDate(request.getTxDate())
-                .build());
-
+        return receiptService.processReceipt(request);
     }
 
 }

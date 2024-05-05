@@ -7,11 +7,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
-import za.co.serengti.receipts.ReceiptService;
-import za.co.serengti.shoppers.EmailValidator;
-import za.co.serengti.shoppers.StatsDTO;
-
-import javax.money.MonetaryAmount;
+import za.co.serengti.shoppers.*;
 
 
 @Path("/v1/shoppers/payments")
@@ -20,13 +16,12 @@ import javax.money.MonetaryAmount;
 public class PaymentsResource {
 
     final PaymentService paymentService;
-    final ReceiptService receiptService;
+    final ShopperService shopperService;
 
 
-    public PaymentsResource(PaymentService paymentService, ReceiptService receiptService) {
+    public PaymentsResource(PaymentService paymentService, ShopperService shopperService) {
         this.paymentService = paymentService;
-
-        this.receiptService = receiptService;
+        this.shopperService = shopperService;
     }
 
     @POST
@@ -37,30 +32,9 @@ public class PaymentsResource {
 
     public Response pay(@Valid PaymentRequest request) {
 
-        paymentService.processPayment(request);
+        paymentService.savePayment(request);
 
         return Response.ok().build();
-
-    }
-
-    @GET
-    @Operation(summary = "Retrieve total value payments of payments by a shopper")
-    @Path("total")
-    @RunOnVirtualThread
-
-    public Response retrieveTotalPayments(@QueryParam("email") String email) {
-
-        if(!EmailValidator.isValid(email)) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-
-        MonetaryAmount totalPayments = receiptService.findTotalPaid(email);
-
-        return Response.ok(StatsDTO
-                        .builder()
-                        .totalPayments(totalPayments)
-                        .build())
-                .build();
 
     }
 
@@ -76,4 +50,22 @@ public class PaymentsResource {
         return Response.ok(payment).build();
 
     }
+
+    @GET
+    @Operation(summary = "Retrieve total value payments of payments by a shopper")
+    @Path("total")
+    @RunOnVirtualThread
+
+    public Response retrieveTotalPayments(@QueryParam("email") String email) {
+
+        ShopperDTO shopper = shopperService.find(email);
+
+        return Response.ok(StatsDTO
+                        .builder()
+                        .totalPayments(paymentService.getTotalPayments(shopper.getShopperId()))
+                        .build())
+                .build();
+
+    }
+
 }

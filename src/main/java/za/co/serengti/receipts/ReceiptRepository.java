@@ -6,7 +6,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,15 +20,16 @@ public class ReceiptRepository implements PanacheRepository<Receipt> {
     }
 
     public List<Receipt> findAllByEmailAndDate(String email, LocalDate date) {
+
         LocalDateTime startDateTime = date.atStartOfDay();
         LocalDateTime endDateTime = date.atTime(23, 59, 59);
 
-        return list("SELECT r FROM Receipt r JOIN r.shopper c WHERE TYPE(c) = EmailShopper AND LOWER(c.emailAddress) = LOWER(?1) AND r.transactionDate >= ?2 AND r.transactionDate <= ?3",
+        return list("SELECT r FROM Receipt r JOIN r.shopper c WHERE TYPE(c) = 'za.co.serengti.shoppers.Shopper' AND LOWER(c.emailAddress) = LOWER(?1) AND r.transactionDate >= ?2 AND r.transactionDate <= ?3",
                 email, startDateTime, endDateTime);
     }
 
     public long findTotalCount(String email) {
-        return count("FROM Receipt r, EmailShopper c WHERE r.shopper.shopperId = c.shopperId AND LOWER(c.emailAddress) = LOWER(?1)", email);
+        return count("FROM Receipt r, za.co.serengti.shoppers.Shopper c WHERE r.shopper.shopperId = c.shopperId AND LOWER(c.emailAddress) = LOWER(?1)", email);
     }
 
     public long findUnread(String email) {
@@ -61,11 +61,6 @@ public class ReceiptRepository implements PanacheRepository<Receipt> {
         return updated;
     }
 
-    public BigDecimal findTotalPaid(String email) {
-        String query = "SELECT SUM(r.amountPaid) FROM Receipt r WHERE TYPE(r.shopper) = EmailShopper AND LOWER(r.shopper.emailAddress) = LOWER(?1)";
-        Object result = find(query, email).firstResult();
-            return (BigDecimal) result;
-        }
 
 }
 

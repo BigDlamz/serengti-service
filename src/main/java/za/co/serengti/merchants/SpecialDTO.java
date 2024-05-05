@@ -15,8 +15,8 @@ import java.time.LocalDate;
 public class SpecialDTO {
 
     private Long specialId;
-    private String name;
-    private String description;
+    private String productName;
+    private String productDescription;
     private String imageUrl;
     private BigDecimal oldPrice;
     private BigDecimal newPrice;

@@ -4,7 +4,6 @@ import za.co.serengti.merchants.MerchantDTO;
 import za.co.serengti.payments.PaymentRequest;
 import za.co.serengti.shoppers.ShopperDTO;
 
-import javax.money.MonetaryAmount;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,13 +19,11 @@ public interface ReceiptService {
 
     Long findTotalCount(String email);
 
-    MonetaryAmount findTotalPaid(String shopperEmail);
-
     ReceiptDTO assemble(PaymentRequest request, ShopperDTO shopper, MerchantDTO merchant);
 
-    Long processReceipt(PaymentRequest request);
+    ReceiptDTO processReceipt(PaymentRequest request);
 
-    boolean updateStatus(Long receiptId, Status status);
+    boolean updateStatus(UpdateStatusRequest request);
 
 
 }

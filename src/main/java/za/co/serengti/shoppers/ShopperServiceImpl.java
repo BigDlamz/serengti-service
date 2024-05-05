@@ -8,7 +8,7 @@ public class ShopperServiceImpl implements ShopperService {
     private final ShopperRepository repository;
     private final ShopperMapper convertor;
 
-    public ShopperServiceImpl(ShopperRepository repository, ShopperMapper convertor) {
+    public ShopperServiceImpl( ShopperRepository repository, ShopperMapper convertor) {
         this.repository = repository;
         this.convertor = convertor;
     }
@@ -23,4 +23,5 @@ public class ShopperServiceImpl implements ShopperService {
         assert shopper != null;
         return convertor.toDTO(shopper);
     }
+
 }

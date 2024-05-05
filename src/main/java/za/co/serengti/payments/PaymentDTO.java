@@ -12,7 +12,9 @@ public class PaymentDTO {
 
     private Long paymentId;
     private Long receiptId;
+    private Long shopperId;
     private String paymentMethod;
     private BigDecimal amountPaid;
     private LocalDateTime paymentDate;
+
 }

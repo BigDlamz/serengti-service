@@ -9,6 +9,7 @@ public class PaymentMapper {
 
         return Payment.builder()
                 .paymentId(dto.getPaymentId())
+                .shopperId(dto.getShopperId())
                 .receiptId(dto.getReceiptId())
                 .paymentMethod(dto.getPaymentMethod())
                 .amountPaid(dto.getAmountPaid())
@@ -20,6 +21,7 @@ public class PaymentMapper {
 
         return PaymentDTO.builder()
                 .paymentId(entity.getPaymentId())
+                .shopperId(entity.getShopperId())
                 .receiptId(entity.getReceiptId())
                 .paymentMethod(entity.getPaymentMethod())
                 .amountPaid(entity.getAmountPaid())

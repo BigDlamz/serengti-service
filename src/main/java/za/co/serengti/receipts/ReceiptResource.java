@@ -23,7 +23,7 @@ import java.util.Objects;
 @Produces(MediaType.APPLICATION_JSON)
 public class ReceiptResource {
 
-   private final ReceiptService receiptService;
+    private final ReceiptService receiptService;
 
     public ReceiptResource(ReceiptService receiptService) {
 
@@ -38,10 +38,10 @@ public class ReceiptResource {
 
     public Response save(@Valid ReceiptDTO request) {
 
-       ReceiptDTO receiptDTO =  receiptService.save(request);
+        ReceiptDTO receipt = receiptService.save(request);
 
         return Response
-                .created(URI.create("/shoppers/receipts/" + receiptDTO.getReceiptId()))
+                .created(URI.create("/shoppers/receipts/" + receipt.getReceiptId()))
                 .build();
 
     }
@@ -56,13 +56,13 @@ public class ReceiptResource {
 
     public Response retrieve(@PathParam("receiptId") Long receiptId) {
 
-     if(Objects.isNull(receiptId)){
+        if (Objects.isNull(receiptId)) {
 
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Receipt ID is required")
                     .build();
 
-     }
+        }
 
         ReceiptDTO receipt = receiptService.find(receiptId);
 
@@ -122,7 +122,7 @@ public class ReceiptResource {
 
     public Response retrieveTotalCount(@QueryParam("email") String email) {
 
-        if(Objects.isNull(email)){
+        if (Objects.isNull(email)) {
 
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Email address is required")
@@ -143,9 +143,17 @@ public class ReceiptResource {
 
     public Response updateStatus(@PathParam("receiptId") Long receiptId) {
 
-        if (receiptService.updateStatus(receiptId, Status.READ)) {
+        UpdateStatusRequest request = UpdateStatusRequest.builder()
+                .receiptId(receiptId)
+                .status(Status.READ)
+                .build();
+
+        if (receiptService.updateStatus(request)) {
+
             return Response.ok().build();
+
         } else {
+
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
@@ -158,11 +166,12 @@ public class ReceiptResource {
 
     public Response retrieveUnread(@QueryParam("email") String email) {
 
-     if(Objects.isNull(email)){
+        if (Objects.isNull(email)) {
+
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Email address is required")
                     .build();
-     }
+        }
 
         Long unreadReceiptsCount = receiptService.findUnread(email);
 
@@ -172,8 +181,6 @@ public class ReceiptResource {
                         .build())
                 .build();
     }
-
-
 
 }
 

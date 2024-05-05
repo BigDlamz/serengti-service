@@ -15,12 +15,11 @@ import java.util.Set;
 @Produces(MediaType.APPLICATION_JSON)
 public class MerchantResource {
 
-    private final MerchantServiceImpl merchantServiceImpl;
+    private final MerchantService merchantService;
 
     @Inject
-    public MerchantResource(MerchantServiceImpl merchantServiceImpl) {
-        this.merchantServiceImpl = merchantServiceImpl;
-
+    public MerchantResource(MerchantService merchantService) {
+        this.merchantService = merchantService;
     }
 
     @POST
@@ -29,7 +28,7 @@ public class MerchantResource {
 
     public Response save(FeedbackDTO feedbackDTO) {
 
-        merchantServiceImpl.saveFeedback(feedbackDTO);
+        merchantService.saveFeedback(feedbackDTO);
 
         return Response.status(Response.Status.CREATED)
                 .build();
@@ -45,7 +44,7 @@ public class MerchantResource {
 
     public Response getSpecials(@PathParam("merchantId") Long merchantId) {
 
-        var specials = merchantServiceImpl.retrieveSpecials(merchantId);
+        var specials = merchantService.retrieveSpecials(merchantId);
 
         if (specials.isEmpty()) {
 
@@ -61,12 +60,12 @@ public class MerchantResource {
     }
 
     @GET
-    @Path("/feedbacks/{merchantId}")
+    @Path("/feedback/{merchantId}")
     @Operation(summary = "Retrieve all feedback for a merchant")
 
     public Response retrieveFeedback(@PathParam("merchantId") Long merchantId) {
 
-        var feedbackList = merchantServiceImpl.retrieveFeedback(merchantId);
+        var feedbackList = merchantService.retrieveFeedback(merchantId);
 
         return Response
                 .ok(feedbackList)
@@ -75,12 +74,12 @@ public class MerchantResource {
     }
 
     @GET
-    @Path("/feedbacks/latest/{merchantId}")
+    @Path("/feedback/latest/{merchantId}")
     @Operation(summary = "Retrieve just the latest feedback for a merchant")
 
     public Response getLatestFeedback(@PathParam("merchantId") Long merchantId) {
 
-        var feedbackList = merchantServiceImpl.retrieveLatestFeedback(merchantId);
+        var feedbackList = merchantService.retrieveLatestFeedback(merchantId);
 
         return Response
                 .ok(feedbackList)
@@ -89,12 +88,12 @@ public class MerchantResource {
     }
 
     @GET
-    @Path("/ratings/{merchantId}")
+    @Path("/rating/{merchantId}")
     @Operation(summary = "Retrieve the average rating for a store")
 
     public Response retrieveRating(@PathParam("merchantId") Long storeId) {
 
-        Double rating = merchantServiceImpl.retrieveAverageRating(storeId);
+        Double rating = merchantService.retrieveAverageRating(storeId);
 
         return Response.ok(Objects.requireNonNullElse(rating, 0))
                 .build();
@@ -102,18 +101,17 @@ public class MerchantResource {
     }
 
     @GET
-    @Path("/feedbacks/exists/{receiptId}")
+    @Path("/feedback/exists/{receiptId}")
     @Operation(summary = "Check if the service has been rated for this receipt")
 
     public Response isRated(@PathParam("receiptId") Long receiptId) {
 
-        Boolean isRated = merchantServiceImpl.isRated(receiptId);
+        Boolean isRated = merchantService.isRated(receiptId);
 
         return Response
                 .ok(isRated)
                 .build();
 
     }
-
 
 }

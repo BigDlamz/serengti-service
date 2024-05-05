@@ -8,8 +8,8 @@ public class SpecialMapper {
     public SpecialDTO toDTO(Special special) {
 
         return SpecialDTO.builder()
-                .name(special.getProductName())
-                .description(special.getProductDescription())
+                .productName(special.getProductName())
+                .productDescription(special.getProductDescription())
                 .imageUrl(special.getImageUrl())
                 .oldPrice(special.getOldPrice())
                 .newPrice(special.getNewPrice())
@@ -22,8 +22,8 @@ public class SpecialMapper {
     public static Special toEntity(SpecialDTO specialDTO) {
 
         return Special.builder()
-                .productName(specialDTO.getName())
-                .productDescription(specialDTO.getDescription())
+                .productName(specialDTO.getProductName())
+                .productDescription(specialDTO.getProductDescription())
                 .imageUrl(specialDTO.getImageUrl())
                 .oldPrice(specialDTO.getOldPrice())
                 .newPrice(specialDTO.getNewPrice())

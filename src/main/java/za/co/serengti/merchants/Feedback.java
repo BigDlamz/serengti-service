@@ -37,5 +37,4 @@ public class Feedback {
     @Column(name = "feedback_date")
     private LocalDateTime feedbackDate;
 
-
 }

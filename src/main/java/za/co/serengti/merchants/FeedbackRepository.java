@@ -29,7 +29,7 @@ public class FeedbackRepository implements PanacheRepository<Feedback> {
         Object result = find("""
                 SELECT AVG(f.rating) FROM Feedback f\s
                 JOIN Receipt r ON f.receiptId = r.receiptId
-                WHERE r.store.storeId = ?1""", merchantId)
+                WHERE r.merchant.merchantId = ?1""", merchantId)
                 .firstResult();
 
         if (result != null) {

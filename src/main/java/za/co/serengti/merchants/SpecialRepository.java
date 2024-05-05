@@ -8,9 +8,9 @@ import java.util.List;
 @ApplicationScoped
 public class SpecialRepository implements PanacheRepository<Special> {
 
-    public List<Special> findByStoreId(Long storeId) {
+    public List<Special> findByStoreId(Long merchantId) {
 
-        return list("store.id", storeId);
+        return list("merchant.id", merchantId);
 
     }
 }

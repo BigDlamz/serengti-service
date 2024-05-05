@@ -1,10 +1,7 @@
 package za.co.serengti.payments;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,7 +10,8 @@ import java.time.LocalDateTime;
 @Table(name = "payments")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 public class Payment {
 
@@ -24,6 +22,9 @@ public class Payment {
 
     @Column(name = "receipt_id", nullable = false)
     private Long receiptId;
+
+    @Column(name = "shopper_id", nullable = false)
+    private Long shopperId;
 
     @Column(name = "payment_method", nullable = false)
     private String paymentMethod;
